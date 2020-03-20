@@ -499,6 +499,96 @@ nav li a.buton-red:focus{
 	background: #880000 ;
 }
 
+.odeme-fal{
+	background: #fff;
+	margin-top: 30px;
+	padding: 20px;
+	border-radius: 5px;
+}
+
+.odeme-fal .odenecek-tutar{
+	text-align: center;
+	font-size: 18px;
+	font-family: montserrat, sans-serif;
+	color: #b50000;
+	font-weight: bold;
+}
+
+.odeme-fal .kupon-kod{
+	text-align: center;
+	margin-top: 10px;
+}
+
+.odeme-fal .kupon-kod .kupon-yazi{
+	display: inline-block;
+}
+
+.odeme-fal .kupon-kod .kupon-textbox{
+	width: 250px;
+	display: inline-block;
+	border-radius: 5px;
+	margin: 0px 5px;
+}
+
+.odeme-fal .kupon-kod .kupon-btn{
+	display: inline-block;
+	border-radius: 5px;
+	color: #fff;
+	background: #b50000;
+	padding: 5px 10px;
+	text-decoration: none;
+	font-family: montserrat, sans-serif;
+}
+
+.odeme-fal .kupon-kod .kupon-btn:hover{
+	background: #880000;
+}
+
+.odeme-fal .odeme-tur{
+	border: 1px solid #ececec;
+	border-radius: 5px;
+	padding: 15px;
+	margin-top: 20px;
+	box-shadow: inset 0 0 30px rgba(0,0,0,.1);
+
+}
+
+.odeme-fal .odeme-tur img{
+	height: 100%;
+}
+
+.odeme-fal .odeme-tur .odeme-img{
+	width: 100%;
+	height: 80px;
+	text-align: center;
+}
+
+.odeme-fal .odeme-tur .odeme-baslik{
+	font-weight: bold;
+	color: #b50000;
+	font-family: montserrat, sans-serif;
+	font-size: 18px;
+}
+.odeme-fal .odeme-tur .odeme-aciklama{
+	margin-top: 5px; 
+}
+
+.odeme-fal .odeme-tur .odeme-btn-wrapper{
+	display: flex;
+	align-items: center;
+	height: 80px;
+}
+
+.odeme-fal .odeme-tur .odeme-btn{
+	border-radius: 20px;
+	color: #fff;
+	background: #b50000;
+	padding: 10px 15px;
+	text-decoration: none;
+	font-family: montserrat, sans-serif;
+
+}
+
 @media (max-width:768px){
 	.home-fal-turler .fal-tur-box{
 		float:none;
@@ -518,6 +608,7 @@ nav li a.buton-red:focus{
 	.yorumcu-sayfa .profil .fal-listesi{
 		display: none
 	}
+
 }
 
 @media (max-width:992px){

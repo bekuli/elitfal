@@ -230,7 +230,7 @@ class Page_control extends CI_Controller {
 
     public function odeme_fal($id)
     {
-        $data["kredi"] = 400;
+        $data["kredi"] = 900;
         $data["page"] = "odeme_fal";
         $this->load->view("front/index", $data);
 
