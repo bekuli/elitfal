@@ -32,6 +32,30 @@ class Page_control extends CI_Controller {
             case "yorumcular":
                 $this->yorumcular();
                 return;
+            case "odeme":
+                $islem = $this->uri->segment(2);
+                
+                if ($islem == "fal")
+                {
+                    $id = $this->uri->segment(3);
+                    if ($id == null)
+                    {
+                        show_404();
+                        return;
+                    }
+
+                    $this->odeme_fal($id);
+                    return;
+
+                }else if ($islem == null)
+                {
+
+                    return;
+                }else{
+                    show_404();
+                    return;
+                }
+                break;
             default :
                 show_404();
                 break;
@@ -202,5 +226,13 @@ class Page_control extends CI_Controller {
                 show_404();
             }
         }
+    }
+
+    public function odeme_fal($id)
+    {
+        $data["kredi"] = 400;
+        $data["page"] = "odeme_fal";
+        $this->load->view("front/index", $data);
+
     }
 }
