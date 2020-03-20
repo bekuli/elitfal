@@ -280,7 +280,7 @@ class Page_control extends CI_Controller {
 
     public function profil()
     {
-        $query = $this->db->get_where("users", array("id" => $this->session->user_data("id")));
+        $query = $this->db->get_where("users", array("id" => $this->session->userdata("id")));
         if ($query !== false && $query->num_rows() > 0)
         {
             $data["profil"] = $query->row();
