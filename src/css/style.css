@@ -689,6 +689,15 @@ nav li a.buton-red:focus{
 	border-radius: 5px;
 }
 
+.profil .kullanici-fal-liste .kullanici-btn{
+	border-radius: 20px;
+	color: #fff;
+	background: #b50000;
+	text-decoration: none;
+	font-family: montserrat, sans-serif;
+	text-align: center;
+}
+
 @media (max-width:768px){
 	.home-fal-turler .fal-tur-box{
 		float:none;

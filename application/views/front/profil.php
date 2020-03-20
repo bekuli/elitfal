@@ -4,7 +4,7 @@
 <div class="col-lg-12">
 	<div class="row">
 			<div class="profil">
-			<div class="col-md-3">
+			<div class="col-md-2">
 
 				<div class="kullanici-kart">
 					<div class="profil-foto">
@@ -24,37 +24,65 @@
 		        </div>
 
 			</div>
-			<div class="col-md-9">
-				<div class="kullanici-fal-liste">
+			<div class="col-md-10">
+				<div id="exTab1" class="container">
+					<ul  class="nav nav-pills">
+					    <li class="active">
+					        <a  href="liste1" data-toggle="tab">Liste 1</a>
+					    </li>
+					    <li>
+					        <a href="liste2" data-toggle="tab">Liste 2</a>
+					    </li>
+					    <li>
+					        <a href="liste3" data-toggle="tab">Liste 3</a>
+					    </li>
+					</ul>
+
+					<div class="tab-content clearfix">
+	    				<div class="tab-pane active" id="liste1">
+
+	    					<div class="kullanici-fal-liste">
 				
-					<table class="table table-striped table-responsive-md btn-table">
+								<table class="table table-striped table-responsive-md btn-table">
 
-		  				<thead>
-						    <tr>
-						      <th style="width: 15%">FAL TÜRLERİ</th>
-						      <th style="width: 20%">YORUMCU</th>
-						      <th style="width: 15%">DURUMU</th>
-						      <th style="width: 15%">ÜCRET</th>
-						      <th style="width: 20%">GÖNDERİLME TARİHİ</th>
-						      <th style="width: 15%"></th>
-						    </tr>
-						</thead>
+					  				<thead>
+									    <tr>
+									      <th style="width: 20%">Fal Türü</th>
+									      <th style="width: 20%">Yorumcu</th>
+									      <th style="width: 10%">Durum</th>
+									      <th style="width: 10%">Ücret</th>
+									      <th style="width: 20%">Ödeme</th>
+									      <th style="width: 10%">Tarih</th>
+									      <th style="width: 10%"></th>
+									    </tr>
+									</thead>
 
-						 <tbody>
-						   <tr>
-						     	<td scope="row">Kahve Falı</td>
-						      	<td><img src="" height="35" width="60" alt="yorumcu_foto" border="2">Aysel</td>
-						      	<td>Okundu</td>
-						      	<td>350 Kredi</td>
-						      	<td>02/02/2000</td>
-						      	<td>
-						      		<button type="button" class="btn btn-teal btn-rounded btn-sm m-0">Detaylar</button>
-						      	</td>
-						    </tr>
-						</tbody>
+									 <tbody>
+									   <tr>
+									     	<td scope="row">Kahve Falı</td>
+									      	<td><img src="" height="35" width="60" alt="yorumcu_foto" border="2">Aysel</td>
+									      	<td>Okundu</td>
+									      	<td>350 Kredi</td>
+									      	<td>Ödeme Bekleniyor</td>
+									      	<td>02/02/2000</td>
+									      	<td>
+									      		<button type="button" class="kullanici-btn btn btn-xs">Detaylar</button>
+									      	</td>
+									    </tr>
+									</tbody>
 
-					</table>	
+								</table>	
 
+							</div>
+
+	    				</div>
+	    				<div class="tab-pane" id="liste2">
+
+	    				</div>
+	    				<div class="tab-pane" id="liste3">
+
+	    				</div>
+					</div>
 				</div>
 			</div>
 		</div>
