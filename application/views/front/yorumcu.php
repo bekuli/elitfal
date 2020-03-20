@@ -15,7 +15,7 @@
 					</div>
 
 					<div class="online-status">
-                    	<span class="badge active">Çevrimiçi</span>
+                    	<span class="badge active">Çevrimiçi olgun</span>
                     </div>
 
 					<div class="review-stars">
