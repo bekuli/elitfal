@@ -284,6 +284,9 @@ class Page_control extends CI_Controller {
         if ($query !== false && $query->num_rows() > 0)
         {
             $data["profil"] = $query->row();
+
+            $query = $this->db->get_where("fal_istekleri", array("user_id" => $query->row()->id));
+
             $data["page"] = "profil";
             $this->load->view("front/index", $data);
         }

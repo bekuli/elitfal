@@ -25,20 +25,20 @@
 
 			</div>
 			<div class="col-md-10">
-				<div id="exTab1" class="container">
-					<ul  class="nav nav-pills">
+
+					<ul  class="nav nav-tabs">
 					    <li class="active">
-					        <a  href="liste1" data-toggle="tab">Liste 1</a>
+					        <a  href="#liste1" data-toggle="tab">Liste 1</a>
 					    </li>
 					    <li>
-					        <a href="liste2" data-toggle="tab">Liste 2</a>
+					        <a href="#liste2" data-toggle="tab">Liste 2</a>
 					    </li>
 					    <li>
-					        <a href="liste3" data-toggle="tab">Liste 3</a>
+					        <a href="#liste3" data-toggle="tab">Liste 3</a>
 					    </li>
 					</ul>
 
-					<div class="tab-content clearfix">
+					<div class="tab-content">
 	    				<div class="tab-pane active" id="liste1">
 
 	    					<div class="kullanici-fal-liste">
@@ -83,8 +83,6 @@
 
 	    				</div>
 					</div>
-				</div>
-			</div>
 		</div>
 	</div>
 </div>
