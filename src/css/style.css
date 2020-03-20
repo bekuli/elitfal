@@ -651,7 +651,7 @@ nav li a.buton-red:focus{
 
 .profil .kullanici-kart{
 	background: #fff;
-	padding: 20px;
+	padding: 10px;
 	border-radius: 5px;
 }
 
@@ -668,7 +668,9 @@ nav li a.buton-red:focus{
 	display: block;
     font-weight: 300;
     font-size: 18px;
-    margin-top: 5px;
+    margin-top: 10px;
+    text-align: center;
+    font-family: montserrat, sans-serif;
 }
 
 .profil .kullanici-kart a{
@@ -678,15 +680,43 @@ nav li a.buton-red:focus{
 .profil .kullanici-kart .kullanici-ayarlar{
 	display: block;
     font-weight: 300;
-    font-size: 18px;
     margin-top: 10px;
     color: #b50000;
+    text-align: center;
+}
+
+.profil .nav{
+	
+}
+
+.profil .nav li{
+
+}
+
+.profil .nav li a{
+	padding: 15px;
+	font-weight: 500;
+	font-size: 15px;
+	background: #b50000;
+	color: #fff;
+}
+
+.profil .nav .active{
+
+}
+
+.profil .nav .active a{
+	
 }
 
 .profil .kullanici-fal-liste{
 	background: #fff;
 	padding: 20px;
 	border-radius: 5px;
+}
+
+.profil .kullanici-fal-liste img{
+	margin-right: 5px;
 }
 
 .profil .kullanici-fal-liste .kullanici-btn{
