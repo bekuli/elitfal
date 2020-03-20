@@ -244,7 +244,7 @@ class Page_control extends CI_Controller {
     public function kredi_satin_al()
     {
         $query = $this->db->get("kredi_listesi");
-        if ($query !== fasle && $query->num_rows() > 0)
+        if ($query !== false && $query->num_rows() > 0)
         {
             $data["krediler"] = $query->result_array();
             $data["page"] = "kredi_satin_al";
