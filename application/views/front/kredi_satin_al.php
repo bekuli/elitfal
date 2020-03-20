@@ -23,7 +23,7 @@
 									<?=$row["fiyat"]?> TL
 								</div>
 
-								<a href="">
+								<a href="<?=base_url()?>odeme/<?=$row["id"]?>">
 
 									<div class="kredi-al-btn">
 										Satın Al

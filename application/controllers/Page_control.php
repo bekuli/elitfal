@@ -34,7 +34,6 @@ class Page_control extends CI_Controller {
                 return;
             case "odeme":
                 $islem = $this->uri->segment(2);
-                
                 if ($islem == "fal")
                 {
                     $id = $this->uri->segment(3);
@@ -43,19 +42,17 @@ class Page_control extends CI_Controller {
                         show_404();
                         return;
                     }
-
                     $this->odeme_fal($id);
                     return;
 
                 }else{
-                    $id = $this->uri->segment(3);
+                    $id = $this->uri->segment(2);
                     if ($id == null)
                     {
-                        show_404();
+                        
                         return;
                     }
                     $this->odeme_kredi($id);
-
                     return;
                 }
                 break;
@@ -267,7 +264,7 @@ class Page_control extends CI_Controller {
             $data["krediler"] = $query->row();
             $data["page"] = "kredi_odeme";
             $this->load->view("front/index", $data);
-        }
+        }else
         {
             show_404();
         }
