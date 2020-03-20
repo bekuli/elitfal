@@ -56,6 +56,11 @@ class Page_control extends CI_Controller {
                     return;
                 }
                 break;
+            case "kredi-satin-al":
+
+                $this->kredi_satin_al();
+                return;
+                break;
             default :
                 show_404();
                 break;
@@ -234,5 +239,11 @@ class Page_control extends CI_Controller {
         $data["page"] = "odeme_fal";
         $this->load->view("front/index", $data);
 
+    }
+
+    public function kredi_satin_al()
+    {
+        $data["page"] = "kredi_satin_al";
+        $this->load->view("front/index", $data);
     }
 }
