@@ -61,6 +61,14 @@ class Page_control extends CI_Controller {
                 $this->kredi_satin_al();
                 return;
                 break;
+            case "profil":
+                if ($this->fal->check_login() == false)
+                {
+                    show_404();
+                    return;
+                }
+                $this->profil();
+                break;
             default :
                 show_404();
                 break;
@@ -80,7 +88,7 @@ class Page_control extends CI_Controller {
                 $query = $this->db->get_where("users", array("email"=>$email));
                 if ($query !== false && $query->num_rows() > 0)
                 {
-                    if ($query->row()->sifre == $password)
+                    if ($query->row()->password == $password)
                     {
                         $this->session->set_userdata("user_login", "yes");
                         $this->session->set_userdata("id", $query->row()->id);
@@ -265,6 +273,21 @@ class Page_control extends CI_Controller {
             $data["page"] = "kredi_odeme";
             $this->load->view("front/index", $data);
         }else
+        {
+            show_404();
+        }
+    }
+
+    public function profil()
+    {
+        $query = $this->db->get_where("users", array("id" => $this->session->user_data("id")));
+        if ($query !== false && $query->num_rows() > 0)
+        {
+            $data["profil"] = $query->row();
+            $data["page"] = "profil";
+            $this->load->view("front/index", $data);
+        }
+        else
         {
             show_404();
         }
