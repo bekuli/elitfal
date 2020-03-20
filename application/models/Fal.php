@@ -43,7 +43,7 @@ class Fal extends CI_Model
 
     function check_login()
     {
-        if ($this->session->userdata('login') == 'yes') {
+        if ($this->session->userdata('user_login') == 'yes') {
             return true;
         } else {
             return false;
