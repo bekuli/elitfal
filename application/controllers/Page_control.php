@@ -47,12 +47,15 @@ class Page_control extends CI_Controller {
                     $this->odeme_fal($id);
                     return;
 
-                }else if ($islem == null)
-                {
-
-                    return;
                 }else{
-                    show_404();
+                    $id = $this->uri->segment(3);
+                    if ($id == null)
+                    {
+                        show_404();
+                        return;
+                    }
+                    $this->odeme_kredi($id);
+
                     return;
                 }
                 break;
@@ -251,6 +254,20 @@ class Page_control extends CI_Controller {
             $this->load->view("front/index", $data);
         }
         else
+        {
+            show_404();
+        }
+    }
+
+    public function odeme_kredi($id)
+    {
+        $query = $this->db->get_where("kredi_listesi", array("id" => $id));
+        if ($query !== false && $query->num_rows() > 0)
+        {
+            $data["krediler"] = $query->row();
+            $data["page"] = "kredi_odeme";
+            $this->load->view("front/index", $data);
+        }
         {
             show_404();
         }
