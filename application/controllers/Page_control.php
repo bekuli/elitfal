@@ -261,7 +261,7 @@ class Page_control extends CI_Controller {
         $query = $this->db->get_where("kredi_listesi", array("id" => $id));
         if ($query !== false && $query->num_rows() > 0)
         {
-            $data["krediler"] = $query->row();
+            $data["odeme"] = $query->row();
             $data["page"] = "kredi_odeme";
             $this->load->view("front/index", $data);
         }else
