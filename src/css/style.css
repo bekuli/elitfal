@@ -589,6 +589,62 @@ nav li a.buton-red:focus{
 
 }
 
+.odeme-fal .odeme-tur .odeme-btn:hover{
+	background: #880000;
+
+}
+
+.kredi-listesi{
+	margin-top: 30px;
+}
+
+.kredi-listesi .kredi-kutusu{
+	background: #fff;
+	padding: 50px 20px;
+	border-radius: 5px;
+	margin-bottom: 30px;
+}
+
+.kredi-listesi .kredi-kutusu .kredi{
+	color: #b50000;
+	font-family: montserrat, sans-serif;
+	font-weight: 700;
+	font-size: 24px;
+	text-align: center;
+}
+
+.kredi-listesi .kredi-kutusu .kredi-aciklama{
+	text-align: center;
+	font-weight: 500;
+	margin: 50px 0px;
+}
+
+.kredi-listesi .kredi-kutusu .kredi-fiyat{
+	text-align: center;
+	margin-bottom: 20px;
+	font-size: 18px;
+	font-family: montserrat, sans-serif;
+	font-weight: bold;
+}
+
+.kredi-listesi .kredi-kutusu a{
+	text-decoration: none;
+}
+
+.kredi-listesi .kredi-kutusu .kredi-al-btn{
+	border-radius: 20px;
+	color: #fff;
+	background: #b50000;
+	padding: 10px 15px;
+	text-decoration: none;
+	font-family: montserrat, sans-serif;
+	text-align: center;
+}
+
+.kredi-listesi .kredi-kutusu .kredi-al-btn:hover{
+	background: #880000
+}
+
 @media (max-width:768px){
 	.home-fal-turler .fal-tur-box{
 		float:none;
