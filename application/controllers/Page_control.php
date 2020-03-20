@@ -285,7 +285,33 @@ class Page_control extends CI_Controller {
         {
             $data["profil"] = $query->row();
 
+            $data["bekleyen_fallar"] = array();
+            $data["bakilan_fallar"] = array();
+
             $query = $this->db->get_where("fal_istekleri", array("user_id" => $query->row()->id));
+            if ($query !== false && $query->num_rows() > 0)
+            {
+                $fallar = $query->result_array();
+                foreach ($fallar as $key => $row)
+                {
+                    $yorumcu = array("id", "pp", "name");
+                    $query1 = $this->db->get_where("yorumcu", array("id" => $row["yorumcu"]));
+                    if ($query1 !== false && $query1->num_rows() > 0)
+                    {
+                        $yorumcu["id"] = $query1->row()->id;
+                        $yorumcu["pp"] = $query1->row()->pp;
+                        $yorumcu["name"] = $query1->row()->name;
+                    }
+                    $fallar[$key]["yorumcu"] = $yorumcu;
+
+                    if ($row["status"] == "1")
+                    {
+                        array_push($data["bakilan_fallar"], $fallar[$key]);
+                    }else{
+                        array_push($data["bekleyen_fallar"], $fallar[$key]);
+                    }
+                }
+            }
 
             $data["page"] = "profil";
             $this->load->view("front/index", $data);
