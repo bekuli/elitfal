@@ -645,6 +645,50 @@ nav li a.buton-red:focus{
 	background: #880000
 }
 
+.profil{
+	margin-top: 30px;
+}
+
+.profil .kullanici-kart{
+	background: #fff;
+	padding: 20px;
+	border-radius: 5px;
+}
+
+.profil .kullanici-kart .profil-foto{
+	
+}
+
+.profil .kullanici-kart .profil-foto img{
+	vertical-align: middle;
+	width: 100%;
+}
+
+.profil .kullanici-kart .kullanici-bilgi{
+	display: block;
+    font-weight: 300;
+    font-size: 18px;
+    margin-top: 5px;
+}
+
+.profil .kullanici-kart a{
+	text-decoration: none;
+}
+
+.profil .kullanici-kart .kullanici-ayarlar{
+	display: block;
+    font-weight: 300;
+    font-size: 18px;
+    margin-top: 10px;
+    color: #b50000;
+}
+
+.profil .kullanici-fal-liste{
+	background: #fff;
+	padding: 20px;
+	border-radius: 5px;
+}
+
 @media (max-width:768px){
 	.home-fal-turler .fal-tur-box{
 		float:none;
