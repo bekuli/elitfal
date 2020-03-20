@@ -41,7 +41,7 @@
 								<?=$faladi?>
 							</div>
 
-							<form>
+							<form method="post" id="fal-form" enctype="multipart/form-data">
 
 								<?php
 
@@ -56,7 +56,7 @@
 								<div class="bilgiler">
 
 								    <div class="form-group">
-								        <input name="name" type="" placeholder="Adınız" class="form-control">
+								        <input name="ad" type="" placeholder="Adınız" class="form-control">
 								    </div>
 
 								    <div class="form-group">
@@ -64,57 +64,57 @@
 								    </div>
 
 								    <div class="form-group">
-								        <input name="email_verification" type="email" placeholder="Email Tekrar" class="form-control">
+								        <input name="email_tekrar" type="email" placeholder="Email Tekrar" class="form-control">
 								    </div>
 
 								    <div class="form-group">
-								        <select name="working_at" class="form-control">
+								        <select name="sektor" class="form-control">
 								            <option value="">Sektörünüz</option>
-								            <option v-key="20" value="20">Basın-Yayın</option>
-								            <option v-key="29" value="29">Belirtilmemiş</option>
-								            <option v-key="18" value="18">Danışmanlık</option>
-								            <option v-key="28" value="28">Diğer</option>
-								            <option v-key="31" value="31">Doktor</option>
-								            <option v-key="30" value="30">Emekli</option>
-								            <option v-key="19" value="19">Ev Kadını</option>
-								            <option v-key="4" value="4">Halkla İlişkiler</option>
-								            <option v-key="12" value="12">Hukukçu</option>
-								            <option v-key="1" value="1">Kamu Sektörü</option>
-								            <option v-key="21" value="21">Manken/Model</option>
-								            <option v-key="2" value="2">Mimar</option>
-								            <option v-key="22" value="22">Muhasebe</option>
-								            <option v-key="5" value="5">Mühendis</option>
-								            <option v-key="14" value="14">Müzik</option>
-								            <option v-key="23" value="23">Otomotiv</option>
-								            <option v-key="15" value="15">Psikolog</option>
-								            <option v-key="25" value="25">Reklam</option>
-								            <option v-key="16" value="16">Sanatçı</option>
-								            <option v-key="8" value="8">Satış/Pazarlama</option>
-								            <option v-key="7" value="7">Sağlık Hizmetleri</option>
-								            <option v-key="33" value="33">Sağlık Sektörü</option>
-								            <option v-key="32" value="32">Serbest Meslek</option>
-								            <option v-key="26" value="26">Sigortacı</option>
-								            <option v-key="9" value="9">Sport</option>
-								            <option v-key="27" value="27">Tekstil</option>
-								            <option v-key="10" value="10">Ticaret</option>
-								            <option v-key="17" value="17">Turizm</option>
-								            <option v-key="11" value="11">Yöneticilik</option>
-								            <option v-key="6" value="6">Öğrenci</option>
-								            <option v-key="3" value="3">Öğretim Görevlisi/Asistan</option>
-								            <option v-key="24" value="24">Öğretmen</option>
-								            <option v-key="13" value="13">İnsan Kaynakları</option>
-								            <option v-key="0" value="0">İşsiz</option>
+								            <option  value="Belirtilmemiş">Belirtilmemiş</option>
+								            <option value="İşsiz">İşsiz</option>
+								            <option  value="Diğer">Diğer</option>
+								            <option  value="Basın-Yayın">Basın-Yayın</option>
+								            <option  value="Danışmanlık">Danışmanlık</option>
+								            <option  value="Doktor">Doktor</option>
+								            <option  value="Emekli">Emekli</option>
+								            <option  value="Ev Kadını">Ev Kadını</option>
+								            <option value="Halkla İlişkiler">Halkla İlişkiler</option>
+								            <option  value="Hukukçu">Hukukçu</option>
+								            <option value="Kamu Sektörü">Kamu Sektörü</option>
+								            <option  value="Manken/Model">Manken/Model</option>
+								            <option value="Mimar">Mimar</option>
+								            <option  value="Muhasebe">Muhasebe</option>
+								            <option value="Mühendis">Mühendis</option>
+								            <option  value="Müzik">Müzik</option>
+								            <option  value="Otomotiv">Otomotiv</option>
+								            <option  value="Psikolog">Psikolog</option>
+								            <option  value="Reklam">Reklam</option>
+								            <option  value="Sanatçı">Sanatçı</option>
+								            <option value="Satış/Pazarlama">Satış/Pazarlama</option>
+								            <option value="Sağlık Hizmetleri">Sağlık Hizmetleri</option>
+								            <option  value="Sağlık Sektörü">Sağlık Sektörü</option>
+								            <option  value="Serbest Meslek">Serbest Meslek</option>
+								            <option  value="Sigortacı">Sigortacı</option>
+								            <option value="Sport">Sport</option>
+								            <option  value="Tekstil">Tekstil</option>
+								            <option  value="Ticaret">Ticaret</option>
+								            <option  value="Turizm">Turizm</option>
+								            <option  value="Yöneticilik">Yöneticilik</option>
+								            <option value="Öğrenci">Öğrenci</option>
+								            <option value="Öğretim Görevlisi/Asistan">Öğretim Görevlisi/Asistan</option>
+								            <option  value="Öğretmen">Öğretmen</option>
+								            <option  value="İnsan Kaynakları">İnsan Kaynakları</option>
 								        </select>
 
 								    </div>
 
 								    <div class="form-group">
 
-								        <select name="gender" class="form-control">
+								        <select name="cinsiyet" class="form-control">
 
 								            <option value="">Cinsiyetiniz</option>
-								            <option v-key="0" value="0">erkek</option>
-								            <option v-key="1" value="1">kadın</option>
+								            <option value="erkek">erkek</option>
+								            <option value="kadın">kadın</option>
 
 								        </select>
 
@@ -122,26 +122,26 @@
 
 								    <div class="form-group">
 
-								        <select name="relationship_status" class="form-control">
-								            <option value="">İlişki Durumu</option>
-								            <option v-key="5" value="5">Ayrı yaşıyor</option>
-								            <option v-key="3" value="3">Boşanmış</option>
-								            <option v-key="2" value="2">Evli</option>
-								            <option v-key="4" value="4">Karmaşık</option>
-								            <option v-key="1" value="1">İlişkisi var</option>
-								            <option v-key="0" value="0">İlişkisi yok</option>
+								        <select name="iliski_durumu" class="form-control">
+								            <option value="İlişki Durumu">İlişki Durumu</option>
+								            <option value="Ayrı yaşıyor">Ayrı yaşıyor</option>
+								            <option value="Boşanmış">Boşanmış</option>
+								            <option value="Evli">Evli</option>
+								            <option value="Karmaşık">Karmaşık</option>
+								            <option value="İlişkisi var">İlişkisi var</option>
+								            <option value="İlişkisi yok">İlişkisi yok</option>
 								        </select>
 
 								    </div>
 
 								    <div class="form-group">
-							            <input placeholder="Doğum Tarihi" name="birth_date" type="date" autocomplete="off" class="form-control">
+							            <input placeholder="Doğum Tarihi" name="dogum_tarihi" type="text" autocomplete="off" class="datepicker form-control">
 								    </div>
 
 								</div>
 
 								<div class="form-check" style="margin-bottom: 10px">
-							    	<input type="checkbox" class="form-check-input" id="check">
+							    	<input type="checkbox" class="form-check-input" name="kosullar" id="check">
 							    	<a href="">Kullanım Koşullarını Kabul Ediyorum</a>
 							    </div>
 							 	<button type="submit" class="btn btn-success">Devam</button>
@@ -155,6 +155,35 @@
 		</div>
 	</div>
 </div>
+
+<script>
+  $( function() {
+    $( ".datepicker" ).datepicker();
+  } );
+
+  $(document).ready(function(){
+  	$("#fal-form").submit(function(){
+  		$(".sbmt_btn").val("Loading...");
+		$(".sbmt_btn").attr("disabled", "");
+		
+  		$.ajax({
+			url : base_url + "home/profile/do_post_product/",
+			type : "post",
+			data : form_data,
+			contentType : false,
+			processData : false,
+			success : function(result) {
+				console.log(result);
+				$(".pnav_uploaded_products").click();
+				notify("Product Added", "success", "bottom", "right");
+				document.body.scrollTop = 0;
+				document.documentElement.scrollTop = 0;
+			}
+		});
+  	});
+  });
+
+</script>
 
 <style>
 	body{background: #f1f1f1}
