@@ -32,6 +32,27 @@ class Page_control extends CI_Controller {
             case "yorumcular":
                 $this->yorumcular();
                 return;
+            case "fal-gonder":
+                $yorumcu = $this->uri->segment(2);
+                $query = $this->db->get_where("yorumcu", array("id" => $yorumcu, "status" => "1"));
+                if ($query == false || $query->num_rows() == 0)
+                {
+                    show_404();
+                    return;
+                }
+
+                switch ($this->uri->segment(3)) {
+                    case 'dert-ortagi':
+                        $this->fal_gonder_dert_ortagi($yorumcu);
+                        return;
+                        break;
+                    
+                    default:
+                        show_404();
+                        return;
+                        break;
+                }
+                break;
             case "odeme":
                 $islem = $this->uri->segment(2);
                 if ($islem == "fal")
@@ -67,7 +88,11 @@ class Page_control extends CI_Controller {
                     show_404();
                     return;
                 }
-                $this->profil();
+                if($this->uri->segment(2) == "ayarlar")
+                {
+                    $this->profil_ayarlar();
+                }else
+                    $this->profil();
                 break;
             default :
                 show_404();
@@ -320,5 +345,34 @@ class Page_control extends CI_Controller {
         {
             show_404();
         }
+    }
+
+    public function profil_ayarlar()
+    {
+        $query = $this->db->get_where("users", array("id" => $this->session->userdata("id")));
+        if ($query !== false && $query->num_rows() > 0)
+        {
+            $data["profil"] = $query->row();
+            $data["page"] = "profil_ayarlar";
+            $this->load->view("front/index", $data);
+        }
+        else
+        {
+            show_404();
+        }
+    }
+
+    public function fal_gonder_dert_ortagi($id)
+    {
+        $soru = trim($this->input->post("soru"));
+        if (empty($soru))
+        {
+            echo "soru_bos";
+            return;
+        }
+
+        $profil_data = $this->fal->fal_gonder_check_profile_data();
+        if (is_array($profil_data) == false)
+            return $profil_data;
     }
 }

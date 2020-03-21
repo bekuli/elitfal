@@ -178,7 +178,7 @@ nav li a.buton-red:focus{
 }
 
 .yorumcu-sayfa{
-	padding-top:40px;
+	padding-top:30px;
 }
 
 .yorumcu-sayfa .profil-wrapper{
@@ -645,88 +645,6 @@ nav li a.buton-red:focus{
 	background: #880000
 }
 
-.profil{
-	margin-top: 30px;
-}
-
-.profil .kullanici-kart{
-	background: #fff;
-	padding: 10px;
-	border-radius: 5px;
-}
-
-.profil .kullanici-kart .profil-foto{
-	
-}
-
-.profil .kullanici-kart .profil-foto img{
-	vertical-align: middle;
-	width: 100%;
-}
-
-.profil .kullanici-kart .kullanici-bilgi{
-	display: block;
-    font-weight: 300;
-    font-size: 18px;
-    margin-top: 10px;
-    text-align: center;
-    font-family: montserrat, sans-serif;
-}
-
-.profil .kullanici-kart a{
-	text-decoration: none;
-}
-
-.profil .kullanici-kart .kullanici-ayarlar{
-	display: block;
-    font-weight: 300;
-    margin-top: 10px;
-    color: #b50000;
-    text-align: center;
-}
-
-.profil .nav{
-	
-}
-
-.profil .nav li{
-
-}
-
-.profil .nav li a{
-	padding: 15px;
-	font-weight: 500;
-	font-size: 15px;
-	background: #b50000;
-	color: #fff;
-}
-
-.profil .nav .active{
-
-}
-
-.profil .nav .active a{
-	
-}
-
-.profil .kullanici-fal-liste{
-	background: #fff;
-	padding: 20px;
-	border-radius: 5px;
-}
-
-.profil .kullanici-fal-liste img{
-	margin-right: 5px;
-}
-
-.profil .kullanici-fal-liste .kullanici-btn{
-	border-radius: 20px;
-	color: #fff;
-	background: #b50000;
-	text-decoration: none;
-	font-family: montserrat, sans-serif;
-	text-align: center;
-}
 
 @media (max-width:768px){
 	.home-fal-turler .fal-tur-box{
@@ -748,6 +666,90 @@ nav li a.buton-red:focus{
 		display: none
 	}
 
+}
+
+
+.profil-kullanici{
+	margin-top: 30px;
+}
+
+.profil-kullanici .kullanici-kart{
+	background: #fff;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+.profil-kullanici .kullanici-kart .profil-foto{
+	width: 100%;
+}
+
+.profil-kullanici .kullanici-kart .profil-foto img{
+	vertical-align: middle;
+	width: 100%;
+}
+
+.profil-kullanici .kullanici-kart .kullanici-bilgi{
+	display: block;
+    font-weight: 300;
+    font-size: 18px;
+    margin-top: 10px;
+    text-align: center;
+    font-family: montserrat, sans-serif;
+}
+
+.profil-kullanici .kullanici-kart a{
+	text-decoration: none;
+}
+
+.profil-kullanici .kullanici-kart .kullanici-ayarlar{
+	display: block;
+    font-weight: 300;
+    margin-top: 10px;
+    color: #b50000;
+    text-align: center;
+}
+
+.profil-kullanici .nav{
+	
+}
+
+.profil-kullanici .nav li{
+
+}
+
+.profil-kullanici .nav li a{
+	padding: 15px;
+	font-weight: 500;
+	font-size: 15px;
+	background: #b50000;
+	color: #fff;
+}
+
+.profil-kullanici .nav .active{
+
+}
+
+.profil-kullanici .nav .active a{
+	
+}
+
+.profil-kullanici .kullanici-fal-liste{
+	background: #fff;
+	padding: 20px;
+	border-radius: 5px;
+}
+
+.profil-kullanici .kullanici-fal-liste img{
+	margin-right: 5px;
+}
+
+.profil-kullanici .kullanici-fal-liste .kullanici-btn{
+	border-radius: 20px;
+	color: #fff;
+	background: #b50000;
+	text-decoration: none;
+	font-family: montserrat, sans-serif;
+	text-align: center;
 }
 
 @media (max-width:992px){

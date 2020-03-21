@@ -30,5 +30,6 @@
 	<!-- Fonts -->
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <script type="text/javascript">var base_url = "<?=base_url()?>";</script>
 </head>
 <body>

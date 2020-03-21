@@ -91,4 +91,72 @@ class Fal extends CI_Model
         }
     }
 
+
+    function fal_gonder_check_profile_data()
+    {
+        $profil_data = array(
+            "ad" => trim($this->input->post("ad")),
+            "soyad" => trim($this->input->post("soyad")),
+            "email" => trim($this->input->post("email")),
+            "sektor" => trim($this->input->post("sektor")),
+            "cinsiyet" => trim($this->input->post("cinsiyet")),
+            "iliski_durumu" => trim($this->input->post("iliski_durumu")),
+            "dogum_tarihi" => trim($this->input->post("dogum_tarihi"))
+        );
+
+        foreach ($profil_data as $key => $row)
+        {
+            if (empty($row)){
+                return $key."_bos";
+            }
+        }
+
+        $sektor = array("Belirtilmemiş", "İşsiz", "Diğer", "Basın-Yayın", "Danışmanlık", "Doktor", "Emekli", "Ev Kadını", "Halkla İlişkiler", "Hukukçu", "Kamu Sektörü", "Manken/Model", "Mimar", "Muhasebe", "Mühendis", "Müzik", "Otomotiv", "Psikolog", "Reklam", "Sanatçı", "Satış/Pazarlama", "Sağlık Hizmetleri", "Sağlık Sektörü", "Serbest Meslek", "Sigortacı", "Sport", "Tekstil", "Ticaret", "Turizm", "Yöneticilik", "Öğrenci", "Öğretim Görevlisi/Asistan", "Öğretmen", "İnsan Kaynakları");
+
+        $iliski_durumu = array("İlişki Durumu", "Ayrı yaşıyor", "Boşanmış", "Evli", "Karmaşık", "İlişkisi var", "İlişkisi yok");
+
+        $cinsiyet = array("erkek", "kadın");
+
+        $issektor = false;
+        $isiliski = false;
+        $iscinsiyet = false;
+
+        foreach ($sektor as $row)
+        {
+            if ($profil_data["sektor"] == $row)
+            {
+                $issektor = true;
+                break;
+            }
+        }
+
+        if ($issektor == false)
+            return "sektor_bos";
+
+        foreach ($iliski_durumu as $row)
+        {
+            if ($profil_data["iliski_durumu"] == $row)
+            {
+                $isiliski = true;
+                break;
+            }
+        }
+
+        if ($isiliski == false)
+            return "iliski_bos";
+
+        foreach ($cinsiyet as $row)
+        {
+            if ($profil_data["cinsiyet"] == $row)
+            {
+                $iscinsiyet = true;
+                break;
+            }
+        }
+
+        if ($issektor == false)
+            return "sektor_bos";
+
+        return $profil_data;
+    }
 }

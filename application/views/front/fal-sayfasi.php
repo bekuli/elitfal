@@ -60,11 +60,11 @@
 								    </div>
 
 								    <div class="form-group">
-								        <input name="email" type="email" placeholder="Email" class="form-control">
+								        <input name="soyad" type="text" placeholder="Soyad" class="form-control">
 								    </div>
 
 								    <div class="form-group">
-								        <input name="email_tekrar" type="email" placeholder="Email Tekrar" class="form-control">
+								        <input name="email" type="email" placeholder="Email" class="form-control">
 								    </div>
 
 								    <div class="form-group">
@@ -144,7 +144,7 @@
 							    	<input type="checkbox" class="form-check-input" name="kosullar" id="check">
 							    	<a href="">Kullanım Koşullarını Kabul Ediyorum</a>
 							    </div>
-							 	<button type="submit" class="btn btn-success">Devam</button>
+							 	<button type="submit" class="btn btn-submit btn-success">Devam</button>
 							</form>
 							
 						</div>
@@ -160,28 +160,6 @@
   $( function() {
     $( ".datepicker" ).datepicker();
   } );
-
-  $(document).ready(function(){
-  	$("#fal-form").submit(function(){
-  		$(".sbmt_btn").val("Loading...");
-		$(".sbmt_btn").attr("disabled", "");
-		
-  		$.ajax({
-			url : base_url + "home/profile/do_post_product/",
-			type : "post",
-			data : form_data,
-			contentType : false,
-			processData : false,
-			success : function(result) {
-				console.log(result);
-				$(".pnav_uploaded_products").click();
-				notify("Product Added", "success", "bottom", "right");
-				document.body.scrollTop = 0;
-				document.documentElement.scrollTop = 0;
-			}
-		});
-  	});
-  });
 
 </script>
 
