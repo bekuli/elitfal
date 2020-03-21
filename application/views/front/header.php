@@ -32,8 +32,13 @@
             <li><a href="#">Yardım</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
+            <?php
+              if ($this->fal->check_login() == false) { ?>
             <li><a href="" class="buton-red">GİRİŞ</a></li>
             <li><a href="" class="buton-red">ÜYE OL</a></li>
+          <?php }else{ ?>
+            <li><a href="<?=base_url()?>logout" class="buton-red">Çıkış Yap</a></li>
+          <?php } ?>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

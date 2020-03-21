@@ -60,11 +60,11 @@
 								    </div>
 
 								    <div class="form-group">
-								        <input name="soyad" type="text" placeholder="Soyad" class="form-control">
+								        <input name="soyad" type="text" placeholder="Soyadınız" class="form-control">
 								    </div>
 
 								    <div class="form-group">
-								        <input name="email" type="email" placeholder="Email" class="form-control">
+								        <input name="email" type="email" placeholder="Eposta Adresiniz" class="form-control">
 								    </div>
 
 								    <div class="form-group">
@@ -144,7 +144,7 @@
 							    	<input type="checkbox" class="form-check-input" name="kosullar" id="check">
 							    	<a href="">Kullanım Koşullarını Kabul Ediyorum</a>
 							    </div>
-							 	<button type="submit" class="btn btn-submit btn-success">Devam</button>
+							 	<button type="submit" class="btn btn-submit-fal btn-success">Devam</button>
 							</form>
 							
 						</div>

@@ -24,7 +24,18 @@ class Page_control extends CI_Controller {
         switch ($this->uri->segment(1))
         {
             case "giris":
-                $this->giris();
+                if ($this->fal->check_login() == false)
+                    $this->giris();
+                else
+                    redirect(base_url()."profil");
+                return;
+            case "logout":
+                $this->session->sess_destroy();
+                redirect(base_url());
+            break;
+            case "giris-ajax":
+                if ($this->fal->check_login() == false)
+                    $this->giris_ajax();
                 return;
             case "kayit":
                 $this->kayit();
@@ -91,8 +102,11 @@ class Page_control extends CI_Controller {
                 if($this->uri->segment(2) == "ayarlar")
                 {
                     $this->profil_ayarlar();
-                }else
+                    return;
+                }else{
                     $this->profil();
+                    return;
+                }
                 break;
             default :
                 show_404();
@@ -152,7 +166,6 @@ class Page_control extends CI_Controller {
             }
         }
 
-        $data["a"] = "a";
         $this->load->view('front/top');
         $this->load->view('front/giris', $data);
     }
@@ -162,6 +175,34 @@ class Page_control extends CI_Controller {
         $data["a"] = "a";
         $this->load->view('front/top');
         $this->load->view('front/kayit', $data);
+    }
+
+    public function giris_ajax(){
+        if (isset($_POST["email"]) && isset($_POST["password"]))
+        {
+            $email = $this->input->post("email");
+            $password = sha1($this->input->post("password"));
+
+            if (valid_email($email))
+            {
+                
+                $query = $this->db->get_where("users", array("email"=>$email));
+                if ($query !== false && $query->num_rows() > 0)
+                {
+                    if ($query->row()->password == $password)
+                    {
+                        $this->session->set_userdata("user_login", "yes");
+                        $this->session->set_userdata("id", $query->row()->id);
+                        echo "success.".$query->row()->password;
+                        return;
+                    }
+                }
+
+                echo "hata";
+            }else
+                echo "email";
+        }else
+        echo "error";
     }
 
     public function yorumcular()
@@ -268,10 +309,15 @@ class Page_control extends CI_Controller {
 
     public function odeme_fal($id)
     {
-        $data["kredi"] = 900;
-        $data["page"] = "odeme_fal";
-        $this->load->view("front/index", $data);
-
+        $query = $this->db->get_where("fal_istekleri", array("user_id" => $this->session->userdata("id"), "id" => $id, "status" => "2"));
+        if ($query !== false && $query->num_rows() > 0)
+        {
+            $data["kredi"] = $query->row()->odeme;
+            $data["page"] = "odeme_fal";
+            $this->load->view("front/index", $data);
+        }
+        else
+            show_404();
     }
 
     public function kredi_satin_al()
@@ -364,6 +410,12 @@ class Page_control extends CI_Controller {
 
     public function fal_gonder_dert_ortagi($id)
     {
+        if ($this->fal->check_login() == false)
+        {
+            echo "giris";
+            return;
+        }
+
         $soru = trim($this->input->post("soru"));
         if (empty($soru))
         {
@@ -372,7 +424,40 @@ class Page_control extends CI_Controller {
         }
 
         $profil_data = $this->fal->fal_gonder_check_profile_data();
-        if (is_array($profil_data) == false)
-            return $profil_data;
+        if (is_array($profil_data) == false){
+            echo $profil_data;
+            return;
+        }
+
+        $json_data = array(
+            "soru" => $soru
+        );
+
+        $json_data = json_encode(array_merge($json_data, $profil_data));
+
+        $odeme = json_decode($this->fal->get_fiyat_listesi($id), true)["dert_ortagi"];
+
+        if (!is_numeric($odeme)){
+            echo "error";
+            return;
+        }
+
+        $data = array(
+            "fal_turu" => "dert_ortagi",
+            "yorumcu" => $id,
+            "odeme" => $odeme,
+            "fal_icerik" => $json_data,
+            "tarih" => date("Y-m-d"),
+            "user_id" => $this->session->userdata("id"),
+            "status" => 2,
+            "odeme_tamamlandimi" => 0,
+            "odeme_turu" => 0
+        );
+
+        $this->db->insert("fal_istekleri", $data);
+        if ($this->db->affected_rows() > 0)
+            echo "success";
+        else
+            echo "error";
     }
 }

@@ -49,9 +49,10 @@
 									    <tr>
 									      <th style="width: 20%">Fal Türü</th>
 									      <th style="width: 25%">Yorumcu</th>
-									      <th style="width: 25%">Durum</th>
+									      <th style="width: 20%">Durum</th>
 									      <th style="width: 10%">Ücret</th>
-									      <th style="width: 20%">Tarih</th>
+									      <th style="width: 10%">Tarih</th>
+									      <th style="width: 15%"></th>
 									    </tr>
 									</thead>
 
@@ -73,6 +74,11 @@
 									 				</td>
 									 				<td><?=$row["odeme"]?></td>
 									 				<td><?=$row["tarih"]?></td>
+									 				<td>
+									 					<?php if ($row["status"] == "2")  { ?>
+									      				<a href="<?=base_url()?>odeme/fal/<?=$row["id"]?>" class="kullanici-btn btn btn-xs">Ödeme Yap</a>
+									      			<?php } ?>
+									      			</td>
 
 									 			</tr>
 									 			<?php

@@ -11,8 +11,8 @@
 	$(document).ready(function(){
 		$("#fal-form").submit(function(e){
 			e.preventDefault();
-			$(".btn-submit").val("Gönderiliyor...");
-			$(".btn-submit").attr("disabled", "");
+			$(".btn-submit-fal").val("Gönderiliyor...");
+			$(".btn-submit-fal").attr("disabled", "");
 
 			if (submitting == true)
 				return;
@@ -27,17 +27,22 @@
 				processData : false,
 				success : function(result) {
 					submitting = false;
+					//console.log(result);
 					if (result == "success")
 					{
-
-					}else
+						$.notify("Başarılı", "success");
+					}
+					else
 					{
-						$(".btn-submit").val("Devam");
-						$(".btn-submit").removeAttr("disabled", "");
+						$(".btn-submit-fal").val("Devam");
+						$(".btn-submit-fal").removeAttr("disabled", "");
 						process_output_data(result);
 					}
 				},
-				error : function(){
+				error : function(result){
+					//console.log(result);
+					$(".btn-submit-fal").val("Devam");
+					$(".btn-submit-fal").removeAttr("disabled", "");
 					submitting = false;
 					process_output_data("error");
 				}
@@ -51,6 +56,25 @@
             $.notify("Bilinmeyen bir hata oluştu tekrar deneyiniz", "error");
         }else if (data == "soru_bos"){
         	$.notify("Lütfen soru alanını doldururunuz", "error");
+        }else if (data == "ad_bos"){
+        	$.notify("Lütfen Ad alanını doldururunuz", "error");
+        }else if (data == "soyad_bos"){
+        	$.notify("Lütfen Soyad alanını doldururunuz", "error");
+        }else if (data == "email_bos"){
+        	$.notify("Lütfen Email alanını doldururunuz", "error");
+        }else if (data == "sektor_bos"){
+        	$.notify("Lütfen Sektör alanını doldururunuz", "error");
+        }else if (data == "cinsiyet_bos"){
+        	$.notify("Lütfen Cinsiyet alanını doldururunuz", "error");
+        }else if (data == "iliski_bos"){
+        	$.notify("Lütfen İlişki alanını doldururunuz", "error");
+        }else if (data == "tarih_bos"){
+        	$.notify("Lütfen Doğum Tarihi alanını doldururunuz", "error");
+        }else if (data == "giris"){
+        	$.notify("Lütfen Giriş Yapınız", "error");
+        	$("#login-modal").modal();
+        }else{
+        	$.notify("Bilinmeyen bir hata oluştu tekrar deneyiniz", "error");
         }
     }
 

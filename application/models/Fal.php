@@ -100,8 +100,8 @@ class Fal extends CI_Model
             "email" => trim($this->input->post("email")),
             "sektor" => trim($this->input->post("sektor")),
             "cinsiyet" => trim($this->input->post("cinsiyet")),
-            "iliski_durumu" => trim($this->input->post("iliski_durumu")),
-            "dogum_tarihi" => trim($this->input->post("dogum_tarihi"))
+            "iliski" => trim($this->input->post("iliski_durumu")),
+            "tarih" => trim($this->input->post("dogum_tarihi"))
         );
 
         foreach ($profil_data as $key => $row)
@@ -135,7 +135,7 @@ class Fal extends CI_Model
 
         foreach ($iliski_durumu as $row)
         {
-            if ($profil_data["iliski_durumu"] == $row)
+            if ($profil_data["iliski"] == $row)
             {
                 $isiliski = true;
                 break;
@@ -158,5 +158,29 @@ class Fal extends CI_Model
             return "sektor_bos";
 
         return $profil_data;
+    }
+
+    function get_fiyat_listesi($id = null)
+    {
+        $default = false;
+        if ($id !== null){
+            $query = $this->db->get_where("yorumcu", array("id" => $id));
+            if ($query !== false && $query->num_rows() > 0)
+            {
+                if (empty($query->row()->fiyat_listesi)){
+                    $default = true;
+                }
+                else
+                    return $query->row()->fiyat_listesi;
+            }
+            else
+                $default = true;
+        }else
+            $default = true;
+
+        if ($default == true)
+        {
+            return $this->get_setting("fiyat_listesi");
+        }
     }
 }

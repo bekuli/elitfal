@@ -802,6 +802,58 @@ nav li a.buton-red:focus{
 	margin-top: 10px;
 }
 
+	#login-modal{
+		font-family: montserrat, sans-serif;
+	}
+	#login-modal .modal-header {
+	  padding: 0;
+	}
+	#login-modal  .modal-header .close {
+	  padding: 10px 15px;
+	}
+	#login-modal .modal-header ul {
+	  border: none;
+	}
+	#login-modal .modal-header ul li {
+	  margin: 0;
+	}
+	#login-modal .modal-header ul li a {
+	  border: none;
+	  border-radius: 0;
+	}
+	#login-modal .modal-header ul li.active a {
+	  color: #e12f27;
+	}
+	#login-modal .modal-header ul li a:hover {
+	  border: none;
+	}
+	#login-modal .modal-header ul li a span {
+	  margin-left: 10px;
+	}
+	#login-modal .modal-body .form-group {
+	  margin-bottom: 10px;
+	}
+
+	#login-modal .btn{
+		background: #b50000;
+		color:#fff;
+		outline: 0;
+		margin-right:10px;
+	}
+
+	#login-modal input{
+		height:48px;
+		color:#555;
+		background: #e9e9e3;
+	}
+
+	#login-modal .devam-etmek{
+		color:#b50000;
+		font-size:18px;
+		margin-bottom: 10px
+	}
+
+
 @media (max-width:992px){
 	.fal-sayfasi .icerik .multi-input .marbotr{
 		margin-bottom: 20px;
