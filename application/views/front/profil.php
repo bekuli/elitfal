@@ -147,4 +147,5 @@
 
 <style>
 	body{background: #f1f1f1}
+	.kullanici-fal-liste td{vertical-align: middle !important}
 </style>
