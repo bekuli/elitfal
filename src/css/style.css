@@ -752,6 +752,56 @@ nav li a.buton-red:focus{
 	text-align: center;
 }
 
+.ayarlar-profil{
+	margin-top: 30px;
+	background: #fff;
+	padding: 20px;
+	display: inline-block;
+}
+
+.ayarlar-profil .baslik-kullanici-ayarlar {
+	font-family: montserrat, sans-serif;
+	text-align: left;
+	color: #b50000;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.ayarlar-profil .ayarlar-profil-foto {
+	margin-top: 15px;
+	margin-bottom: 30px;
+}
+
+.ayarlar-profil .ayarlar-profil-foto img {
+	vertical-align: middle;
+    width: 100%;
+}
+
+.ayarlar-profil .form-kullanici-ayarlar {
+	margin-top: 10px;
+}
+
+.ayarlar-profil .form-kullanici-ayarlar input, .ayarlar-profil .form-kullanici-ayarlar select {
+	height:48px;
+    color:#555;
+    background: #e9e9e3;
+}
+
+.ayarlar-profil .form-kullanici-ayarlar .sifre-degistir-baslik {
+	margin-bottom: 10px;
+}
+
+.ayarlar-profil .form-kullanici-ayarlar .btn-guncelle {
+	border-radius: 20px;
+	color: #fff;
+	background: #b50000;
+	text-decoration: none;
+	font-family: montserrat, sans-serif;
+	text-align: center;
+	width: 100%;
+	margin-top: 10px;
+}
+
 @media (max-width:992px){
 	.fal-sayfasi .icerik .multi-input .marbotr{
 		margin-bottom: 20px;
