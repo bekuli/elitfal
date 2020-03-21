@@ -138,6 +138,8 @@
         	$.notify("Eposta adresi veya şifre yanlış!", "error");
         }else if (data == "email"){
         	$.notify("Bu email adresi geçerli değil!", "error");
+        }else if (data == "bos"){
+        	$.notify("Gerekli alanlar doldurulmalıdır!", "error");
         }
     }
 </script>

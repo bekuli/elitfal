@@ -183,6 +183,12 @@ class Page_control extends CI_Controller {
             $email = $this->input->post("email");
             $password = sha1($this->input->post("password"));
 
+            if (empty($email) ||empty($this->input->post("password")))
+            {
+                echo "bos";
+                return;
+            }
+
             if (valid_email($email))
             {
                 
