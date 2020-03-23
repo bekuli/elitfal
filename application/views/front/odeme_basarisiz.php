@@ -3,28 +3,28 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
-			<div class="check-icon-odeme">
-				<i class="fa fa-check-circle"></i>
+			<div class="times-icon-odeme">
+				<i class="fa fa-times-circle"></i>
 			</div>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-md-12">
-			<div class="odeme-basarili-baslik">
-				Teşekkürler!
+			<div class="odeme-basarisiz-baslik">
+				Başarısız!!!
 			</div>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-md-12">
-			<div class="odeme-basarili-baslik">
-				Ödemeniz Başarıyla Tamamlandı
+			<div class="odeme-basarisiz-baslik">
+				Ödemeniz Başarısız Oldu.
 			</div>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-md-12">
-			<div class="odeme-basarili-aciklama">
+			<div class="odeme-basarisiz-aciklama">
 				<?=$neden?>
 			</div>
 		</div>
