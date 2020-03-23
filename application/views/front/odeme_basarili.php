@@ -27,7 +27,6 @@
 		<div class="col-md-12">
 			<div class="odeme-basarili-aciklama">
 				<?=$neden?><br>
-				Ödeme metodunuz kabul edildi ve işleminiz onaylandı.
 			</div>
 		</div>
 	</div>
