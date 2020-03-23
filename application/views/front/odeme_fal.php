@@ -103,12 +103,12 @@
 										Hesaptaki Kredi İle Öde
 									</div>
 									<div class="odeme-aciklama">
-										Sayın Olgun GÜRLER, hesabınızda 0 kredi bulunmaktadır.
+										Sayın <?=$user_data->name." ".$user_data->surname?>, hesabınızda 0 kredi bulunmaktadır.
 									</div>
 								</div>
 								<div class="col-md-3">
 									<div class="odeme-btn-wrapper">
-										<a href="" class="odeme-btn">Ödeme Yap</a>
+										<a href="<?=base_url()?>odeme/fal/<?=$perma?>/kredi" class="odeme-btn">Ödeme Yap</a>
 									</div>
 								</div>
 

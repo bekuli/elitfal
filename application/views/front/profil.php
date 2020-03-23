@@ -136,7 +136,46 @@
 
 	    				</div>
 	    				<div class="tab-pane" id="liste3">
+    						<div class="kullanici-fal-liste">
+				
+								<table class="table table-striped table-responsive-md btn-table">
 
+					  				<thead>
+									    <tr>
+									      <th style="width: 20%">Fal Türü</th>
+									      <th style="width: 25%">Yorumcu</th>
+									      <th style="width: 20%">Durum</th>
+									      <th style="width: 10%">Ücret</th>
+									      <th style="width: 20%">Tarih</th>
+									      <th style="width: 5%"></th>
+									    </tr>
+									</thead>
+
+									 <tbody>
+									 	<?php
+									 		foreach ($bakilan_fallar as $row) {
+									 			?>
+									 			<tr>
+									 				<td><?=$this->fal->fal_turu_name_to_org($row["fal_turu"])?></td>
+									 				<td><img src="<?=base_url().'uploads/'.$row["yorumcu"]["pp"]?>" height="35" width="35" class="img-circle" alt="yorumcu_foto" border="2"><?=$row["yorumcu"]["name"]?></td>
+									 				<td>
+									 					Cevaplandı
+									 				</td>
+									 				<td><?=$row["odeme"]?></td>
+									 				<td><?=$row["tarih"]?></td>
+									 				<td>
+									      				<button type="button" class="kullanici-btn btn btn-xs">Detaylar</button>
+									      			</td>
+
+									 			</tr>
+									 			<?php
+									 		}
+									 	 ?>
+									</tbody>
+
+								</table>	
+
+							</div>
 	    				</div>
 					</div>
 		</div>

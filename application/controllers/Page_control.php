@@ -57,10 +57,17 @@ class Page_control extends CI_Controller {
                 return;
                 break;
             case "odeme":
+                 if ($this->fal->check_login() == false)
+                 {
+                    show_404();
+                    return;
+                 }
+
                 $islem = $this->uri->segment(2);
                 if ($islem == "fal")
                 {
                     $id = $this->uri->segment(3);
+
                     if ($id == null)
                     {
                         show_404();
@@ -335,6 +342,61 @@ class Page_control extends CI_Controller {
         if ($query !== false && $query->num_rows() > 0)
         {
             $data["kredi"] = $query->row()->odeme;
+            $data["perma"] = $id;
+
+            $odeme_turu = $this->uri->segment(4);
+
+            if ($odeme_turu !== null)
+            {
+                if ($odeme_turu == "kredi")
+                {
+                    $query1 = $this->db->get_where("users", array("id" => $this->session->userdata("id"), "status" => 1));
+                    if ($query1 !== false && $query1->num_rows() > 0)
+                    {
+                        $odeme_sonucu = 0;
+                        if ($query1->row()->kredi >= $query->row()->odeme)
+                        {
+                            $updatedata = array(
+                                "kredi" => $query1->row()->kredi - $query->row()->odeme,
+                            );
+
+                            $updatedata2 = array(
+                                "status" => 0
+                            );
+
+                            $this->db->where("id", $this->session->userdata("id"))->update("users", $updatedata);
+                            $this->db->where("perma", $id)->update("fal_istekleri", $updatedata2);
+
+                            $data["page"] = "odeme_basarili";
+                            $data["neden"] = "Hesabınızdan kredi başarıyla çekildi!";
+                            $this->load->view("front/index", $data);
+                            $odeme_sonucu = 1;
+                        }
+                        else
+                        {
+                            $data["page"] = "odeme_basarisiz";
+                            $data["neden"] = "Kredi bakiyeniz yetersiz!";
+                            $this->load->view("front/index", $data);
+                        }
+
+                        $this->db->insert("odeme_log", array(
+                            "yorumcu" => $query->row()->yorumcu,
+                            "fal_id" => $query->row()->id,
+                            "miktar" => $query->row()->odeme,
+                            "odeme_turu" => 1,
+                            "odeme_sonucu" => 1,
+                            "tarih" => date("Y-m-d"),
+                        ));
+
+                        return;
+                    }
+                    else{
+                        show_404();
+                        return;
+                    }
+                }
+            }
+
             $data["page"] = "odeme_fal";
             $this->load->view("front/index", $data);
         }

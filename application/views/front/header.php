@@ -36,6 +36,7 @@
             <li><a href="" class="buton-red">GİRİŞ</a></li>
             <li><a href="" class="buton-red">ÜYE OL</a></li>
           <?php }else{ ?>
+            <li><a href="<?=base_url()?>profil">Kredi: <?=$user_data->kredi?></a></li>
             <li><a href="<?=base_url()?>profil"><?=$user_data->name." ".$user_data->surname?></a></li>
             <li><a href="<?=base_url()?>profil" class="buton-red">Profil</a></li>
             <li><a href="<?=base_url()?>logout" class="buton-red">Çıkış Yap</a></li>
