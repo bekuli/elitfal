@@ -857,6 +857,28 @@ nav li a.buton-red:focus{
 		margin-bottom: 10px
 	}
 
+	.check-icon-odeme {
+		font-size: 150px;
+		text-align: center;
+		color: green;
+		margin-top: 10px;
+	}
+
+	.odeme-basarili-baslik {
+		font-size: 18px;
+		text-align: center;
+		font-family: montserrat, sans-serif;
+		font-weight: bold;
+	}
+
+	.odeme-basarili-aciklama {
+		font-size: 18px;
+		text-align: center;
+		font-family: montserrat, sans-serif;
+		margin-top: 30px;
+
+	}
+
 
 @media (max-width:992px){
 	.fal-sayfasi .icerik .multi-input .marbotr{
