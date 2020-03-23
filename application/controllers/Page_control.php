@@ -824,12 +824,12 @@ class Page_control extends CI_Controller {
     public function yorumcu_ol()
     {
         $data["page"] = "yorumcu_ol";
-        $this->view("front/index", $data);
+        $this->load->view("front/index", $data);
     }
 
     public function iletisim()
     {
         $data["page"] = "iletisim";
-        $this->view("front/index", $data);
+        $this->load->view("front/index", $data);
     }
 }
