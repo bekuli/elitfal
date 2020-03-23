@@ -136,6 +136,7 @@
 
 	    				</div>
 	    				<div class="tab-pane" id="liste3">
+
     						<div class="kullanici-fal-liste">
 				
 								<table class="table table-striped table-responsive-md btn-table">
@@ -157,7 +158,6 @@
 									 			?>
 									 			<tr>
 									 				<td><?=$this->fal->fal_turu_name_to_org($row["fal_turu"])?></td>
-									 				<td><img src="<?=base_url().'uploads/'.$row["yorumcu"]["pp"]?>" height="35" width="35" class="img-circle" alt="yorumcu_foto" border="2"><?=$row["yorumcu"]["name"]?></td>
 									 				<td>
 									 					Cevaplandı
 									 				</td>
@@ -176,6 +176,7 @@
 								</table>	
 
 							</div>
+
 	    				</div>
 					</div>
 		</div>

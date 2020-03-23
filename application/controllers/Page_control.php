@@ -364,8 +364,8 @@ class Page_control extends CI_Controller {
                                 "status" => 0
                             );
 
-                            $this->db->where("id", $this->session->userdata("id"))->update("users", $updatedata);
-                            $this->db->where("perma", $id)->update("fal_istekleri", $updatedata2);
+                            //$this->db->where("id", $this->session->userdata("id"))->update("users", $updatedata);
+                            //$this->db->where("perma", $id)->update("fal_istekleri", $updatedata2);
 
                             $data["page"] = "odeme_basarili";
                             $data["neden"] = "Hesabınızdan kredi başarıyla çekildi!";
