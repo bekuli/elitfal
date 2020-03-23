@@ -33,8 +33,8 @@
           <ul class="nav navbar-nav header-right navbar-right" style="display: flex;align-items: center; height: 50px" >
             <?php
               if ($this->fal->check_login() == false) { ?>
-            <li><a href="" class="buton-red">GİRİŞ</a></li>
-            <li><a href="" class="buton-red">ÜYE OL</a></li>
+            <li><a href="<?=base_url()?>giris" class="buton-red">GİRİŞ</a></li>
+            <li><a href="<?=base_url()?>kayit" class="buton-red">ÜYE OL</a></li>
           <?php }else{ ?>
             <li><a href="<?=base_url()?>profil">Kredi: <?=$user_data->kredi?></a></li>
             <li><a href="<?=base_url()?>profil"><?=$user_data->name." ".$user_data->surname?></a></li>

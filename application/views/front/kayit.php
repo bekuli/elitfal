@@ -6,7 +6,7 @@
         <center>
             <div class="row">
             	<div class="col-md-12">
-            		<div class="logo">FALSİTESİ
+            		<div class="logo">ELİT FAL
 	                </div>
 	                <div id="login">
 
@@ -15,7 +15,10 @@
 	                        <fieldset class="clearfix">
 
 	                            <p><span class="fa fa-user"></span>
-	                                <input type="text" required="" Placeholder="Adınız / Rumunuz" required>
+	                                <input type="text" required="" Placeholder="Adınız" required>
+	                            </p>
+	                            <p><span class="fa fa-user"></span>
+	                                <input type="text" required="" Placeholder="Soyadınız" required>
 	                            </p>
 	                            <p><span class="fa fa-envelope"></span>
 	                                <input type="email" required="" Placeholder="E-posta" required>

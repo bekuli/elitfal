@@ -145,7 +145,7 @@
 									    <tr>
 									      <th style="width: 20%">Fal Türü</th>
 									      <th style="width: 25%">Yorumcu</th>
-									      <th style="width: 20%">Durum</th>
+									      <th style="width: 20%">Sonuç</th>
 									      <th style="width: 10%">Ücret</th>
 									      <th style="width: 20%">Tarih</th>
 									      <th style="width: 5%"></th>

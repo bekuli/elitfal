@@ -6,7 +6,7 @@
         <center>
             <div class="row">
             	<div class="col-md-12">
-            		<div class="logo">FALSİTESİ
+            		<div class="logo">ELİT FAL
 	                </div>
 	                <div class="error"><?php if (isset($error)){echo $error;}?></div>
 	                <div id="login">

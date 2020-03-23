@@ -9,24 +9,28 @@
 	    <div class="card border-light ">
 	        <div class="card-header">Cevapla</div>
 	        <div class="card-body">
+                <form method="post" id="cevapla-form">
+    	        	<div class="row">
+    		        	<div class="col-md-12">
+    	                    <h5>Cevabınız</h5>
+    	                </div>
+    	                <div class="col-md-12">
+    		           		<textarea class="form-control tbd"></textarea>
+    		        	</div>
+    		        	<!--<div class="col-md-12">
+    	                    <h5>Resim Ekle (opsiyonel)</h5>
+    	                </div>
+    		        	<div class="col-md-12 marbot20">
+    		        		<input type="file" name="img[]" accept=".gif,.jpg,.png,.jpeg,.bmp" multiple class="images_file_select">
+    		        	</div>
 
-	        	<div class="row">
-		        	<div class="col-md-12">
-	                    <h5>Cevabınız</h5>
-	                </div>
-	                <div class="col-md-12">
-		           		<textarea class="form-control tbd"></textarea>
-		        	</div>
-		        	<div class="col-md-12">
-	                    <h5>Resim Ekle (opsiyonel)</h5>
-	                </div>
-		        	<div class="col-md-12 marbot20">
-		        		<input type="file" name="img[]" accept=".gif,.jpg,.png,.jpeg,.bmp" multiple class="images_file_select">
-		        	</div>
-
-		        	<div class="col-md-12" id="previewImg">
-		        	</div>
-	        	</div>
+    		        	<div class="col-md-12" id="previewImg">
+    		        	</div>-->
+                        <div class="col-md-12">
+                            <input type="submit" class="btn btn-primary btn-submit-fal">
+                        </div>
+    	        	</div>
+                </form>
 
 	        </div>
 	    </div>
@@ -145,42 +149,50 @@
     }
 </style>
 
-<script>
-	var images_files = [];
+<script type="text/javascript">
+	
+    $(document).ready(function(){
+        $("#cevapla-form").submit(function(){
+            e.preventDefault();
+            $(".btn-submit-fal").val("Gönderiliyor...");
+            $(".btn-submit-fal").attr("disabled", "");
 
-    $(".images_file_select").on("change", function(e) {
-        var files = e.target.files,
-            filesLength = files.length;
-        for (var i = 0; i < filesLength; i++) {
-            var exist = false;
-            for (var j = 0; j < images_files.length; j++) {
-                if (images_files[j].name == files[i].name) {
-                    exist = true;
-                    console.log("exist");
-                    console.log(files[i].name);
-                    console.log(images_files[j].name);
-                }
-            }
-            if (!exist) {
-                images_files.push(files[i]);
-                var f = files[i];
-                var fileReader = new FileReader();
-                fileReader.filename = files[i].name;
-                fileReader.onload = (function(e) {
-                    var file = e.target;
-                    $("#previewImg").append("<div style='float:left' class=\"col-md-2\">" + "<div class=\"preview-img-wrap\">" + "<span class=\"close\" data-name=\"" + file.filename + "\">&times;</span>" + "<div class=\"inner\">" + "<div class=\"preview-img-tag\">" + "<img src=\"" + e.target.result + "\" title=\"" + file.filename + "\"/>" + "</div></div></div></div>");
-                    $(".close").click(function() {
-                        for (var j = 0; j < images_files.length; j++) {
-                            if (images_files[j].name == $(this).attr("data-name")) {
-                                images_files.splice(j, 1);
-                            }
+            if (submitting == true)
+                return;
+            submitting = true;
+            var form_data = new FormData($(this)[0]);
+
+            $.ajax({
+                    url : "<?=base_url()?>yorumcu/falistekleri",
+                    type : "post",
+                    data : form_data,
+                    contentType : false,
+                    processData : false,
+                    success : function(result) {
+                        submitting = false;
+                        console.log(result);
+                        if (result.substring(0,7) == "success")
+                        {
+                            var perma = result.substring(8);
+                            location.href = base_url + "odeme/fal/"+perma;
+                            $.notify("Başarılı", "success");
                         }
-                        $(this).parent(".preview-img-wrap").parent().remove();
-                    });
-                });
-                fileReader.readAsDataURL(f);
-            }
-        }
-        $(".images_file_select").val("");
+                        else
+                        {
+                            $(".btn-submit-fal").val("Devam");
+                            $(".btn-submit-fal").removeAttr("disabled", "");
+                            process_output_data(result);
+                        }
+                    },
+                    error : function(result){
+                        console.log(result);
+                        $(".btn-submit-fal").val("Devam");
+                        $(".btn-submit-fal").removeAttr("disabled", "");
+                        submitting = false;
+                        process_output_data("error");
+                    }
+            });
+        });
     });
+
 </script>

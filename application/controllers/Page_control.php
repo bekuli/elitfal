@@ -43,6 +43,12 @@ class Page_control extends CI_Controller {
             case "yorumcular":
                 $this->yorumcular();
                 return;
+            case "yorumcu-ol":
+                $this->yorumcu_ol();
+                return;
+            case "iletisim":
+                $this->iletisim();
+                return;
             case "fal-gonder":
                 $yorumcu = $this->uri->segment(2);
                 $query = $this->db->get_where("yorumcu", array("id" => $yorumcu, "status" => "1"));
@@ -813,5 +819,17 @@ class Page_control extends CI_Controller {
         }
         else
             echo "error";
+    }
+
+    public function yorumcu_ol()
+    {
+        $data["page"] = "yorumcu_ol";
+        $this->view("front/index", $data);
+    }
+
+    public function iletisim()
+    {
+        $data["page"] = "iletisim";
+        $this->view("front/index", $data);
     }
 }
