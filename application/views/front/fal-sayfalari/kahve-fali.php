@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');?>
 
 <div class="form-group">
-	<label for="soru">Fal Fotoğraflarını Yükleyin (En Fazla 5 5otoğraf)</label><br>
+	<label for="soru">Fal Fotoğraflarını Yükleyin (En Fazla 5 Fotoğraf)</label><br>
 	<label for="img-select" class="foto-btn">Fotoğrafları Seçin</label>
 	<input style="display: none" type="file" name="img[]" accept=".gif,.jpg,.png,.jpeg,.bmp" multiple id="img-select" class="images_file_select">
 </div>
@@ -77,6 +77,7 @@
 	var images_files = [];
 
     $(".images_file_select").on("change", function(e) {
+        var fileTypes = ['jpg', 'jpeg', 'png', 'bmp', 'JPG', 'PNG', 'JPEG', 'BMP']; 
         var files = e.target.files,
             filesLength = files.length;
         for (var i = 0; i < filesLength; i++) {
@@ -84,29 +85,35 @@
             for (var j = 0; j < images_files.length; j++) {
                 if (images_files[j].name == files[i].name) {
                     exist = true;
-                    console.log("exist");
-                    console.log(files[i].name);
-                    console.log(images_files[j].name);
                 }
             }
             if (!exist) {
-                images_files.push(files[i]);
                 var f = files[i];
-                var fileReader = new FileReader();
-                fileReader.filename = files[i].name;
-                fileReader.onload = (function(e) {
-                    var file = e.target;
-                    $("#previewImg").append("<div style='float:left' class=\"col-md-2\">" + "<div class=\"preview-img-wrap\">" + "<span class=\"close\" data-name=\"" + file.filename + "\">&times;</span>" + "<div class=\"inner\">" + "<div class=\"preview-img-tag\">" + "<img src=\"" + e.target.result + "\" title=\"" + file.filename + "\"/>" + "</div></div></div></div>");
-                    $(".close").click(function() {
-                        for (var j = 0; j < images_files.length; j++) {
-                            if (images_files[j].name == $(this).attr("data-name")) {
-                                images_files.splice(j, 1);
+
+                var extension = f.name.split('.').pop().toLowerCase();
+                var isSuccess = fileTypes.indexOf(extension) > -1;
+
+                if (isSuccess)
+                {
+                    var fileReader = new FileReader();
+                    fileReader.filename = f.name;
+                    fileReader.onload = (function(e) {
+                        var file = e.target;
+                        $("#previewImg").append("<div style='float:left' class=\"col-md-2\">" + "<div class=\"preview-img-wrap\">" + "<span class=\"close\" data-name=\"" + file.filename + "\">&times;</span>" + "<div class=\"inner\">" + "<div class=\"preview-img-tag\">" + "<img src=\"" + e.target.result + "\" title=\"" + file.filename + "\"/>" + "</div></div></div></div>");
+                        $(".close").click(function() {
+                            for (var j = 0; j < images_files.length; j++) {
+                                if (images_files[j].name == $(this).attr("data-name")) {
+                                    images_files.splice(j, 1);
+                                }
                             }
-                        }
-                        $(this).parent(".preview-img-wrap").parent().remove();
+                            $(this).parent(".preview-img-wrap").parent().remove();
+                        });
                     });
-                });
-                fileReader.readAsDataURL(f);
+                    fileReader.readAsDataURL(f);
+                    images_files.push(files[i]);
+                }else{
+                    $.notify("Lütfen sadece resim dosyaları seçin!", "error");
+                }
             }
         }
         $(".images_file_select").val("");

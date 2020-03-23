@@ -17,30 +17,30 @@
     <label>Eşinizin veya Partnerinizin Bilgilerini Giriniz</label>
     <div class="row">
     	<div class="col-md-6 col-xs-12 marbot">
-    		<input type="date" class="form-control" name="partner-adi" placeholder="Partnerinizin Adı">
+    		<input type="text" class="form-control" name="partner-adi" placeholder="Partnerinizin Adı">
     	</div>
     	<div class="col-md-6 col-xs-12 marbot">
     		<select name="partner-burcu" class="form-control">
 			    <option value="" selected="selected" disabled="disabled">Eşinizin Burcu</option>
-			    <option value="0">Koç ( 21 Mart - 19 Nisan )</option>
-			    <option value="1">Boğa ( 20 Nisan - 20 Mayıs )</option>
-			    <option value="2">İkizler ( 21 Mayıs - 20 Haziran )</option>
-			    <option value="3">Yengeç ( 21 Haziran - 22 Temmuz )</option>
-			    <option value="4">Aslan ( 23 Temmuz - 22 Ağustos )</option>
-			    <option value="5">Başak ( 23 Ağustos - 22 Eylül )</option>
-			    <option value="6">Terazi ( 23 Eylül - 22 Ekim )</option>
-			    <option value="7">Akrep ( 23 Ekim - 21 Kasım )</option>
-			    <option value="8">Yay ( 22 Kasım - 21 Aralık )</option>
-			    <option value="9">Oğlak ( 22 Aralık - 19 Ocak )</option>
-			    <option value="10">Kova ( 20 Ocak - 18 Şubat )</option>
-			    <option value="11">Balık ( 19 Şubat - 20 Mart )</option>
+			    <option value="Koç">Koç ( 21 Mart - 19 Nisan )</option>
+			    <option value="Boğa">Boğa ( 20 Nisan - 20 Mayıs )</option>
+			    <option value="İkizler">İkizler ( 21 Mayıs - 20 Haziran )</option>
+			    <option value="Yengeç">Yengeç ( 21 Haziran - 22 Temmuz )</option>
+			    <option value="Aslan">Aslan ( 23 Temmuz - 22 Ağustos )</option>
+			    <option value="Başak">Başak ( 23 Ağustos - 22 Eylül )</option>
+			    <option value="Terazi">Terazi ( 23 Eylül - 22 Ekim )</option>
+			    <option value="Akrep">Akrep ( 23 Ekim - 21 Kasım )</option>
+			    <option value="Yay">Yay ( 22 Kasım - 21 Aralık )</option>
+			    <option value="Oğlak">Oğlak ( 22 Aralık - 19 Ocak )</option>
+			    <option value="Kova">Kova ( 20 Ocak - 18 Şubat )</option>
+			    <option value="Balık">Balık ( 19 Şubat - 20 Mart )</option>
 			</select>
     	</div>
     	<div class="col-md-6 col-xs-12 marbot">
     		<input type="text" class="form-control" name="partner-anne-adi" placeholder="Partnerinizin Anne Adı">
     	</div>
     	<div class="col-md-12 col-xs-12">
-    		<textarea class="form-control" name="partner-hakkimda" placeholder="Partneriniz Hakkında"></textarea>
+    		<textarea class="form-control" name="partner-hakkinda" placeholder="Partneriniz Hakkında"></textarea>
     	</div>
     </div>
 </div>

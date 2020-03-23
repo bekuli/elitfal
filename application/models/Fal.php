@@ -85,6 +85,9 @@ class Fal extends CI_Model
              case 'dert_ortagi':
                 return "Dert Ortağı";
                 break;
+            case 'katina_fali':
+                return "Katina Falı";
+                break;
             default:
                 return $name;
                 break;
@@ -106,10 +109,13 @@ class Fal extends CI_Model
 
         foreach ($profil_data as $key => $row)
         {
-            if (empty($row)){
+            if ($this->empty($row)){
                 return $key."_bos";
             }
         }
+
+        if (!isset($_POST["kosullar"]))
+            return "kosullar";
 
         $sektor = array("Belirtilmemiş", "İşsiz", "Diğer", "Basın-Yayın", "Danışmanlık", "Doktor", "Emekli", "Ev Kadını", "Halkla İlişkiler", "Hukukçu", "Kamu Sektörü", "Manken/Model", "Mimar", "Muhasebe", "Mühendis", "Müzik", "Otomotiv", "Psikolog", "Reklam", "Sanatçı", "Satış/Pazarlama", "Sağlık Hizmetleri", "Sağlık Sektörü", "Serbest Meslek", "Sigortacı", "Sport", "Tekstil", "Ticaret", "Turizm", "Yöneticilik", "Öğrenci", "Öğretim Görevlisi/Asistan", "Öğretmen", "İnsan Kaynakları");
 
@@ -182,5 +188,175 @@ class Fal extends CI_Model
         {
             return $this->get_setting("fiyat_listesi");
         }
+    }
+
+    function generate_perma($db, $row)
+    {
+        $random_type = "alnum";
+        $length = 7;
+        $name = random_string($random_type, 7);
+        
+        $query = $this->db->get_where($db, array($row => $name));
+        if($query !== false && $query->num_rows() > 0)
+            return $this->generate_perma();
+        else
+            return $name;
+    }
+
+    function equals_sme($val, $array)
+    {
+        foreach ($array as $row)
+        {
+            if ($row == $val)
+                return false;
+        }
+
+        return true;
+    }
+
+    function empty($data)
+    {
+        if (trim($data) == "" || $data == null)
+            return true;
+
+        return false;
+    }
+
+    function resimUpload($resim, $rndName = true, $resizeConfig = null, $thumbConfig = null, $custompath = null, $customname = null)
+    {
+        $this->load->library('upload');
+        $this->load->library('image_lib');
+        $this->load->helper('string');
+        
+        if (empty($resim["name"]))
+            return array("error" => "Resim seçilmedi");
+        
+        $name = $resim['name'];
+        
+        $_FILES['userfile']['name']= $resim['name'];
+        $_FILES['userfile']['type']= $resim['type'];
+        $_FILES['userfile']['tmp_name']= $resim['tmp_name'];
+        $_FILES['userfile']['error']= $resim['error'];
+        $_FILES['userfile']['size']= $resim['size'];
+        
+        $ext = pathinfo($_FILES['userfile']['name'], PATHINFO_EXTENSION);
+        
+        if ($custompath == null)
+            $config["upload_path"] = "./uploads/";
+        else
+            $config["upload_path"] = $custompath;
+        
+        $config['allowed_types'] = "gif|jpg|png|jpeg|bmp|GIF|JPG|PNG|JPEG|BMP";
+        
+        if ($rndName == true) {
+            $name = random_string('alnum', 12);
+            $config['remove_spaces'] = true;
+            $config['file_name'] = $name;
+        }elseif ($customname !== null) {
+            $name = $customname;
+            $config['remove_spaces'] = true;
+            $config['file_name'] = $name;
+        }
+        
+        $config['overwrite'] = true;
+        
+        $this->upload->initialize($config);
+        
+        if (!$this->upload->do_upload())
+            return array("error" => $this->upload->display_errors());
+        
+        $uploadInfo = $this->upload->data();
+        
+        if ($resizeConfig !== null) {
+            
+            if (isset($resizeConfig["custom"]) && $resizeConfig["custom"] == true)
+            {
+                list($width, $height) = getimagesize($config["upload_path"].$uploadInfo["file_name"]);
+                
+                $newResizeConfig = array();
+                
+                if ($width > $height)
+                    $newResizeConfig["width"] = $resizeConfig["width"];
+                elseif ($height > $width)
+                    $newResizeConfig["height"] = $resizeConfig["height"];
+                    
+                $newResizeConfig["maintain_ratio"] = true;
+                $newResizeConfig["source_image"] = $uploadInfo['full_path'];
+                
+                $this->image_lib->initialize($newResizeConfig);
+                $this->image_lib->resize($newResizeConfig);
+                $this->image_lib->clear();
+                
+                //echo "width-height: ".$width." ".$height;
+                //print_r($newResizeConfig);
+            }
+            else
+            {
+                $resizeConfig['source_image'] = $uploadInfo['full_path'];
+                $this->image_lib->initialize($resizeConfig);
+                $this->image_lib->resize($resizeConfig);
+                $this->image_lib->clear();
+            }
+        }
+        
+        if ($thumbConfig !== null) {
+            
+            if ($custompath == null)
+                $thumbConfig["new_image"] = "./uploads/".$name."_thumb";
+            else
+                $thumbConfig["new_image"] = $custompath.$name."_thumb";
+            
+            $thumbConfig['source_image'] = $uploadInfo['full_path'];
+            
+            $this->image_lib->initialize($thumbConfig);
+            $this->image_lib->resize($thumbConfig);
+            $this->image_lib->clear();
+        }
+
+        return array("orjinalResimAdi" => $_FILES["userfile"]["name"] , "resimAdi" => $uploadInfo["file_name"]);
+        
+    }
+
+    function resimUploadMultiple($resimler, $rndName = true, $resizeConfig = null, $thumbConfig = null, $custompath = null, $custom_names = null)
+    {
+        $resimler = $this->reArrayFiles($resimler);
+        $return = array();
+        
+        $i = 0;
+        foreach ($resimler as $resim){
+            
+            if (empty($resim["name"])){
+                $i++; continue;
+            }
+            
+            $custom_name = null;
+            
+            if ($custom_names != null)
+                $custom_name = $custom_names[$i];
+            
+            $upload = $this->resimUpload($resim, $rndName, $resizeConfig, $thumbConfig, $custompath, $custom_name);
+            if (!isset($upload["hata"]))
+                array_push($return, $upload["resimAdi"]);
+            else
+                array_push($return, $upload["error"]);
+            $i++;
+        }
+        
+        return $return;
+    }
+
+    function reArrayFiles(&$file_post) {
+
+        $file_ary = array();
+        $file_count = count($file_post['name']);
+        $file_keys = array_keys($file_post);
+
+        for ($i=0; $i<$file_count; $i++) {
+            foreach ($file_keys as $key) {
+                $file_ary[$i][$key] = $file_post[$key][$i];
+            }
+        }
+
+        return $file_ary;
     }
 }

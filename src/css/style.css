@@ -28,7 +28,7 @@ nav li.open a {
 	background: #b50000;
 	color:#fff !important;
 	border-radius: 40px;
-	padding:15px 20px !important;
+	padding:5px 10px !important;
 }
 
 .buton-red:hover, .buton-red:focus{
@@ -676,7 +676,6 @@ nav li a.buton-red:focus{
 .profil-kullanici .kullanici-kart{
 	background: #fff;
 	padding: 10px;
-	border-radius: 5px;
 }
 
 .profil-kullanici .kullanici-kart .profil-foto{
@@ -723,20 +722,25 @@ nav li a.buton-red:focus{
 	font-size: 15px;
 	background: #b50000;
 	color: #fff;
+	border-radius: 0px;
+	border-color:transparent;
 }
 
-.profil-kullanici .nav .active{
+.profil-kullanici .nav li.active a{
+	color:#333;
+	background: #fff
 
 }
 
-.profil-kullanici .nav .active a{
-	
+.profil-kullanici .nav li.active a:hover,.profil-kullanici .nav li.active a:focus{
+	border-color:transparent;
+
 }
+
 
 .profil-kullanici .kullanici-fal-liste{
 	background: #fff;
 	padding: 20px;
-	border-radius: 5px;
 }
 
 .profil-kullanici .kullanici-fal-liste img{

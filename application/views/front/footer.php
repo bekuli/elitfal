@@ -98,7 +98,7 @@
 			submitting_giris = true;
 			var form_data = new FormData($(this)[0]);
 
-				$.ajax({
+			$.ajax({
 				url : base_url + "giris-ajax",
 				type : "post",
 				data : form_data,
@@ -112,6 +112,7 @@
 						$(".btn-login-form-submit").removeAttr("disabled", "");
 						$('#login-modal').modal('hide');
 						$(".btn-submit-fal").click();
+						update_login();
 					}
 					else
 					{
@@ -141,6 +142,29 @@
         }else if (data == "bos"){
         	$.notify("Gerekli alanlar doldurulmalıdır!", "error");
         }
+    }
+
+    function update_login()
+    {
+    	$.ajax({
+				url : base_url + "profil/get-data",
+				contentType : false,
+				success : function(result) {
+					if (result == "error"){
+						process_output_data_login_modal("error");
+						return;
+					}
+					var profil_data = JSON.parse(result);
+
+					var headerprofil = '<li><a href="<?=base_url()?>profil">'+ profil_data["name"] +' '+ profil_data["surname"] + '</a></li>'+
+            '<li><a href="<?=base_url()?>profil" class="buton-red">Profil</a></li>'+
+            '<li><a href="<?=base_url()?>logout" class="buton-red">Çıkış Yap</a></li>';
+            		$(".header-right").html(headerprofil);
+				},
+				error : function(){
+					process_output_data_login_modal("error");
+				}
+			});
     }
 </script>
 </body>

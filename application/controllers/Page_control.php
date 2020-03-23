@@ -52,17 +52,9 @@ class Page_control extends CI_Controller {
                     return;
                 }
 
-                switch ($this->uri->segment(3)) {
-                    case 'dert-ortagi':
-                        $this->fal_gonder_dert_ortagi($yorumcu);
-                        return;
-                        break;
-                    
-                    default:
-                        show_404();
-                        return;
-                        break;
-                }
+                $this->fal_gonder_redirect($yorumcu, $this->uri->segment(3));
+
+                return;
                 break;
             case "odeme":
                 $islem = $this->uri->segment(2);
@@ -99,9 +91,14 @@ class Page_control extends CI_Controller {
                     show_404();
                     return;
                 }
+
                 if($this->uri->segment(2) == "ayarlar")
                 {
                     $this->profil_ayarlar();
+                    return;
+                }
+                if ($this->uri->segment(2) == "get-data"){
+                    $this->get_user_data();
                     return;
                 }else{
                     $this->profil();
@@ -166,6 +163,8 @@ class Page_control extends CI_Controller {
             }
         }
 
+        $data["c"] = "c";
+
         $this->load->view('front/top');
         $this->load->view('front/giris', $data);
     }
@@ -208,6 +207,23 @@ class Page_control extends CI_Controller {
             }else
                 echo "email";
         }else
+        echo "error";
+    }
+
+    public function get_user_data()
+    {
+        $query = $this->db->get_where("users", array("id" => $this->session->userdata("id")));
+        if ($query !== false && $query->num_rows() > 0)
+        {
+            $data = array(
+                "id" => $query->row()->id,
+                "name" => $query->row()->name,
+                "surname" => $query->row()->surname
+            );
+
+            echo json_encode($data);
+            return;
+        }
         echo "error";
     }
 
@@ -315,7 +331,7 @@ class Page_control extends CI_Controller {
 
     public function odeme_fal($id)
     {
-        $query = $this->db->get_where("fal_istekleri", array("user_id" => $this->session->userdata("id"), "id" => $id, "status" => "2"));
+        $query = $this->db->get_where("fal_istekleri", array("user_id" => $this->session->userdata("id"), "perma" => $id, "status" => "2"));
         if ($query !== false && $query->num_rows() > 0)
         {
             $data["kredi"] = $query->row()->odeme;
@@ -414,7 +430,240 @@ class Page_control extends CI_Controller {
         }
     }
 
-    public function fal_gonder_dert_ortagi($id)
+    public function fal_gonder_redirect($yorumcu, $id)
+    {
+        switch ($id) {
+            case 'dert-ortagi':
+                $this->fal_gonder($yorumcu, "dert_ortagi", array("soru" => "soru"));
+                break;
+
+            case 'ruya-yorumu':
+                $this->fal_gonder($yorumcu, "ruya_yorumu", array("soru" => "soru"));
+                break;
+
+            case 'yildizname':
+                $fields = array(
+                    "soru" => "soru",
+                    "acilim" => "acilim",
+                );
+
+                if ($this->fal->empty($fields["acilim"]))
+                {
+                    echo "acilim";
+                    return;
+                }
+
+                if ($this->fal->equals_sme($_POST["acilim"], array(1,0))){
+                    show_404();
+                    return;
+                }
+
+                $arrayfields = array(
+                    "dogum_bilgileri" => array(
+                        "dogum_gunu" => "dogum-gunu",
+                        "dogum_yeri" => "dogum-yeri",
+                        "dogum_saati" => "dogum-saati",
+                        "anne_adi" => "anne-adi"
+                    ),
+                );
+
+                if ($_POST["acilim"] == 1)
+                {
+                    $arrayfields["partner_bilgileri"] = array(
+                        "partner_adi" => "partner-adi",
+                        "partner_anne_adi" => "partner-anne-adi",
+                        "partner_burcu" => "partner-burcu",
+                        "partner_hakkinda" => "partner-hakkinda"
+                    );
+                }
+
+                $this->fal_gonder($yorumcu, "yildizname", $fields, $arrayfields);
+                break;
+
+            case 'su-fali':
+                $fields = array(
+                    "soru" => "soru",
+                    "acilim" => "acilim",
+                );
+
+                if ($this->fal->empty($fields["acilim"]))
+                {
+                    echo "acilim";
+                    return;
+                }
+
+                if ($this->fal->equals_sme($_POST["acilim"], array(1,0))){
+                    show_404();
+                    return;
+                }
+
+                $arrayfields = array(
+                    "dogum_bilgileri" => array(
+                        "dogum_gunu" => "dogum-gunu",
+                        "dogum_yeri" => "dogum-yeri",
+                        "dogum_saati" => "dogum-saati",
+                        "anne_adi" => "anne-adi"
+                    ),
+                );
+
+                if ($_POST["acilim"] == 1)
+                {
+                    $arrayfields["partner_bilgileri"] = array(
+                        "partner_adi" => "partner-adi",
+                        "partner_anne_adi" => "partner-anne-adi",
+                        "partner_burcu" => "partner-burcu",
+                        "partner_hakkinda" => "partner-hakkinda"
+                    );
+                }
+
+                $this->fal_gonder($yorumcu, "su_fali", $fields, $arrayfields);
+                break;
+
+            case "katina-fali":
+
+                if (!isset($_POST["selected_cards"]))
+                {
+                    echo "card.10";
+                    return;
+                }
+
+                $selected_cards = $this->input->post("selected_cards");
+                if (empty($selected_cards)){
+                    echo "card.10";
+                    return;
+                }
+
+                $selected_cards = explode(",", $selected_cards);
+
+                if (count($selected_cards) !== 10)
+                {
+                    echo "card.10";
+                    return;
+                }
+
+                foreach ($selected_cards as $row)
+                {
+                    if (!is_numeric($row))
+                    {
+                        echo "card.10";
+                        return;
+                    }
+
+                    if ($row > 78 || $row <= 0)
+                    {
+                        echo "card.10";
+                        return;
+                    }
+                }
+
+                $plus = array(
+                    "kartlar" => $selected_cards
+                );
+
+                $arrayfields["partner_bilgileri"] = array(
+                    "partner_adi" => "partner-adi",
+                    "partner_anne_adi" => "partner-anne-adi",
+                    "partner_burcu" => "partner-burcu",
+                    "partner_hakkinda" => "partner-hakkinda"
+                );
+
+                $this->fal_gonder($yorumcu, "katina_fali", array("soru" => "soru"), $arrayfields, $plus);
+                break;
+
+            case "tarot-fali":
+
+                $fields = array(
+                    "soru" => "soru",
+                    "acilim" => "acilim",
+                );
+
+                if ($this->fal->empty($_POST["acilim"]))
+                {
+                    echo "acilim";
+                    return;
+                }
+
+                $max_cards = 7;
+                if ($_POST["acilim"] == 0)
+                    $max_cards = 10;
+
+                if (!isset($_POST["selected_cards"]))
+                {
+                    echo "card.".$max_cards;
+                    return;
+                }
+
+                $selected_cards = $this->input->post("selected_cards");
+                if (empty($selected_cards)){
+                    echo "card.".$max_cards;
+                    return;
+                }
+
+                $selected_cards = explode(",", $selected_cards);
+
+                if (count($selected_cards) !== $max_cards)
+                {
+                    echo "card.".$max_cards;
+                    return;
+                }
+
+                foreach ($selected_cards as $row)
+                {
+                    if (!is_numeric($row))
+                    {
+                        echo "card.".$max_cards;
+                        return;
+                    }
+
+                    if ($row > 78 || $row <= 0)
+                    {
+                        echo "card.".$max_cards;
+                        return;
+                    }
+                }
+
+                $plus = array(
+                    "kartlar" => $selected_cards
+                );
+
+                if ($_POST["acilim"] == 1)
+                {
+                    $arrayfields["partner_bilgileri"] = array(
+                        "partner_adi" => "partner-adi",
+                        "partner_anne_adi" => "partner-anne-adi",
+                        "partner_burcu" => "partner-burcu",
+                        "partner_hakkinda" => "partner-hakkinda"
+                    );
+                }
+
+                $this->fal_gonder($yorumcu, "tarot_fali", $fields, $arrayfields, $plus);
+                break;
+
+            case "kahve-fali":
+                
+                if (isset($_POST["images"]))
+                {
+                    echo "img_bos";
+                    return;
+                }
+                $num_of_imgs = count($this->fal->reArrayFiles($_FILES['images']));
+                if ($num_of_imgs > 5)
+                {
+                    echo "img_fazla";
+                    return;
+                }
+
+                $this->fal_gonder($yorumcu, "kahve_fali", array("soru" => "soru"), null, null, true);
+                break;
+            
+            default:
+                show_404();
+                return;
+                break;
+        }
+    }
+
+    public function fal_gonder($id, $tur, $fields, $arrayfields = null, $plus = null, $img = false)
     {
         if ($this->fal->check_login() == false)
         {
@@ -422,26 +671,51 @@ class Page_control extends CI_Controller {
             return;
         }
 
-        $soru = trim($this->input->post("soru"));
-        if (empty($soru))
+        $json_data = array();
+
+        if ($arrayfields !== null)
         {
-            echo "soru_bos";
-            return;
+            foreach ($arrayfields as $key => $value) {
+                $arry = array();
+                foreach ($value as $key1 => $value1) {
+                    $var = trim($this->input->post($value1));
+                    if ($this->fal->empty($var) || isset($_POST[$value1]) == false)
+                    {
+                        echo $value1."_bos";
+                        return;
+                    }
+
+                    $arry[$key1] = $var;
+                }
+
+                $json_data[$key] = $arry;
+            }
         }
+
+        foreach ($fields as $key => $value) {
+            $var = trim($this->input->post($value));
+            if ($this->fal->empty($var) || isset($_POST[$value]) == false)
+            {
+                echo $value."_bos";
+                return;
+            }
+
+            $json_data[$key] = $var;
+        }
+
+        if ($plus !== null)
+            $json_data = array_merge($json_data, $plus);
 
         $profil_data = $this->fal->fal_gonder_check_profile_data();
         if (is_array($profil_data) == false){
             echo $profil_data;
             return;
         }
+        $json_data["bilgiler"] = $profil_data;
+        $json_data_array = $json_data;
+        $json_data = json_encode($json_data);
 
-        $json_data = array(
-            "soru" => $soru
-        );
-
-        $json_data = json_encode(array_merge($json_data, $profil_data));
-
-        $odeme = json_decode($this->fal->get_fiyat_listesi($id), true)["dert_ortagi"];
+        $odeme = json_decode($this->fal->get_fiyat_listesi($id), true)[$tur];
 
         if (!is_numeric($odeme)){
             echo "error";
@@ -449,7 +723,7 @@ class Page_control extends CI_Controller {
         }
 
         $data = array(
-            "fal_turu" => "dert_ortagi",
+            "fal_turu" => $tur,
             "yorumcu" => $id,
             "odeme" => $odeme,
             "fal_icerik" => $json_data,
@@ -457,12 +731,24 @@ class Page_control extends CI_Controller {
             "user_id" => $this->session->userdata("id"),
             "status" => 2,
             "odeme_tamamlandimi" => 0,
-            "odeme_turu" => 0
+            "odeme_turu" => 0,
+            "perma" => $this->fal->generate_perma("fal_istekleri", "perma")
         );
 
         $this->db->insert("fal_istekleri", $data);
-        if ($this->db->affected_rows() > 0)
-            echo "success";
+        if ($this->db->affected_rows() > 0){
+
+            if ($img == true)
+            {
+                $id = $this->db->insert_id();
+                $num_of_imgs = count($this->fal->reArrayFiles($_FILES['images']));
+                $upload = $this->fal->resimUploadMultiple($_FILES["images"]);
+                $json_data_array["resimler"] = $upload;
+                $this->db->where("id", $id)->update("fal_istekleri", array("fal_icerik" => json_encode($json_data_array)));
+                echo "success.".$data["perma"];
+            }else
+                echo "success.".$data["perma"];
+        }
         else
             echo "error";
     }

@@ -8,11 +8,11 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">FAL SİTESİ</a>
+          <a class="navbar-brand" href="<?=base_url()?>">ELİT FAL</a>
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
+        <div id="navbar" class="navbar-collapse collapse" >
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Anasayfa</a></li>
+            <li><a href="<?=base_url()?>">Anasayfa</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Fal Türleri <span class="caret"></span></a>
               <ul class="dropdown-menu">
@@ -25,18 +25,19 @@
                 <li><a href="#">Dert Ortağı</a></li>
               </ul>
             </li>
-            <li><a href="#">Yorumcular</a></li>
-            <li><a href="#">Kredi Satın Al</a></li>
+            <li><a href="<?=base_url()?>yorumcular">Yorumcular</a></li>
+            <li><a href="<?=base_url()?>kredi-satin-al">Kredi Satın Al</a></li>
             <li><a href="#">Yorumcu Ol</a></li>
             <li><a href="#">İletişim</a></li>
-            <li><a href="#">Yardım</a></li>
           </ul>
-          <ul class="nav navbar-nav navbar-right">
+          <ul class="nav navbar-nav header-right navbar-right" style="display: flex;align-items: center; height: 50px" >
             <?php
               if ($this->fal->check_login() == false) { ?>
             <li><a href="" class="buton-red">GİRİŞ</a></li>
             <li><a href="" class="buton-red">ÜYE OL</a></li>
           <?php }else{ ?>
+            <li><a href="<?=base_url()?>profil"><?=$user_data->name." ".$user_data->surname?></a></li>
+            <li><a href="<?=base_url()?>profil" class="buton-red">Profil</a></li>
             <li><a href="<?=base_url()?>logout" class="buton-red">Çıkış Yap</a></li>
           <?php } ?>
           </ul>

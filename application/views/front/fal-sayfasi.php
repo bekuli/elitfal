@@ -123,7 +123,7 @@
 								    <div class="form-group">
 
 								        <select name="iliski_durumu" class="form-control">
-								            <option value="İlişki Durumu">İlişki Durumu</option>
+								            <option value="">İlişki Durumu</option>
 								            <option value="Ayrı yaşıyor">Ayrı yaşıyor</option>
 								            <option value="Boşanmış">Boşanmış</option>
 								            <option value="Evli">Evli</option>
@@ -161,6 +161,108 @@
     $( ".datepicker" ).datepicker();
   } );
 
+  var submitting = false;
+
+	$(document).ready(function(){
+		$("#fal-form").submit(function(e){
+			e.preventDefault();
+			$(".btn-submit-fal").val("Gönderiliyor...");
+			$(".btn-submit-fal").attr("disabled", "");
+
+			if (submitting == true)
+				return;
+			submitting = true;
+			var form_data = new FormData($(this)[0]);
+
+			if (typeof selected_cards !== 'undefined')
+			{	
+				var cards = "";
+				for (var i = 0; i < selected_cards.length; i++)
+				{
+					if (i == selected_cards.length - 1)
+						cards+=selected_cards[i];
+					else
+						cards+=selected_cards[i]+",";
+				}
+
+				form_data.append("selected_cards", cards);
+			}
+
+			if (typeof images_files !== 'undefined')
+			{
+				if (images_files.length == 0)
+				{
+					form_data.append("images", "");
+				}
+				else
+				for (var i = 0; i < images_files.length; i++)
+					form_data.append("images[]", images_files[i]);
+			}
+
+			$.ajax({
+				url : base_url + "fal-gonder/<?=$yorumcu->id?>/<?=$falsayfasi?>",
+				type : "post",
+				data : form_data,
+				contentType : false,
+				processData : false,
+				success : function(result) {
+					submitting = false;
+					console.log(result);
+					if (result.substring(0,7) == "success")
+					{
+						var perma = result.substring(8);
+						location.href = base_url + "odeme/fal/"+perma;
+						$.notify("Başarılı", "success");
+					}
+					else
+					{
+						$(".btn-submit-fal").val("Devam");
+						$(".btn-submit-fal").removeAttr("disabled", "");
+						process_output_data(result);
+					}
+				},
+				error : function(result){
+					console.log(result);
+					$(".btn-submit-fal").val("Devam");
+					$(".btn-submit-fal").removeAttr("disabled", "");
+					submitting = false;
+					process_output_data("error");
+				}
+			});
+		});
+	});
+
+	function process_output_data(data)
+    {
+        if (data == "error" || data == "no_data"){
+            $.notify("Bilinmeyen bir hata oluştu tekrar deneyiniz", "error");
+        }else if (data == "soru_bos"){
+        	$.notify("Lütfen soru alanını doldururunuz", "error");
+        }else if (data == "ad_bos"){
+        	$.notify("Lütfen Ad alanını doldururunuz", "error");
+        }else if (data == "soyad_bos"){
+        	$.notify("Lütfen Soyad alanını doldururunuz", "error");
+        }else if (data == "email_bos"){
+        	$.notify("Lütfen Email alanını doldururunuz", "error");
+        }else if (data == "sektor_bos"){
+        	$.notify("Lütfen Sektör alanını doldururunuz", "error");
+        }else if (data == "cinsiyet_bos"){
+        	$.notify("Lütfen Cinsiyet alanını doldururunuz", "error");
+        }else if (data == "iliski_bos"){
+        	$.notify("Lütfen İlişki alanını doldururunuz", "error");
+        }else if (data == "tarih_bos"){
+        	$.notify("Lütfen Doğum Tarihi alanını doldururunuz", "error");
+        }else if (data == "kosullar"){
+        	$.notify("Lütfen Kullanım Kouşullarını Kabul Edin", "error");
+        }else if (data == "giris"){
+        	$.notify("Lütfen Giriş Yapınız", "error");
+        	$("#login-modal").modal();
+        }else{
+        	$.notify(data, "error");
+        	console.log(data);
+        	//$.notify("Bilinmeyen bir hata oluştu tekrar deneyiniz", "error");
+        }
+    }
 </script>
 
 <style>

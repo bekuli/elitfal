@@ -15,7 +15,7 @@
 		                <?=$profil->name?>
 		            </div>
 
-		            <a href="">
+		            <a href="<?=base_url()?>profil/ayarlar">
 			            <div class="kullanici-ayarlar">     
 			               <i class="fa fa-gear"></i>
 			               Ayarlarım
@@ -28,7 +28,7 @@
 
 					<ul  class="nav nav-tabs">
 					    <li class="active">
-					        <a  href="#liste1" data-toggle="tab">Bekliyen Fallarım</a>
+					        <a  href="#liste1" data-toggle="tab">Bekleyen Fallarım</a>
 					    </li>
 					    <li>
 					        <a href="#liste2" data-toggle="tab">Bakılan Fallarım</a>
@@ -76,7 +76,7 @@
 									 				<td><?=$row["tarih"]?></td>
 									 				<td>
 									 					<?php if ($row["status"] == "2")  { ?>
-									      				<a href="<?=base_url()?>odeme/fal/<?=$row["id"]?>" class="kullanici-btn btn btn-xs">Ödeme Yap</a>
+									      				<a href="<?=base_url()?>odeme/fal/<?=$row["perma"]?>" class="kullanici-btn btn btn-xs">Ödeme Yap</a>
 									      			<?php } ?>
 									      			</td>
 
