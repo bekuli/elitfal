@@ -110,8 +110,18 @@ class Page_control extends CI_Controller {
                     $this->profil_ayarlar();
                     return;
                 }
-                if ($this->uri->segment(2) == "get-data"){
+                else if ($this->uri->segment(2) == "get-data"){
                     $this->get_user_data();
+                    return;
+                }else if ($this->uri->segment(2) == "cevap"){
+                    $id = $this->uri->segment(3);
+
+                    if ($id == null)
+                    {
+                        show_404();
+                        return;
+                    }
+                    $this->cevaplanmis_fal($id);
                     return;
                 }else{
                     $this->profil();
@@ -831,5 +841,23 @@ class Page_control extends CI_Controller {
     {
         $data["page"] = "iletisim";
         $this->load->view("front/index", $data);
+    }
+
+    public function cevaplanmis_fal($id)
+    {
+        $query = $this->db->get_where("fal_istekleri", array("id" => $id, "status" => 1));
+        if ($query !== false && $query->num_rows() > 0)
+        {
+            $page_data["fal_data"] = $query->row();
+
+            $page_data["fal_icerik"] = json_decode($query->row()->fal_icerik, true);
+
+            $page_data["page"] = "fal_cevap_goruntule";
+            $this->load->view("front/index", $page_data);
+        }
+        else
+        {
+            show_404();
+        }
     }
 }

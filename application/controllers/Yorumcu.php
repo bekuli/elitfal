@@ -191,6 +191,26 @@ class Yorumcu extends CI_Controller {
                     else
                         $this->load->view("back/yorumcu/index", $page_data);
                 }
+                elseif ($action == "cevap-gonder")
+                {
+                    $page_data["fal_data"] = $query->row();
+
+                    $cevap = $this->input->post("cevap");
+
+                    if ($this->fal->empty($cevap)){
+                        echo "Cevap boş bırakılımaz!";
+                        return;
+                    }
+
+                    $data = array("fal_cevap" => $cevap, "status" => 1);
+
+                    $this->db->where(array("id" => $query->row()->id, "yorumcu" => $this->profil->id))->update("fal_istekleri", $data);
+                    if ($this->db->affected_rows() > 0){
+                        echo "success";
+                        return;
+                    }else
+                        echo "Bilinmeyen bir hata oluştu!";
+                }
                 elseif ($action == "update")
                 {
                     echo $this->shortener_model->update_url($query->row());
@@ -216,6 +236,12 @@ class Yorumcu extends CI_Controller {
                 return;
             }
         }
+    }
+
+    public function logout()
+    {
+        $this->session->sess_destroy();
+        redirect(base_url(), 'refresh');
     }
 
 }

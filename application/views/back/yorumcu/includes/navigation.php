@@ -10,38 +10,38 @@
           </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?php if ($page_name == "falistekleri"){?>active<?php } ?>" data-title="Users" href="<?= base_url()?>yorumcu/falistekleri">
+            <a class="nav-link <?php if ($page_name == "falistekleri"){?>active<?php } ?>" data-title="Fal İstekleri" href="<?= base_url()?>yorumcu/falistekleri">
             <i class="fas fa-link"></i>
             Fal İstekleri
           </a>
         </li>
 	  <li class="nav-item">
-		  <a class="nav-link <?php if ($page_name == "yorumcular"){?>active<?php } ?>" data-title="Users" href="<?= base_url()?>admin/yorumcular">
+		  <a class="nav-link <?php if ($page_name == "yorumcular"){?>active<?php } ?>" data-title="" href="<?= base_url()?>admin/yorumcular">
 			  <i class="fas fa-user"></i>
 			  Yorumlar
 		  </a>
 	  </li>
     	<li class="nav-item">
-    	  <a class="nav-link <?php if ($page_name == "settings"){?>active<?php } ?>" data-title="Settings" href="<?= base_url()?>admin/kredi">
+    	  <a class="nav-link <?php if ($page_name == "settings"){?>active<?php } ?>" data-title="" href="<?= base_url()?>admin/kredi">
     		<i class="fas fa-cog"></i>
     		Mesajlar
     	  </a>
     	</li>
     	<li class="nav-item">
-    	  <a class="nav-link <?php if ($page_name == "settings"){?>active<?php } ?>" data-title="Settings" href="<?= base_url()?>admin/sikayetler">
+    	  <a class="nav-link <?php if ($page_name == "settings"){?>active<?php } ?>" data-title="" href="<?= base_url()?>admin/sikayetler">
     		<i class="fas fa-cog"></i>
     		Ödemeler
     	  </a>
     	</li>
         <li class="nav-item">
-          <a class="nav-link <?php if ($page_name == "settings"){?>active<?php } ?>" data-title="Settings" href="<?= base_url()?>admin/sikayetler">
+          <a class="nav-link <?php if ($page_name == "settings"){?>active<?php } ?>" data-title="" href="<?= base_url()?>admin/sikayetler">
             <i class="fas fa-cog"></i>
             Profil
           </a>
         </li>
 
     	<li class="nav-item">
-    	  <a class="nav-link <?php if ($page_name == "settings"){?>active<?php } ?>" data-title="Settings" href="<?= base_url()?>admin/ayarlar">
+    	  <a class="nav-link <?php if ($page_name == "settings"){?>active<?php } ?>" data-title="" href="<?= base_url()?>admin/ayarlar">
     		<i class="fas fa-cog"></i>
     		Ayarlar
     	  </a>

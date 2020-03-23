@@ -121,7 +121,7 @@
 									 				<td><?=$row["odeme"]?></td>
 									 				<td><?=$row["tarih"]?></td>
 									 				<td>
-									      				<button type="button" class="kullanici-btn btn btn-xs">Detaylar</button>
+									      				<a href="<?=base_url()?>profil/cevap/<?=$row["id"]?>" class="kullanici-btn btn btn-xs">Detaylar</a>
 									      			</td>
 
 									 			</tr>

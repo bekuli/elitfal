@@ -15,7 +15,7 @@
     	                    <h5>Cevabınız</h5>
     	                </div>
     	                <div class="col-md-12">
-    		           		<textarea class="form-control tbd"></textarea>
+    		           		<textarea class="form-control tbd" name="cevap"></textarea>
     		        	</div>
     		        	<!--<div class="col-md-12">
     	                    <h5>Resim Ekle (opsiyonel)</h5>
@@ -150,9 +150,10 @@
 </style>
 
 <script type="text/javascript">
-	
+   
     $(document).ready(function(){
-        $("#cevapla-form").submit(function(){
+        var submitting = false;
+        $("#cevapla-form").submit(function(e){
             e.preventDefault();
             $(".btn-submit-fal").val("Gönderiliyor...");
             $(".btn-submit-fal").attr("disabled", "");
@@ -163,7 +164,7 @@
             var form_data = new FormData($(this)[0]);
 
             $.ajax({
-                    url : "<?=base_url()?>yorumcu/falistekleri",
+                    url : "<?=base_url()?>yorumcu/falistekleri/<?=$fal_data->id?>/cevap-gonder",
                     type : "post",
                     data : form_data,
                     contentType : false,
@@ -171,25 +172,25 @@
                     success : function(result) {
                         submitting = false;
                         console.log(result);
-                        if (result.substring(0,7) == "success")
+                        if (result == "success")
                         {
                             var perma = result.substring(8);
-                            location.href = base_url + "odeme/fal/"+perma;
+                            $("a[data-title='Fal İstekleri']").click();
                             $.notify("Başarılı", "success");
                         }
                         else
                         {
-                            $(".btn-submit-fal").val("Devam");
+                            $(".btn-submit-fal").val("Gönder");
                             $(".btn-submit-fal").removeAttr("disabled", "");
-                            process_output_data(result);
+                            $.notify(result, "error");
                         }
                     },
                     error : function(result){
                         console.log(result);
-                        $(".btn-submit-fal").val("Devam");
+                        $(".btn-submit-fal").val("Gönder");
                         $(".btn-submit-fal").removeAttr("disabled", "");
                         submitting = false;
-                        process_output_data("error");
+                        $.notify("Bilinmeyen bir hata oluştu!", "error");
                     }
             });
         });
