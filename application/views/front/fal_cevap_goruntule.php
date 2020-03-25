@@ -4,26 +4,29 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="cevap-sayfa">
+				<div class="row">
+					<div class="col-lg-12 marbot20">
+					    <div class="cevap-card ">
+					        <div class="cevap-card-baslik">Fal Yorumu - <?=$this->fal->fal_turu_name_to_org($fal_data->fal_turu)?></div>
+					        <div class="cevap-card-body">
 
-				<div class="col-lg-12 marbot20">
-				    <div class="cevap-card ">
-				        <div class="cevap-card-baslik">Fal Yorumu - <?=$this->fal->fal_turu_name_to_org($fal_data->fal_turu)?></div>
-				        <div class="cevap-card-body">
+					            <div class="row satir">
+					                <div class="col-md-12">
+					                    <textarea class="form-control tbd" disabled="" style="min-height: 200px"><?=$fal_data->fal_cevap?></textarea>
+					                </div>
+					            </div>
 
-				            <div class="row satir">
-				                <div class="col-md-12">
-				                    <textarea class="form-control tbd" disabled="" style="min-height: 200px"><?=$fal_data->fal_cevap?></textarea>
-				                </div>
-				            </div>
+					        </div>
+					    </div>
 
-				        </div>
-				    </div>
-
+					</div>
 				</div>
 
+				<div class="row">
 				<?php
 				    include "falcevap_sablonlari/".$fal_data->fal_turu.".php";
 				?>
+				</div>
 			</div>
 		</div>
 	</div>

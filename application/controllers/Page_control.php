@@ -40,6 +40,9 @@ class Page_control extends CI_Controller {
             case "kayit":
                 $this->kayit();
                 return;
+            case "demo":
+                $this->load->view("front/demo");
+                return;
             case "yorumcular":
                 $this->yorumcular();
                 return;
