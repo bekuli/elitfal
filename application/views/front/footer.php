@@ -14,7 +14,7 @@
             </div>
             <div class="modal-body">
                 <div class="tab-content">
-                	<div class="devam-etmek">Devam Etmek İçin Lütfen Giriş Yapın</div>
+                	<!--<div class="devam-etmek">Devam Etmek İçin Lütfen Giriş Yapın</div>-->
                     <div id="login-form" class="tab-pane fade in active">
                         <form action="" id="login-modal-form">
                             <div class="form-group">
@@ -166,6 +166,20 @@
 				}
 			});
     }
+
+    $(".login-activate").click(function(e)
+    {
+        e.preventDefault();
+        $(".login-register-form").modal();
+        $("#login-form-a").click();
+    });
+
+    $(".reg-activate").click(function(e)
+    {
+        e.preventDefault();
+        $(".login-register-form").modal();
+        $("#registration-form-a").click();
+    });
 </script>
 </body>
 <html>

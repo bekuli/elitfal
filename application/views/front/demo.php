@@ -41,12 +41,12 @@ include "top.php";?>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Fal Türleri <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="#">Katina</a></li>
-                <li><a href="#">Kahve</a></li>
-                <li><a href="#">Tarot</a></li>
-                <li><a href="#">Su</a></li>
-                <li><a href="#">Yıldızname</a></li>
-                <li><a href="#">Rüya</a></li>
+              	<li><a href="#">Kahve Falı</a></li>
+              	<li><a href="#">Tarot Falı</a></li>
+              	<li><a href="#">Yıldızname</a></li>
+              	<li><a href="#">Rüya Yorumu</a></li>
+                <li><a href="#">Katina Aşk Falı</a></li>
+                <li><a href="#">Su Falı</a></li>
                 <li><a href="#">Dert Ortağı</a></li>
               </ul>
             </li>
@@ -66,11 +66,260 @@ include "top.php";?>
 
 	<div class="landing-icerik">
 		
-		<div class="container">
-			<div class="title-1">
-				CANLI FAL SİTESİNE HOŞGELDİNİZ
+			
+			<div class="landing-top">
+				<div class="container">
+					<div class="title-1">
+						CANLI FAL BAKTIRMA SİTESİNE HOŞGELDİNİZ
+					</div>
+				</div>
 			</div>
-		</div>
+			
+			<div class="landing-mid">
+				<div class="container">
+					<div class="row">
+
+						<div class="col-md-6">
+							<div class="landing-title">
+								BU AYIN POPÜLER YORUMCULARI
+							</div>
+						</div>
+
+						<div class="col-md-6">
+							<div class="landing-title">
+								FAL TÜRLERİ
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="landing-bot">
+				<div class="container">
+					<div class="row">
+
+						<div class="col-md-6 landing-yorumcular">
+
+							<div class="col-md-4 landing-box-wrapper">
+								<div class="landing-box">
+									<a href="">
+										<div class="landing-box-img">
+											<img src="<?=base_url()?>uploads/yorumcupp.jpg" class="img-circle">
+										</div>
+										<div class="landing-box-title">
+											KAHVE FALI
+										</div>
+									</a>
+								</div>
+							</div>
+
+							<div class="col-md-4 landing-box-wrapper">
+								<div class="landing-box">
+									<a href="">
+										<div class="landing-box-img">
+											<img src="<?=base_url()?>uploads/yorumcupp.jpg" class="img-circle">
+										</div>
+										<div class="landing-box-title">
+											KAHVE FALI
+										</div>
+									</a>
+								</div>
+							</div>
+
+							<div class="col-md-4 landing-box-wrapper">
+								<div class="landing-box">
+									<a href="">
+										<div class="landing-box-img">
+											<img src="<?=base_url()?>uploads/yorumcupp.jpg" class="img-circle">
+										</div>
+										<div class="landing-box-title">
+											KAHVE FALI
+										</div>
+									</a>
+								</div>
+							</div>
+
+							<div class="col-md-4 landing-box-wrapper">
+								<div class="landing-box">
+									<a href="">
+										<div class="landing-box-img">
+											<img src="<?=base_url()?>uploads/yorumcupp.jpg" class="img-circle">
+										</div>
+										<div class="landing-box-title">
+											KAHVE FALI
+										</div>
+									</a>
+								</div>
+							</div>
+
+							<div class="col-md-4 landing-box-wrapper">
+								<div class="landing-box">
+									<a href="">
+										<div class="landing-box-img">
+											<img src="<?=base_url()?>uploads/yorumcupp.jpg" class="img-circle">
+										</div>
+										<div class="landing-box-title">
+											KAHVE FALI
+										</div>
+									</a>
+								</div>
+							</div>
+
+							<div class="col-md-4 landing-box-wrapper">
+								<div class="landing-box">
+									<a href="">
+										<div class="landing-box-img">
+											<img src="<?=base_url()?>uploads/yorumcupp.jpg" class="img-circle">
+										</div>
+										<div class="landing-box-title">
+											KAHVE FALI
+										</div>
+									</a>
+								</div>
+							</div>
+
+							<div class="col-md-4 landing-box-wrapper">
+								<div class="landing-box">
+									<a href="">
+										<div class="landing-box-img">
+											<img src="<?=base_url()?>uploads/yorumcupp.jpg" class="img-circle">
+										</div>
+										<div class="landing-box-title">
+											KAHVE FALI
+										</div>
+									</a>
+								</div>
+							</div>
+
+							<div class="col-md-4 landing-box-wrapper">
+								<div class="landing-box">
+									<a href="">
+										<div class="landing-box-img">
+											<img src="<?=base_url()?>uploads/yorumcupp.jpg" class="img-circle">
+										</div>
+										<div class="landing-box-title">
+											KAHVE FALI
+										</div>
+									</a>
+								</div>
+							</div>
+
+							<div class="col-md-4 landing-box-wrapper">
+								<div class="landing-box">
+									<a href="">
+										<div class="landing-box-img">
+											<img src="<?=base_url()?>uploads/yorumcupp.jpg" class="img-circle">
+										</div>
+										<div class="landing-box-title">
+											KAHVE FALI
+										</div>
+									</a>
+								</div>
+							</div>
+
+						</div>
+
+						<div class="col-md-6 landing-fal-turleri" >
+
+							<div class="col-md-4 landing-box-wrapper">
+								<div class="landing-box">
+									<a href="">
+										<div class="landing-box-img">
+											<img src="<?=base_url()?>src/img/icon-landing-kahve.png">
+										</div>
+										<div class="landing-box-title">
+											KAHVE FALI
+										</div>
+									</a>
+								</div>
+							</div>
+
+							<div class="col-md-4 landing-box-wrapper">
+								<div class="landing-box">
+									<a href="">
+										<div class="landing-box-img">
+											<img src="<?=base_url()?>src/img/icon-landing-tarot.png">
+										</div>
+										<div class="landing-box-title">
+											TAROT FALI
+										</div>
+									</a>
+								</div>
+							</div>
+
+							<div class="col-md-4 landing-box-wrapper">
+								<div class="landing-box">
+									<a href="">
+										<div class="landing-box-img">
+											<img src="<?=base_url()?>src/img/icon-landing-yildiz.png">
+										</div>
+										<div class="landing-box-title">
+											YILDIZNAME
+										</div>
+									</a>
+								</div>
+							</div>
+
+							<div class="col-md-4 landing-box-wrapper">
+								<div class="landing-box">
+									<a href="">
+										<div class="landing-box-img">
+											<img src="<?=base_url()?>src/img/icon-landing-ruya-yorumu.png">
+										</div>
+										<div class="landing-box-title">
+											RÜYA YORUMU
+										</div>
+									</a>
+								</div>
+							</div>
+
+							<div class="col-md-4 landing-box-wrapper">
+								<div class="landing-box">
+									<a href="">
+										<div class="landing-box-img">
+											<img src="<?=base_url()?>src/img/icon-landing-katina.png">
+										</div>
+										<div class="landing-box-title">
+											KATİNA AŞK FALI
+										</div>
+									</a>
+								</div>
+							</div>
+
+							<div class="col-md-4 landing-box-wrapper">
+								<div class="landing-box">
+									<a href="">
+										<div class="landing-box-img">
+											<img src="<?=base_url()?>src/img/icon-landing-dert.png">
+										</div>
+										<div class="landing-box-title">
+											DERT ORTAĞI
+										</div>
+									</a>
+								</div>
+							</div>
+
+							<div class="col-md-4 landing-box-wrapper">
+								<div class="landing-box">
+									<a href="">
+										<div class="landing-box-img">
+											<img src="<?=base_url()?>src/img/icon-landing-su.png">
+										</div>
+										<div class="landing-box-title">
+											SU FALI
+										</div>
+									</a>
+								</div>
+							</div>
+
+							
+
+						</div>
+
+					</div>
+				</div>
+			</div>
 
 	</div>
 </header>
@@ -78,167 +327,3 @@ asd
 <?php
 include "footer.php";
 ?>
-
-<style>
-
-	.header{
-		position: absolute;
-		width: 100%;
-		z-index: 99
-	}
-	.header .header-top{
-		position: relative;
-		background: rgba(255, 255, 255, 0.1);
-	}
-
-	.header .header-top ul{
-		margin:0px;
-		padding:10px 0px;
-		float:right;
-		height: 100%;
-	}
-
-	.header .header-top ul li{
-		float:left;
-		margin-left:15px;
-	}
-
-	.header .header-top ul li a{
-		color:rgba(255, 255, 255, 0.7);
-		font-weight: normal;
-		font-family: 'montserrat', sans-serif;
-	}
-
-	header .landing-bg{
-		width: 100%;
-		height: 100%;
-		position: absolute;
-		-webkit-transition:40s;
-		transition: 40s;
-		background-size: cover;
-		background-repeat: no-repeat;
-		background-position: center center;
-		background-image : url(<?=base_url()?>src/img/home-landing.jpg);
-		-webkit-animation: zoom 60s linear infinite alternate;
-	    -moz-animation: zoom 60s linear infinite alternate;
-	    -o-animation: zoom 60s linear infinite alternate;
-	}
-
-	@-webkit-keyframes zoom {
-    0% {
-        -webkit-transform: scale(1);
-        transform: scale(1)
-    }
-    50% {
-        -webkit-transform: scale(1.1);
-        transform: scale(1.4)
-    }
-    100% {
-        -webkit-transform: scale(1);
-        transform: scale(1)
-    }
-}
-
-@keyframes zoom {
-    0% {
-        -webkit-transform: scale(1);
-        transform: scale(1)
-    }
-    50% {
-        -webkit-transform: scale(1.1);
-        transform: scale(1.4)
-    }
-    100% {
-        -webkit-transform: scale(1);
-        transform: scale(1)
-    }
-}
-	
-
-
-	.header nav{
-		background:none !important;
-		border:none;
-	}
-
-	.header nav .navbar-nav{
-		float:right;
-		margin-right:-15px;
-
-	}
-
-	.header nav .navbar-nav > li > a{
-		color:#fff;
-		font-weight: normal;
-		font-family: 'montserrat', sans-serif;
-		font-size:18px;
-		border:2px solid transparent;
-	}
-
-	.header nav .navbar-nav > li > a:hover{
-		color:#fff;
-		border:2px solid rgba(255, 255, 255, 0.5) !important;
-		-webkit-transition:0.5s;
-		transition: 0.5s;
-		outline:0;
-	}
-
-	.header nav .navbar-nav > li > a:focus{
-		color:#fff;
-		border:2px solid rgba(255, 255, 255, 0.5) !important;
-	}
-
-	 .header nav .navbar-nav > .open > a{
-	 	color:#fff !important;
-		border:2px solid rgba(255, 255, 255, 0.5) !important;
-	 }
-
-	 .header nav .navbar-nav .dropdown-menu{
-	 	background: rgba(255, 255, 255, 0.1);
-	 }
-
-	 .header nav .navbar-nav .dropdown-menu > li > a{
-	 	color:#fff;
-	 }
-
-	 .header nav .navbar-nav .dropdown-menu > li > a:hover{
-	 	background: rgba(255, 255, 255, 0.5) !important;
-	 	-webkit-transition:0.5s;
-		transition: 0.5s;
-	 }
-
-	.header #navbar{
-		padding:0px;
-		width:100%;
-	}
-
-	.header .navbar-brand{
-		height:auto;
-	}
-
-	.header nav > .container{
-		display: flex;
-		align-items: center;
-	}
-
-	header{
-		position: relative;
-		overflow: hidden;
-	}
-
-	header .landing-icerik{
-		display: flex;
-		height: 100vh;
-		-webkit-box-shadow: inset -1px 0px 71px -12px rgba(0, 0, 0, 0.67);
-    	box-shadow: inset -1px 0px 71px -12px rgba(0, 0, 0, 0.67);
-    	position: relative;
-    	padding-top:200px;
-	}
-
-	header .landing-icerik .title-1{
-		color:#fff;
-		font-family: montserrat, sans-serif;
-		font-size:50px;
-	}
-
-</style>
