@@ -101,6 +101,10 @@ class Page_control extends CI_Controller {
                 $this->kredi_satin_al();
                 return;
                 break;
+            case "mesaj":
+                $this->mesaj_yorumcu();
+                return;
+            break;
             case "profil":
                 if ($this->fal->check_login() == false)
                 {
@@ -125,6 +129,9 @@ class Page_control extends CI_Controller {
                         return;
                     }
                     $this->cevaplanmis_fal($id);
+                    return;
+                }else if ($this->uri->segment(2) == "get-data"){
+                    $this->get_user_data();
                     return;
                 }else{
                     $this->profil();
@@ -862,5 +869,11 @@ class Page_control extends CI_Controller {
         {
             show_404();
         }
+    }
+
+    public function mesaj_yorumcu()
+    {
+        $page_data["page"] = "mesaj_to_yorumcu";
+        $this->load->view("front/index", $page_data);
     }
 }
