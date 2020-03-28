@@ -4,8 +4,26 @@
     <div class="container">
       <div class="user-datas">
         <ul>
-          <li><a class="login-activate" href="#">Giriş</a></li>
-          <li><a class="reg-activate" href="#">Kayıt</a></li>
+          
+          <?php
+              if ($this->fal->check_login() == false) { ?>
+            <li><a class="login-activate" href="#">Giriş</a></li>
+            <li><a class="reg-activate" href="#">Kayıt</a></li>
+          <?php }else{ ?>
+            <li><a href="<?=base_url()?>profil"><span class="badge kredi-badge">Kredi: <?=$user_data->kredi?></span></a></li>
+            <li>
+              <div class="dropdown show">
+                <a class="bildirim dropdown-toggle" id="bildirim" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bell"></i> (2) </a>
+                <div class="dropdown-menu bildirim-list" aria-labelledby="bildirim">
+                  <a class="dropdown-item unread" href="#" >Falınız cevaplandı!</a>
+                  <a class="dropdown-item unread" href="#" >Beyza sana mesaj gönderdi</a>
+                  <a class="dropdown-item" href="#">Falınız cevaplandı!</a>
+                </div>
+              </div>
+            </li>
+            <li><a href="<?=base_url()?>profil"><?=$user_data->name." ".$user_data->surname?></a></li>
+            <li><a href="<?=base_url()?>logout">Çıkış Yap</a></li>
+          <?php } ?>
         </ul>
       </div>
     </div>

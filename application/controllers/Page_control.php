@@ -862,6 +862,17 @@ class Page_control extends CI_Controller {
 
             $page_data["fal_icerik"] = json_decode($query->row()->fal_icerik, true);
 
+            $yorumcu = array("id", "pp", "name");
+            $query1 = $this->db->get_where("yorumcu", array("id" => $query->row()->yorumcu));
+            if ($query1 !== false && $query1->num_rows() > 0)
+            {
+                $yorumcu["id"] = $query1->row()->id;
+                $yorumcu["pp"] = $query1->row()->pp;
+                $yorumcu["name"] = $query1->row()->name;
+                $yorumcu["aciklama"] = $query1->row()->aciklama;
+            }
+            $page_data["fal_data"]->yorumcu = $yorumcu;
+
             $page_data["page"] = "fal_cevap_goruntule";
             $this->load->view("front/index", $page_data);
         }

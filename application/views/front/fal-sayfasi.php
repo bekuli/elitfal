@@ -7,7 +7,7 @@
 				<div class="fal-sayfasi">
 
 					<div class="col-md-3">
-						<div class="profil">
+						<div class="profil-karti-g">
 							<div class="pp">
 								<img class="img-circle" src="<?=base_url()?>uploads/yorumcupp.jpg">
 							</div>

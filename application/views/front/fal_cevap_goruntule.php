@@ -29,6 +29,35 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="col-md-3">
+			<div class="profil-karti-g" style="margin-top:30px">
+				<div class="pp">
+					<img class="img-circle" src="<?=base_url()?>uploads/yorumcupp.jpg">
+				</div>
+
+				<div class="isim">
+					<?=$fal_data->yorumcu["name"]?>
+				</div>
+
+				<div class="online-status">
+                	<span class="badge active">Çevrimiçi</span>
+                </div>
+
+				<div class="review-stars">
+                    <i class="active fa fa-star"></i>
+                    <i class="active fa fa-star"></i>
+                    <i class="active fa fa-star"></i>
+                    <i class="active fa fa-star"></i>
+                    <i class=" fa fa-star"></i>
+                    <span class="comment-count">(51)</span>
+                </div>
+
+                <div class="mesaj-gonder-btn">
+                	<a href="<?=base_url()?>mesaj">Mesaj Gönder</a>
+                </div>
+            </div>
+        </div>
 	</div>
 </div>
 

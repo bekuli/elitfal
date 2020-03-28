@@ -5,7 +5,7 @@
 		<div class="row">
 			<div class="col-lg-3 profil-wrapper">
 
-				<div class="profil">
+				<div class="profil-karti-g">
 					<div class="pp">
 						<img class="img-circle" src="<?=base_url()?>uploads/yorumcupp.jpg">
 					</div>

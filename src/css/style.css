@@ -94,6 +94,45 @@ nav li a.buton-red:focus{
 	color:rgba(255, 255, 255, 0.7);
 	font-weight: normal;
 	font-family: 'montserrat', sans-serif;
+	text-decoration: none
+}
+
+.header .header-top ul li a.bildirim{
+	font-family: sans-serif;
+}
+
+.header .header-top ul li .bildirim-list{
+	padding:0px;
+}
+
+
+
+.header .header-top ul li .bildirim-list a{
+	display: block;
+	color:#ababab;
+	padding: 5px;
+	border-bottom: 1px solid #ececec;
+}
+
+.header .header-top ul li .bildirim-list a:hover{
+	text-decoration: underline;
+}
+
+.header .header-top ul li .bildirim-list a.unread{
+	color:#333;
+	background: #f1f8ff;
+	font-weight: bold;
+}
+
+.header .header-top ul li .bildirim-list a:last-child{
+	border-bottom: 0px;
+}
+
+.header .header-top ul li a .kredi-badge{
+	background: #fff;
+	color:#b50000;
+	font-size:14px;
+	padding:2px 7px;
 }
 
 .header-normal .header-top ul li a{
@@ -442,20 +481,20 @@ header .landing-icerik .landing-bot .landing-yorumcular .landing-box .landing-bo
 	margin-bottom: 30px;
 }
 
-.yorumcu-sayfa .profil{
+.profil-karti-g{
 	background: #fff;
 	border-radius: 5px;
 }
 
-.yorumcu-sayfa .profil .pp, .fal-sayfasi .pp{
+.profil-karti-g .pp, .fal-sayfasi .pp{
 	padding:15px 60px;
 }
 
-.yorumcu-sayfa .profil .pp img, .fal-sayfasi .pp img{
+.profil-karti-g .pp img, .fal-sayfasi .pp img{
 	width: 100%
 }
 
-.yorumcu-sayfa .profil .isim, .fal-sayfasi .isim{
+.profil-karti-g .isim, .fal-sayfasi .isim{
 	font-weight: bold;
 	width: 100%;
 	text-align: center;
@@ -463,72 +502,91 @@ header .landing-icerik .landing-bot .landing-yorumcular .landing-box .landing-bo
 	font-size:18px;
 }
 
-.yorumcu-sayfa .profil .hakkinda-kisa, .fal-sayfasi .hakkinda-kisa{
+.profil-karti-g .hakkinda-kisa, .fal-sayfasi .hakkinda-kisa{
 	text-align: center;
 	padding:15px;
 }
 
-.yorumcu-sayfa .profil .review-stars i.active, .fal-sayfasi .review-stars i.active{
+.profil-karti-g .review-stars i.active, .fal-sayfasi .review-stars i.active{
 	color:orange;
 }
 
-.yorumcu-sayfa .profil .review-stars, .fal-sayfasi .review-stars{
+.profil-karti-g .review-stars, .fal-sayfasi .review-stars{
 	padding-top:15px;
 	text-align: center;
 }
 
-.yorumcu-sayfa .profil .online-status, .fal-sayfasi .online-status{
+.profil-karti-g .online-status, .fal-sayfasi .online-status{
 	text-align: center;
 	padding-top:15px;
 }
 
-.yorumcu-sayfa .profil .online-status .badge.active, .fal-sayfasi .online-status .badge.active{
+.profil-karti-g .online-status .badge.active, .fal-sayfasi .online-status .badge.active{
 	background: #3fae6b;
 }
 
-.yorumcu-sayfa .profil .online-status .badge.deactive, .fal-sayfasi .online-status .badge.deactive{
+.profil-karti-g .online-status .badge.deactive, .fal-sayfasi .online-status .badge.deactive{
 	background: red;
 }
 
-.yorumcu-sayfa .profil .fal-listesi ul{
+.profil-karti-g .fal-listesi ul{
 	list-style: none;
 	padding:0px;
 }
 
-.yorumcu-sayfa .profil .fal-listesi ul li
+.profil-karti-g .fal-listesi ul li
 {
 	border-bottom: 1px solid #ececec;
 	padding:10px 0px;
 }
 
-.yorumcu-sayfa .profil .fal-listesi ul li:last{
+.profil-karti-g .fal-listesi ul li:last{
 	border:0px;
 }
 
-.yorumcu-sayfa .profil .fal-listesi ul li .fal-li
+.profil-karti-g .fal-listesi ul li .fal-li
 {
 	padding:0px 20px;
 }
 
-.yorumcu-sayfa .profil .fal-listesi ul li .fal-li .fal-li-resim
+.profil-karti-g .fal-listesi ul li .fal-li .fal-li-resim
 {
 	width: 48px;
 	height: 48px;
 	display: inline-block;
 }
 
-.yorumcu-sayfa .profil .fal-listesi ul li .fal-li .fal-li-resim img
+.profil-karti-g .fal-listesi ul li .fal-li .fal-li-resim img
 {
 	width: 100%;
 }
 
-.yorumcu-sayfa .profil .fal-listesi ul li .fal-li .fal-li-isim
+.profil-karti-g .fal-listesi ul li .fal-li .fal-li-isim
 {
 	display: inline-block;
 	font-family: montserrat, sans-serif;
 	font-weight: bold;
 	padding-left:10px;
 
+}
+
+.profil-karti-g .mesaj-gonder-btn{
+    text-align: center;
+    padding: 15px 0px;
+}
+
+.profil-karti-g .mesaj-gonder-btn a{
+    color: #fff;
+    background: #757575;
+    padding: 5px;
+    border-radius: 5px;
+    font-family: montserrat;
+    color: #fff;
+    text-decoration: none;
+}
+
+.profil-karti-g .mesaj-gonder-btn a:hover{
+	background: #333;
 }
 
 .yorumcu-sayfa .profil-sag-wrapper{
@@ -1210,6 +1268,132 @@ header .landing-icerik .landing-bot .landing-yorumcular .landing-box .landing-bo
 
 }
 
+
+.messaging  .inbox_msg {
+  border: 1px solid #c4c4c4;
+  clear: both;
+  overflow: hidden;
+  }
+
+.messaging   .container {
+    max-width: 1170px;
+    margin-top: auto; 
+  }
+
+.messaging .gelen_msg{
+	overflow: hidden;
+	margin: 26px 50px 26px 0px;
+}
+
+.messaging   .alinan_msg {
+  display: inline-block;
+  padding: 0 0px 0 20px
+ }
+
+.messaging  .alinan_withd_msg p {
+  background: #ebebeb none repeat scroll 0 0;
+  border-radius: 3px;
+  color: #646464;
+  font-size: 14px;
+  margin: 0;
+  padding: 5px 10px 5px 12px;
+  width: 100%;
+ }
+
+.messaging  .time_date {
+  color: #747474;
+  display: block;
+  font-size: 12px;
+  margin: 8px 0 0;
+}
+
+.messaging .yollanan_msg p {
+  background: #05728f none repeat scroll 0 0;
+  border-radius: 3px;
+  font-size: 14px;
+  margin: 0; color:#fff;
+  padding: 5px 10px 5px 12px;
+  width:100%;
+}
+
+.messaging .giden_msg {
+  overflow: hidden;
+  margin: 26px 0px 26px 50px;
+}
+
+.messaging .yollanan_msg {
+  float: right;
+  padding:0px 20px 0px 0px;
+}
+
+.messaging .input_msg_write input {
+  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+  border: medium none;
+  color: #4c4c4c;
+  font-size: 15px;
+  min-height: 48px;
+  width: 100%;
+  padding:20px;
+}
+
+.messaging .type_msg {
+  border-top: 1px solid #c4c4c4;
+  position: relative;
+}
+
+.messaging .msg_send_btn {
+  background: #05728f none repeat scroll 0 0;
+  border: medium none;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  font-size: 17px;
+  height: 33px;
+  position: absolute;
+  right: 0;
+  top: 15px;
+  width: 33px;
+  margin-right:20px;
+}
+
+.messaging{
+  background: #fff;
+}
+
+.messaging .msg_history {
+  height: 516px;
+  overflow-y: auto;
+}
+
+.msg-baslik{
+	padding:20px 0px;
+}
+
+.msg-baslik .msg-user-wrapper{
+	display: flex;
+	align-items: center;
+}
+
+.msg-baslik .msg-pp{
+	width: 50px;
+	float:left;
+}
+
+.msg-baslik .msg-pp img{
+	width: 100%;
+	border:2px solid #fff;
+}
+
+.msg-baslik .msg-title{
+	font-size:18px;
+	font-family: montserrat;
+	font-weight: bold;
+}
+
+.msg-baslik .msg-name{
+	float:left;
+	margin-left:10px;
+}
 
 @media (max-width:992px){
 	.fal-sayfasi .icerik .multi-input .marbotr{
