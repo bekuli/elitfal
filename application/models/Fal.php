@@ -10,17 +10,17 @@ class Fal extends CI_Model
 
     function set_setting($name, $value)
     {
-            $this->db->where("ayaradi", $name);
-            return $this->db->update("ayarlar", array("ayardeger" => $value));
+        $this->db->where("ayaradi", $name);
+        return $this->db->update("ayarlar", array("ayardeger" => $value));
     }
 
     function get_setting($name)
     {
-            $setting_query = $this->db->get_where('ayarlar', array('ayaradi' => $name));
-            if($setting_query !== false && $setting_query->num_rows() > 0)
-                    return $setting_query->row()->ayardeger;
+        $setting_query = $this->db->get_where('ayarlar', array('ayaradi' => $name));
+        if($setting_query !== false && $setting_query->num_rows() > 0)
+                return $setting_query->row()->ayardeger;
 
-            return false;
+        return false;
     }
     
     function check_admin_login()
@@ -359,4 +359,279 @@ class Fal extends CI_Model
 
         return $file_ary;
     }
+
+    function check_any_fal_with_yorumcu($id)
+    {
+        $user_id = $this->session->userdata("id");
+        $where = "yorumcu='$id' AND user_id='$user_id' AND status = 0 OR status = 1";
+        $query = $this->db->where($where)->get("fal_istekleri");
+        if ($query !== false && $query->num_rows() > 0)
+            return true;
+        else
+            return false;
+    }
+
+    function check_any_fal_exists_yorumcu()
+    {
+        $user_id = $this->session->userdata("id");
+        $where = "yorumcu='$user_id' AND status = 0";
+        $query = $this->db->where($where)->get("fal_istekleri");
+        if ($query !== false && $query->num_rows() > 0)
+            return true;
+        else
+            return false;
+    }
+
+    function check_any_fal_exists()
+    {
+        $user_id = $this->session->userdata("id");
+        $where = "user_id='$user_id' AND status = 0 OR status = 1";
+        $query = $this->db->where($where)->get("fal_istekleri");
+        if ($query !== false && $query->num_rows() > 0)
+            return true;
+        else
+            return false;
+    }
+
+    function check_message_session($user, $yorumcu)
+    {
+        $query = $this->db->get_where("message_sessions", array("user" => $user, "yorumcu" => $yorumcu));
+        if ($query !== false && $query->num_rows() > 0)
+            return true;
+        else
+            return false;
+    }
+
+    function create_message_session($user, $yorumcu)
+    {
+        $data = array(
+            "yorumcu" => $yorumcu,
+            "user" => $user
+        );
+
+        $this->db->insert("message_sessions", $data);
+        if ($this->db->affected_rows() > 0)
+            return $this->db->insert_id();
+        else
+            return false;
+    }
+
+    function get_message_session($user, $yorumcu)
+    {
+        $query = $this->db->get_where("message_sessions", array("user" => $user, "yorumcu" => $yorumcu));
+        if ($query !== false && $query->num_rows() > 0)
+            return $query->row();
+        else
+            return false;
+    }
+
+    function send_message_from_yorumcu($user, $yorumcu, $msg, $session_id)
+    {
+        $data = array(
+            "from_who" => "yorumcu",
+            "sender_id" => $yorumcu,
+            "receiver_id" => $user,
+            "date_send" => date("Y-m-d H:i:s"),
+            "session_id" => $session_id,
+            "is_read" => "false",
+            "message" => $msg,
+        );
+
+        $this->db->insert("messages", $data);
+        if ($this->db->affected_rows() == 0)
+            return "error";
+
+        $this->db->where("id", $session_id)->update("message_sessions", array("notify_user" => "true"));
+        return true;
+    }
+
+    function send_message_from_user($user, $yorumcu, $msg, $session_id)
+    {
+        $data = array(
+            "from_who" => "user",
+            "sender_id" => $user,
+            "receiver_id" => $yorumcu,
+            "date_send" => date("Y-m-d H:i:s"),
+            "session_id" => $session_id,
+            "is_read" => "false",
+            "message" => $msg,
+        );
+
+        $this->db->insert("messages", $data);
+        if ($this->db->affected_rows() == 0)
+            return "error";
+
+        $this->db->where("id", $session_id)->update("message_sessions", array("notify_yorumcu" => "true"));
+        return true;
+    }
+
+    function get_messages_yorumcu($user, $yorumcu, $session_id)
+    {
+        $query = $this->db->order_by("date_send")->get_where("messages", 
+            array(
+                "session_id" => $session_id,
+            )
+        );
+
+        if ($query !== false && $query->num_rows() > 0)
+        {
+            $msgs = $query->result_array();
+
+            foreach ($msgs as $row)
+            {
+                if ($row["is_read"] == "false" && $row["from_who"] == "user")
+                    $this->db->where("id", $row["id"])->update("messages", array("is_read" => "true"));
+            }
+
+            $this->db->where("id", $session_id)->update("message_sessions", array("notify_yorumcu" => "false"));
+
+            return $msgs;
+        }else{
+            return false;
+        }
+    }
+
+    function get_messages_user($user, $yorumcu, $session_id)
+    {
+        $query = $this->db->order_by("date_send")->get_where("messages", 
+            array(
+                "session_id" => $session_id,
+            )
+        );
+
+        if ($query !== false && $query->num_rows() > 0)
+        {
+            $msgs = $query->result_array();
+
+            foreach ($msgs as $row)
+            {
+                if ($row["is_read"] == "false" && $row["from_who"] == "yorumcu")
+                    $this->db->where("id", $row["id"])->update("messages", array("is_read" => "true"));
+            }
+
+            $this->db->where("id", $session_id)->update("message_sessions", array("notify_user" => "false"));
+
+            return $msgs;
+        }else{
+            return false;
+        }
+    }
+
+    function get_new_messages_user($user, $yorumcu, $session_id, $update = true)
+    {
+        $query = $this->db->get_where("messages", 
+            array(
+                "session_id" => $session_id,
+                "receiver_id" => $user,
+                "sender_id" => $yorumcu,
+                "from_who" => "yorumcu",
+                "is_read" => "false"
+            )
+        );
+
+        if ($query !== false && $query->num_rows() > 0)
+        {
+            $msgs = $query->result_array();
+
+            if ($update == true){
+                foreach ($msgs as $row)
+                {
+                    if ($row["is_read"] == "false")
+                        $this->db->where("id", $row["id"])->update("messages", array("is_read" => "true"));
+                }
+                $this->db->where("id", $session_id)->update("message_sessions", array("notify_user" => "false"));
+            }
+
+            return $msgs;
+        }else{
+            return false;
+        }
+    }
+
+    function get_new_messages_yorumcu($user, $yorumcu, $session_id, $update = true)
+    {
+        $query = $this->db->get_where("messages", 
+            array(
+                "session_id" => $session_id,
+                "receiver_id" => $yorumcu,
+                "sender_id" => $user,
+                "from_who" => "user",
+                "is_read" => "false"
+            )
+        );
+
+        if ($query !== false && $query->num_rows() > 0)
+        {
+            $msgs = $query->result_array();
+
+            if ($update == true){
+                foreach ($msgs as $row)
+                {
+                    if ($row["is_read"] == "false")
+                        $this->db->where("id", $row["id"])->update("messages", array("is_read" => "true"));
+                }
+                $this->db->where("id", $session_id)->update("message_sessions", array("notify_yorumcu" => "false"));
+            }
+
+            return $msgs;
+        }else{
+            return false;
+        }
+    }
+
+    function check_any_message_available_user()
+    {
+        $query = $this->db->get_where("message_sessions", array("user" => $this->session->userdata("id"), "notify_user" => "true"));
+        if ($query !== false && $query->num_rows() > 0)
+        {
+            return $query->result_array();
+        }
+
+        return false;
+    }
+
+    function check_any_message_available_yorumcu()
+    {
+        $query = $this->db->get_where("message_sessions", array("yorumcu" => $this->session->userdata("id"), "notify_yorumcu" => "true"));
+        if ($query !== false && $query->num_rows() > 0)
+        {
+            return $query->result_array();
+        }
+
+        return false;
+    }
+
+    function check_fal_istekleri_status_1_unseen()
+    {
+        $query = $this->db->get_where("fal_istekleri", array("status" => "1", "seen" => "false", "user_id" => $this->session->userdata("id")));
+        if ($query !== false && $query->num_rows() > 0)
+        {
+            return $query->result_array();
+        }
+
+        return false;
+    }
+
+    function check_fal_istekleri_status_0_unanswered()
+    {
+        $query = $this->db->get_where("fal_istekleri", array("status" => "0", "seen" => "false", "yorumcu" => $this->session->userdata("id")));
+        if ($query !== false && $query->num_rows() > 0)
+        {
+            return $query->result_array();
+        }
+
+        return false;
+    }
+
+    function get_message_sessions($yorumcu)
+    {
+        $query = $this->db->get_where("message_sessions", array("yorumcu" => $yorumcu));
+        if ($query !== false && $query->num_rows() > 0)
+        {
+            return $query->result_array();
+        }
+
+        return array();
+    }
+
 }

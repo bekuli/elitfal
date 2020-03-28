@@ -463,3 +463,155 @@ margin-top:30px;
 .modal-backdrop{
   background: rgba(0, 0, 0, 0.5) !important;
 }
+
+.mesajlar{
+
+}
+
+
+.messaging  .inbox_msg {
+  border: 1px solid #c4c4c4;
+  clear: both;
+  overflow: hidden;
+  }
+
+.messaging   .container {
+    max-width: 1170px;
+    margin-top: auto; 
+  }
+
+.messaging .gelen_msg{
+  overflow: hidden;
+  margin: 26px 50px 26px 0px;
+}
+
+.messaging   .alinan_msg {
+  display: inline-block;
+  padding: 0 0px 0 20px
+ }
+
+.messaging  .alinan_msg p {
+  background: #ebebeb none repeat scroll 0 0;
+  border-radius: 3px;
+  color: #646464;
+  font-size: 14px;
+  margin: 0;
+  padding: 5px 10px 5px 12px;
+  width: 100%;
+ }
+
+.messaging  .time_date {
+  color: #747474;
+  display: block;
+  font-size: 12px;
+  margin: 8px 0 0;
+}
+
+.messaging .yollanan_msg p {
+  background: #05728f none repeat scroll 0 0;
+  border-radius: 3px;
+  font-size: 14px;
+  margin: 0; color:#fff;
+  padding: 5px 10px 5px 12px;
+  width:100%;
+}
+
+.messaging .giden_msg {
+  overflow: hidden;
+  margin: 26px 0px 26px 50px;
+}
+
+.messaging .yollanan_msg {
+  float: right;
+  padding:0px 20px 0px 0px;
+}
+
+.messaging .input_msg_write input {
+  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+  border: medium none;
+  color: #4c4c4c;
+  font-size: 15px;
+  min-height: 48px;
+  width: 100%;
+  padding:20px;
+  outline: 0;
+}
+
+.messaging .type_msg {
+  border-top: 1px solid #c4c4c4;
+  position: relative;
+}
+
+.messaging .msg_send_btn {
+  background: #05728f none repeat scroll 0 0;
+  border: medium none;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  font-size: 17px;
+  height: 33px;
+  position: absolute;
+  right: 0;
+  top: 15px;
+  width: 33px;
+  margin-right:20px;
+}
+
+.messaging{
+  background: #fff;
+}
+
+.messaging .msg_history {
+  height: 516px;
+  overflow-y: auto;
+}
+
+.msg-baslik{
+  padding:20px 0px;
+}
+
+.msg-baslik .msg-title{
+  font-size:18px;
+  font-family: montserrat;
+  font-weight: bold;
+  display: block;
+  height:27px;
+}
+
+.mesajlar .msg-list{
+  height:649px;
+  border:1px solid #c4c4c4;
+  background: #fff
+}
+
+.mesajlar .msg-list ul{
+  list-style: none;
+  padding: 0px;
+  margin:0px;
+}
+
+.mesajlar .msg-list ul li{
+  position: relative;
+}
+
+.mesajlar .msg-list ul li i{
+    color: #007bff;
+    position: absolute;
+    right: 0;
+    top: 17px;
+    right: 17px;
+    font-size: 13px;
+}
+
+.mesajlar .msg-list ul li a{
+  display: block;
+  padding: 10px 0px 10px 30px;
+  background: #ffffff;
+  color: #333;
+  border-bottom: 1px solid #c4c4c4;
+  text-decoration: none;
+}
+
+.mesajlar .msg-list ul li a:hover{
+  background: #ececec;
+}

@@ -22,8 +22,8 @@
 		  </a>
 	  </li>
     	<li class="nav-item">
-    	  <a class="nav-link <?php if ($page_name == "settings"){?>active<?php } ?>" data-title="" href="<?= base_url()?>admin/kredi">
-    		<i class="fas fa-cog"></i>
+    	  <a class="nav-link <?php if ($page_name == "mesajlar"){?>active<?php } ?>" data-title="" href="<?= base_url()?>yorumcu/mesajlar">
+    		<i class="fas fa-comments"></i>
     		Mesajlar
     	  </a>
     	</li>

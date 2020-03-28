@@ -102,7 +102,52 @@ class Page_control extends CI_Controller {
                 return;
                 break;
             case "mesaj":
-                $this->mesaj_yorumcu();
+                if ($this->fal->check_login() == false)
+                {
+                    show_404();
+                    return;
+                }
+
+                if($this->fal->empty($this->uri->segment(2)))
+                {
+                    show_404();
+                    return;
+                }
+
+                $check = $this->fal->check_any_fal_with_yorumcu($this->uri->segment(2));
+                if ($check == false)
+                {
+                    show_404();
+                    return;
+                }
+
+                if ($this->uri->segment(3) == "gonder")
+                {
+                    $this->mesaj_gonder($this->uri->segment(2));
+                    return;
+                }else
+                    $this->mesaj_yorumcu($this->uri->segment(2));
+                return;
+            break;
+            case "mesaj-check":
+                if ($this->fal->check_login() == false)
+                {
+                    show_404();
+                    return;
+                }
+                $id = false;
+                if ($this->fal->empty($this->uri->segment(2)) == false)
+                    $id = $this->uri->segment(2);
+                $this->mesaj_check($id);
+                return;
+            break;
+            case "fal-istek-check":
+                if ($this->fal->check_login() == false)
+                {
+                    show_404();
+                    return;
+                }
+                $this->fal_istek_check();
                 return;
             break;
             case "profil":
@@ -858,6 +903,7 @@ class Page_control extends CI_Controller {
         $query = $this->db->get_where("fal_istekleri", array("id" => $id, "status" => 1));
         if ($query !== false && $query->num_rows() > 0)
         {
+            $this->db->where("id", $query->id)->update("fal_istekleri", array("seen" => "true"));
             $page_data["fal_data"] = $query->row();
 
             $page_data["fal_icerik"] = json_decode($query->row()->fal_icerik, true);
@@ -882,9 +928,146 @@ class Page_control extends CI_Controller {
         }
     }
 
-    public function mesaj_yorumcu()
+    public function mesaj_yorumcu($yorumcu_id)
     {
+        $session_check = $this->fal->check_message_session($this->session->userdata("id"), $yorumcu_id);
+
+        $messages = array();
+
+        if ($session_check == true)
+        {
+            $session = $this->fal->get_message_session($this->session->userdata("id"), $yorumcu_id);
+            if ($session == false)
+            {
+                echo "error";
+                return;
+            }
+
+            $msgs = $this->fal->get_messages_user($this->session->userdata("id"), $yorumcu_id, $session->id);
+            if ($msgs !== false)
+                $messages = $msgs;
+        }
+
+        $query = $this->db->get_where("yorumcu", array("id" => $yorumcu_id));
+        if ($query !== false && $query->num_rows() > 0)
+        {
+            $page_data["yorumcu"] = $query->row();
+        }else{
+            show_404();
+            return;
+        }
+
+        $page_data["messages"] = $messages;
         $page_data["page"] = "mesaj_to_yorumcu";
         $this->load->view("front/index", $page_data);
+    }
+
+    public function mesaj_gonder($yorumcu_id)
+    {
+        $msg = trim($this->input->post("message"));
+        if ($this->fal->empty($msg))
+        {
+            echo "none";
+            return;
+        }
+
+        $session_check = $this->fal->check_message_session($this->session->userdata("id"), $yorumcu_id);
+
+        if ($session_check == false)
+        {
+            $session = $this->fal->create_message_session($this->session->userdata("id"), $yorumcu_id);
+            if ($session == false)
+            {
+                echo "error";
+                return;
+            }
+        }
+
+        $session = $this->fal->get_message_session($this->session->userdata("id"), $yorumcu_id);
+        if ($session == false)
+        {
+            echo "error";
+            return;
+        }
+
+        $send = $this->fal->send_message_from_user($this->session->userdata("id"), $yorumcu_id, $msg, $session->id);
+        if ($session == false)
+        {
+            echo "error";
+            return;
+        }else{
+            echo "success";
+        }
+    }
+
+    public function mesaj_check($id = false)
+    {
+        $session = $this->fal->check_any_message_available_user();
+        if ($session == false)
+        {
+            echo "false";
+            return;
+        }
+
+        $return_data = array();
+
+        foreach ($session as $row)
+        {
+            $query = $this->db->get_where("yorumcu", array("id" => $row["yorumcu"]));
+            if ($query !== false && $query->num_rows() > 0)
+            {
+                $data = array(
+                    "name" => $query->row()->name, 
+                    "id" => $query->row()->id
+                );
+
+                if ($id == $query->row()->id)
+                {
+                    $msgs = $this->fal->get_new_messages_user($this->session->userdata("id"), $row["yorumcu"], $row["id"]);
+                    if ($msgs !== false){
+                        $data["messages"] = $msgs;
+                        $data["message_list"] = "true";
+                    }
+                    else{
+                        $data["messages"] = "false";
+                        $data["message_list"] = "false";
+                    }
+                }
+
+                array_push($return_data, $data);
+            }
+        }
+
+        echo json_encode($return_data);
+    }
+
+    public function fal_istek_check()
+    {
+        $falcheck = $this->fal->check_any_fal_exists();
+        if ($falcheck == false)
+        {
+            show_404();
+            return;
+        }
+
+        $fals = $this->fal->check_fal_istekleri_status_1_unseen();
+        if ($fals == false)
+        {
+            echo "false";
+            return;
+        }
+
+        $return_data = array();
+
+        foreach ($fals as $row)
+        {
+            $data = array(
+                "name" => $this->fal->fal_turu_name_to_org($row["fal_turu"]),
+                "id" => $row["id"]
+            );
+            array_push($return_data, $data);
+        }
+         
+         echo json_encode($return_data);
     }
 }

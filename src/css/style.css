@@ -1290,7 +1290,7 @@ header .landing-icerik .landing-bot .landing-yorumcular .landing-box .landing-bo
   padding: 0 0px 0 20px
  }
 
-.messaging  .alinan_withd_msg p {
+.messaging  .alinan_msg p {
   background: #ebebeb none repeat scroll 0 0;
   border-radius: 3px;
   color: #646464;
@@ -1334,6 +1334,7 @@ header .landing-icerik .landing-bot .landing-yorumcular .landing-box .landing-bo
   min-height: 48px;
   width: 100%;
   padding:20px;
+  outline: 0;
 }
 
 .messaging .type_msg {
@@ -1393,6 +1394,14 @@ header .landing-icerik .landing-bot .landing-yorumcular .landing-box .landing-bo
 .msg-baslik .msg-name{
 	float:left;
 	margin-left:10px;
+}
+
+footer{
+	margin-top:30px;
+	background: #fff;
+	display:flex;
+	align-items: center;
+	height: 150px
 }
 
 .icerik-footer {

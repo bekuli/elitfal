@@ -36,6 +36,7 @@
     
     $(document).ready(function () {
 
+        $(".urltable-content").html(loading_set_np);
         $(".urltable-content").load("<?=base_url()?>yorumcu/falistekleri_list");
 
         $(".urltable-content").on("click", "a[data-action]", function(e){

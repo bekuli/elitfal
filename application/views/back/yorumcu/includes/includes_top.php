@@ -25,9 +25,12 @@
         var gchart = null;
         var gmap = null;
         var currentPathname = location.pathname;
+        var base_url = "<?=base_url()?>";
+        var cur_url = location.href;
         
         function set_page(url)
         {
+            cur_url = url;
             $("#page-content").html(loading_set);
             $("#page-content").load(url+"?pure&title");
 

@@ -215,6 +215,116 @@
         $(".login-register-form").modal();
         $("#registration-form-a").click();
     });
+    <?php
+        if ($this->fal->check_any_fal_exists() == true){
+    ?>
+    var noties = [];
+    var notify_count = 0;
+
+    function update_notification()
+    {
+        //fal istekleri
+        $.ajax({
+            url : base_url + "fal-istek-check",
+            contentType : false,
+            success : function(result) {
+                if (result != "false")
+                {
+                    var faldata = JSON.parse(result);
+                    
+                    for (var i = 0; i < faldata.length; i++)
+                    {
+                        if (noties.includes("fal_"+faldata[i].id) == false)
+                        {
+                            $(".bildirim-list").append('<a class="dropdown-item unread" href="'
+                                +base_url+'profil/cevap/'+faldata[i].id+'" >'
+                                +faldata[i].name
+                                + ' cevaplandı!</a>');
+
+                            notify_count++;
+                            $("#notfycount").html("("+notify_count+")");
+
+                            noties.push("fal_"+faldata[i].id);
+                        }
+                    }
+                }
+            },
+            error : function(r){
+                
+            }
+        });
+
+        //messaging
+        $.ajax({
+            url : base_url + "mesaj-check<?php if ($page == "mesaj_to_yorumcu"){ echo'/'.$yorumcu->id; }?>",
+            contentType : false,
+            success : function(result) {
+                if (result != "false")
+                {
+                    var msgdata = JSON.parse(result);
+
+                    for (var i = 0; i < msgdata.length; i++)
+                    {
+                        var no_notify = false;
+                        <?php
+
+                        if ($page == "mesaj_to_yorumcu")
+                        {
+                            ?>
+
+                            if (msgdata[i].message_list == "true")
+                            {
+                                for (var j = 0; j < msgdata[i].messages.length; j++)
+                                {
+                                    var msg = msgdata[i].messages[j];
+
+                                    $(".msg_history").append('<div class="gelen_msg">'
+                                      +'<div class="alinan_msg">'
+                                        +'<p>'+msg.message+'</p>'
+                                        +'<span class="time_date">'+msg.date_send+'</span>'
+                                      +'</div>'
+                                    +'</div>');
+
+                                }
+                                no_notify = true;
+                                var messageBody = $('.msg_history')[0];
+                                messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+                            }
+
+                            <?php
+                        }
+
+                        ?>
+
+                        if (noties.includes("msg_"+msgdata[i].id) == false)
+                        {
+                            if (no_notify == false){
+                                $(".bildirim-list").append('<a class="dropdown-item unread" href="'
+                                    +base_url+'mesaj/'+msgdata[i].id+'" >'
+                                    +msgdata[i].name
+                                    + ' sana mesaj gönderdi</a>');
+
+                                notify_count++;
+                                $("#notfycount").html("("+notify_count+")");
+
+                                noties.push("msg_"+msgdata[i].id);
+                            }
+                        }
+                    }
+                }
+            },
+            error : function(){
+                
+            }
+        });
+    }
+update_notification();
+setInterval(function(){
+ update_notification();;
+}, 5000);
+
+<?php } ?>
+
 </script>
 </body>
 <html>

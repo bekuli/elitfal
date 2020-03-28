@@ -238,6 +238,157 @@ class Yorumcu extends CI_Controller {
         }
     }
 
+    public function mesajlar()
+    {
+        $msgsessions = $this->fal->get_message_sessions($this->profil->id);
+        foreach ($msgsessions as $key => $row) {
+            $query = $this->db->get_where("users", array("id" => $row["user"]));
+            if ($query !== false && $query->num_rows() > 0){
+                $msgsessions[$key]["user"] = $query->row();
+            }
+        }
+        $data["message_sessions"] = $msgsessions;
+
+        $data["profil"] = $this->profil;
+        $data["page_name"] = "mesajlar";
+        $data["page_title"] = "Mesajlar";
+        if (isset($_GET["pure"])){
+            $this->load->view("back/yorumcu/".$data["page_name"], $data);
+            $this->fal->set_title_pure($data["page_title"], true);
+        }
+        else
+            $this->load->view("back/yorumcu/index", $data);
+    }
+
+    public function get_messages($user)
+    {
+        $session_check = $this->fal->check_message_session($user, $this->session->userdata("id"));
+        if ($session_check == false)
+        {
+            echo "error";
+            return;
+        }
+
+        $session = $this->fal->get_message_session($user, $this->session->userdata("id"));
+        if ($session == false)
+        {
+            echo "error";
+            return;
+        }
+
+        $messages = array();
+
+        $msgs = $this->fal->get_messages_yorumcu($user, $this->session->userdata("id"), $session->id);
+        if ($msgs !== false)
+            $messages = $msgs;
+
+        echo json_encode($messages);
+    }
+
+    public function send_message($user)
+    {
+        $msg = trim($this->input->post("message"));
+        if ($this->fal->empty($msg))
+        {
+            echo "none";
+            return;
+        }
+
+        $session_check = $this->fal->check_message_session($user, $this->session->userdata("id"));
+        if ($session_check == false)
+        {
+            echo "error";
+            return;
+        }
+
+        $session = $this->fal->get_message_session($user, $this->session->userdata("id"));
+        if ($session == false)
+        {
+            echo "error";
+            return;
+        }
+
+        $send = $this->fal->send_message_from_yorumcu($user, $this->session->userdata("id"), $msg, $session->id);
+        if ($session == false)
+        {
+            echo "error";
+            return;
+        }else{
+            echo "success";
+        }
+    }
+
+    public function fal_istek_check()
+    {
+        $falcheck = $this->fal->check_any_fal_exists_yorumcu();
+        if ($falcheck == false)
+        {
+            show_404();
+            return;
+        }
+
+        $fals = $this->fal->check_fal_istekleri_status_0_unanswered();
+        if ($fals == false)
+        {
+            echo "false";
+            return;
+        }
+
+        $return_data = array();
+
+        foreach ($fals as $row)
+        {
+            $data = array(
+                "name" => $this->fal->fal_turu_name_to_org($row["fal_turu"]),
+                "id" => $row["id"]
+            );
+            array_push($return_data, $data);
+        }
+         
+         echo json_encode($return_data);
+    }
+
+    public function mesaj_check($id = false)
+    {
+        $session = $this->fal->check_any_message_available_yorumcu();
+        if ($session == false)
+        {
+            echo "false";
+            return;
+        }
+
+        $return_data = array();
+
+        foreach ($session as $row)
+        {
+            $query = $this->db->get_where("users", array("id" => $row["user"]));
+            if ($query !== false && $query->num_rows() > 0)
+            {
+                $data = array(
+                    "name" => $query->row()->name." ".$query->row()->surname, 
+                    "id" => $query->row()->id
+                );
+
+                if ($id == $query->row()->id)
+                {
+                    $msgs = $this->fal->get_new_messages_yorumcu($row["user"], $this->session->userdata("id"), $row["id"]);
+                    if ($msgs !== false){
+                        $data["messages"] = $msgs;
+                        $data["message_list"] = "true";
+                    }
+                    else{
+                        $data["messages"] = "false";
+                        $data["message_list"] = "false";
+                    }
+                }
+
+                array_push($return_data, $data);
+            }
+        }
+
+        echo json_encode($return_data);
+    }
+
     public function logout()
     {
         $this->session->sess_destroy();

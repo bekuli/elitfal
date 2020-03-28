@@ -7,10 +7,10 @@
 
       <div class="col-md-6 msg-user-wrapper">
         <div class="msg-pp">
-          <img class="img-circle" src="<?=base_url()?>uploads/yorumcupp.jpg">
+          <img class="img-circle" src="<?=base_url()?>uploads/<?=$yorumcu->pp?>">
         </div>
         <div class="msg-title msg-name">
-          Beyza
+          <?=$yorumcu->name?>
         </div>
       </div>
 
@@ -26,47 +26,33 @@
   <div class="messaging">
     <div class="inbox_msg">
       <div class="msg_history">
-          
-        <div class="giden_msg">
-          <div class="yollanan_msg">
-            <p>Selam</p>
-            <span class="time_date"> 11:05      |  Mayıs 9 </span>
-          </div>
-        </div>
+          <?php
 
-        <div class="gelen_msg">
-          <div class="alinan_msg">
-            <div class="alinan_withd_msg">
-              <p>Selam</p>
-              <span class="time_date"> 11:06      |  Mayıs 9 </span>
-            </div>
-          </div>
-        </div>
+            foreach ($messages as $row)
+            {
+                ?>
+                  <div class="<?php if ($row["from_who"] == "user"){echo'giden';}else{echo'gelen';}?>_msg">
+                    <div class="<?php if ($row["from_who"] == "user"){echo'yollanan';}else{echo'alinan';}?>_msg">
+                      <p><?=$row["message"]?></p>
+                      <span class="time_date"><?=$row["date_send"]?></span>
+                    </div>
+                  </div>
+                <?php
+            }
 
-        <div class="giden_msg">
-          <div class="yollanan_msg">
-            <p>naber</p>
-            <span class="time_date"> 11:10      |  Mayıs 9 </span>
-          </div>
-        </div>
-
-        <div class="gelen_msg">
-          <div class="alinan_msg">
-            <div class="alinan_withd_msg">
-              <p>iyi senden</p>
-              <span class="time_date"> 15:50      |  Mayıs 9 </span>
-            </div>
-          </div>
-        </div>
+          ?>
+        
 
       </div>
       <div class="type_msg">
         
         <div class="input_msg_write">
-          <input type="text" class="write_msg" placeholder="Mesajınızı Girin" />
-          <button class="msg_send_btn" type="button">
-            <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
-          </button>
+          <form class="msg-form">
+            <input autofocus="" autocomplete="off" type="text" name="message" class="write_msg" placeholder="Mesajınızı Girin" />
+            <button class="msg_send_btn" type="submit">
+              <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+            </button>
+          </form>
         </div>
 
       </div>
@@ -80,3 +66,55 @@
 
 
 </style>
+
+<script type="text/javascript">
+  var messageBody = $('.msg_history')[0];
+    messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+  $(document).ready(function(){
+    
+    $(".msg-form").submit(function(e){
+      e.preventDefault();
+      var msg = $(".write_msg").val();
+      if (msg.trim() == "")
+        return;
+
+      var form_data = new FormData($(this)[0]);
+      $(".write_msg").val("");
+
+      $.ajax({
+        url : base_url + "mesaj/<?=$yorumcu->id?>/gonder",
+        type : "post",
+        data : form_data,
+        contentType : false,
+        processData : false,
+        beforeSend: function(){
+          var today = new Date();
+          var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+          var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
+          $(".msg_history").append('<div class="giden_msg">'
+                  +'<div class="yollanan_msg">'
+                    +'<p>'+msg+'</p>'
+                    +'<span class="time_date">'+date+' '+time+'</span>'
+                  +'</div>'
+                +'</div>');
+          var messageBody = $('.msg_history')[0];
+          messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+        },
+        success : function(result) {
+          if (result == "error")
+          {
+            $.notify("Bilinmeyen bir hata oluştu, mesajınız gönderilmedi!", "error");
+          }
+        },
+        error : function(r){
+          console.log(r);
+          $.notify("Bilinmeyen bir hata oluştu, mesajınız gönderilmedi!", "error");
+        }
+      });
+
+    });
+
+  });
+
+</script>
