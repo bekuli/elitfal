@@ -1395,6 +1395,47 @@ header .landing-icerik .landing-bot .landing-yorumcular .landing-box .landing-bo
 	margin-left:10px;
 }
 
+.icerik-footer {
+	text-align: right;
+}
+
+.icerik-footer .facebook {
+	font-size: 30px;
+}
+
+.icerik-footer .facebook a {
+	color: #3b5998;
+}
+
+.icerik-footer .twitter {
+	font-size: 30px;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.icerik-footer .twitter a {
+	color: #00acee;
+}
+
+.icerik-footer .google {
+	font-size: 30px;
+}
+
+.icerik-footer .google a {
+	color: #dd4b39;
+}
+
+.footer-copyrigt-yazi {
+	font-family: montserrat, sans-serif;
+	font-weight: bold;
+	padding-top: 20px;
+}
+
+.footer-copyrigt-yazi a {
+	color: #333;
+	text-decoration: none;
+}
+
 @media (max-width:992px){
 	.fal-sayfasi .icerik .multi-input .marbotr{
 		margin-bottom: 20px;

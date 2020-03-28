@@ -1,5 +1,40 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
+<footer class="page-footer font-small special-color-dark pt-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="footer-copyright py-3 footer-copyrigt-yazi">© 2020 Copyright: Elit Fal |
+                    <a href="https://mdbootstrap.com/"> Web Tasarım: Deyalita</a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="icerik-footer">
+                    <ul class="list-unstyled list-inline linkler-footer">
+
+                        <li class="list-inline-item facebook">
+                            <a class="btn-floating btn-fb mx-1">
+                                <i class="fa fa-facebook-square"></i>
+                            </a> 
+                        </li>
+                        <li class="list-inline-item twitter">
+                            <a class="btn-floating btn-fb mx-1">
+                                <i class="fa fa-twitter-square"></i>
+                            </a> 
+                        </li>
+                        <li class="list-inline-item google">
+                            <a class="btn-floating btn-fb mx-1">
+                                <i class="fa fa-google-plus-square"></i>
+                            </a> 
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div> 
+</footer>
+
 <div class="modal fade login-register-form" id="login-modal" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
