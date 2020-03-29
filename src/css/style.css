@@ -1445,6 +1445,44 @@ footer{
 	text-decoration: none;
 }
 
+.yorum-gonder-kart{
+	background: #fff;
+	padding: 20px;
+	margin-top:30px;
+}
+
+.yorum-gonder-kart .yorum-ack{
+	margin-bottom: 10px;
+}
+
+
+.yorum-gonder-kart .yorum-gonder-btn a{
+	background: orange;
+	color:#333;
+	text-decoration: none;
+	padding: 5px 10px;
+	border-radius: 5px;
+}
+
+.yorum-gonder-kart .yorum-gonder-btn a:hover{
+	background: #ffd600;
+}
+
+.yorum-gonder-kart .yorum-gonder-btn {
+	text-align: center;
+	font-family: montserrat
+}
+
+.btn-def{
+	background: #b50000;
+	color:#fff;
+}
+
+.btn-def:hover, .btn-def:focus{
+	background: #880000;
+	color:#fff;
+}
+
 @media (max-width:992px){
 	.fal-sayfasi .icerik .multi-input .marbotr{
 		margin-bottom: 20px;

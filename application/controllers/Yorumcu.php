@@ -389,6 +389,11 @@ class Yorumcu extends CI_Controller {
         echo json_encode($return_data);
     }
 
+    public function keep_online()
+    {
+        $this->db->where("id", $this->profil->id)->update("yorumcu", array("last_online" => date("Y-m-d H:i:s")));
+    }
+
     public function logout()
     {
         $this->session->sess_destroy();

@@ -157,12 +157,15 @@
 				                    <div class="col-sm-6 col-md-8">
 				                        <div class="isim"><h4><?=$row["name"]?></h4></div>
 				                        <div class="profile-review-stars">
-				                            <i class="active fa fa-star"></i>
-				                            <i class="active fa fa-star"></i>
-				                            <i class="active fa fa-star"></i>
-				                            <i class="active fa fa-star"></i>
-				                            <i class=" fa fa-star"></i>
-				                            <span class="comment-count">(51)</span>
+				                            <?php
+				                            $comments = $this->fal->get_yorumcu_comments($row["id"]);
+				                            $puan = $this->fal->yorumcu_puan_ortalama($row["id"], $comments);
+											for ($i = 0; $i < $puan; $i++)
+												echo '<i class="active fa fa-star"></i>';
+											for ($i = $puan; $i < 5; $i++)
+					                        	echo '<i class=" fa fa-star"></i>';
+					                        ?>
+					                        <span class="comment-count">(<?=count($comments)?>)</span>
 				                        </div>
 				                        <div class="desc">
 				                            <?=$row["aciklama"]?>
@@ -170,7 +173,16 @@
 				                	</div>
 
 				                	<div class="col-md-12">
-				                		<div class="falbtn">FAL BAKTIR (ÇEVRİMİÇİ)</div>
+				                		<div class="falbtn">FAL BAKTIR 
+				                			<?php
+											if (strtotime($row["last_online"]) + 10 < time()){
+											?>
+					                    		(ÇEVRİMDIŞI)
+					                    	<?php }else{ ?>
+					                			(ÇEVRİMİÇİ)
+					                    	<?php } ?>
+                    		
+                    					</div>
 				                	</div>
 				            	</div>
 				        	</div>

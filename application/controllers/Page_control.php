@@ -173,7 +173,11 @@ class Page_control extends CI_Controller {
                         show_404();
                         return;
                     }
-                    $this->cevaplanmis_fal($id);
+
+                    if ($this->uri->segment(4) == "comment")
+                        $this->comment($id);
+                    else
+                        $this->cevaplanmis_fal($id);
                     return;
                 }else if ($this->uri->segment(2) == "get-data"){
                     $this->get_user_data();
@@ -309,6 +313,11 @@ class Page_control extends CI_Controller {
     {
         $id = $this->uri->segment(2);
         $islem = $this->uri->segment(3);
+
+        if ($id !== null){
+            $data["comments"] = $this->fal->get_yorumcu_comments($id);
+            $data["puan"] = $this->fal->yorumcu_puan_ortalama($id, $data["comments"]);
+        }
 
         if ($islem !== null)
         {
@@ -900,7 +909,7 @@ class Page_control extends CI_Controller {
 
     public function cevaplanmis_fal($id)
     {
-        $query = $this->db->get_where("fal_istekleri", array("id" => $id, "status" => 1));
+        $query = $this->db->get_where("fal_istekleri", array("id" => $id, "status" => 1, "user_id" => $this->session->userdata("id")));
         if ($query !== false && $query->num_rows() > 0)
         {
             $this->db->where("id", $query->row()->id)->update("fal_istekleri", array("seen" => "true"));
@@ -916,6 +925,9 @@ class Page_control extends CI_Controller {
                 $yorumcu["pp"] = $query1->row()->pp;
                 $yorumcu["name"] = $query1->row()->name;
                 $yorumcu["aciklama"] = $query1->row()->aciklama;
+                $yorumcu["last_online"] = $query1->row()->last_online;
+                $page_data["comments"] = $this->fal->get_yorumcu_comments($yorumcu["id"]);
+                $page_data["puan"] = $this->fal->yorumcu_puan_ortalama($yorumcu["id"], $page_data["comments"]);
             }
             $page_data["fal_data"]->yorumcu = $yorumcu;
 
@@ -1069,5 +1081,46 @@ class Page_control extends CI_Controller {
         }
          
          echo json_encode($return_data);
+    }
+
+    public function comment($id)
+    {
+        $query = $this->db->get_where("fal_istekleri", array("id" => $id, "status" => 1, "user_id" => $this->session->userdata("id")));
+        if ($query !== false && $query->num_rows() > 0)
+        {
+            if ($this->fal->empty($query->row()->comment))
+            {
+                $comment = trim($this->input->post("comment"));
+                if (empty($comment))
+                {
+                    echo "false";
+                    return;
+                }
+
+                $puan = trim($this->input->post("oy_value"));
+                if (empty($puan))
+                {
+                    echo "false";
+                    return;
+                }
+
+                if ($puan <= 0 || $puan > 5){
+                    echo "false";
+                    return;
+                }
+
+                $this->db->where("id", $id)->update("fal_istekleri",array("comment" => $comment, "puan" => $puan));
+                if ($this->db->affected_rows() > 0){
+                    echo "true";
+                }else
+                    echo "false";
+            }else{
+                show_404();
+                return;
+            }
+        }else{
+            show_404();
+            return;
+        }
     }
 }

@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="footer-copyright py-3 footer-copyrigt-yazi">© 2020 Copyright: Elit Fal |
-                    <a href="https://mdbootstrap.com/"> Web Tasarım: Deyalita</a>
+                    <a href="mailto:bekuli@protonmail.com"> Web Tasarım: Deyalita</a>
                 </div>
             </div>
             <div class="col-md-6">
@@ -318,6 +318,7 @@
             }
         });
     }
+
 update_notification();
 setInterval(function(){
  update_notification();;

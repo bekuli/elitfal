@@ -634,4 +634,29 @@ class Fal extends CI_Model
         return array();
     }
 
+    function get_yorumcu_comments($id)
+    {
+        $query = $this->db->select("comment, puan, tarih")->from("fal_istekleri")->where("yorumcu", $id)->where("puan > 0")->get();
+        if ($query !== false && $query->num_rows() > 0)
+        {
+            return $query->result_array();
+        }
+
+        return array();
+    }
+
+    function yorumcu_puan_ortalama($id, $puanlar)
+    {
+        $toplam = 0;
+        foreach ($puanlar as $yorum)
+            $toplam += $yorum["puan"];
+        
+        if ($toplam == 0)
+            return 0;
+        
+        $ortalama = $toplam /  count($puanlar);
+        
+        return round($ortalama);
+    }
+
 }

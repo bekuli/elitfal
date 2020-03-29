@@ -40,7 +40,7 @@
             }
         });
         var msgurl = base_url + "yorumcu/mesaj_check/";
-        if (cur_url == base_url + "yorumcu/mesajlar")
+        if (window.location.pathname.split("/").pop() == "mesajlar")
         {
         	if (cur_id != null)
         	{
@@ -60,34 +60,32 @@
                     for (var i = 0; i < msgdata.length; i++)
                     {
                         var no_notify = false;
-                        <?php
+                       
 
-                        if ($page_name == "mesajlar")
+                        if (window.location.pathname.split("/").pop() == "mesajlar")
                         {
-                            ?>
+                        	if (cur_id != null)
+        					{
 
-                            if (msgdata[i].message_list == "true")
-                            {
-                                for (var j = 0; j < msgdata[i].messages.length; j++)
-                                {
-                                    var msg = msgdata[i].messages[j];
+		                        if (msgdata[i].message_list == "true")
+		                        {
+		                            for (var j = 0; j < msgdata[i].messages.length; j++)
+		                            {
+		                                var msg = msgdata[i].messages[j];
 
-                                    $(".msg_history").append('<div class="gelen_msg">'
-                                      +'<div class="alinan_msg">'
-                                        +'<p>'+msg.message+'</p>'
-                                        +'<span class="time_date">'+msg.date_send+'</span>'
-                                      +'</div>'
-                                    +'</div>');
-                                }
-                                no_notify = true;
-                                var messageBody = $('.msg_history')[0];
-								messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
-                            }
-
-                            <?php
+		                                $(".msg_history").append('<div class="gelen_msg">'
+		                                  +'<div class="alinan_msg">'
+		                                    +'<p>'+msg.message+'</p>'
+		                                    +'<span class="time_date">'+msg.date_send+'</span>'
+		                                  +'</div>'
+		                                +'</div>');
+		                            }
+		                            no_notify = true;
+		                            var messageBody = $('.msg_history')[0];
+									messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+		                        }
+	                        }
                         }
-
-                        ?>
 
                         if (noties.includes("msg_"+msgdata[i].id) == false)
                         {
@@ -111,9 +109,25 @@
             }
         });
     }
+
+    function keep_online()
+    {
+        $.ajax({
+            url : base_url + "yorumcu/keep_online",
+            contentType : false,
+            success : function(result) {
+                
+            },
+            error : function(r){
+                
+            }
+        });
+    }
+
 update_notification();
 setInterval(function(){
- update_notification();;
+ update_notification();
+ keep_online();
 }, 5000);
 
 <?php } ?>

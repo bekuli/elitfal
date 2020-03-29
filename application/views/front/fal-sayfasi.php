@@ -17,16 +17,23 @@
 							</div>
 
 							<div class="online-status">
-		                    	<span class="badge active">Çevrimiçi</span>
+		                    	<?php
+			                    if (strtotime($yorumcu->last_online) + 10 < time()){
+			                    ?>
+			                    <span class="badge">Çevrimdışı</span>
+			                    <?php }else{ ?>
+			                    <span class="badge active">Çevrimiçi</span>
+			                    <?php } ?>
 		                    </div>
 
 							<div class="review-stars">
-		                        <i class="active fa fa-star"></i>
-		                        <i class="active fa fa-star"></i>
-		                        <i class="active fa fa-star"></i>
-		                        <i class="active fa fa-star"></i>
-		                        <i class=" fa fa-star"></i>
-		                        <span class="comment-count">(51)</span>
+		                        <?php
+								for ($i = 0; $i < $puan; $i++)
+									echo '<i class="active fa fa-star"></i>';
+								for ($i = $puan; $i < 5; $i++)
+		                        	echo '<i class=" fa fa-star"></i>';
+		                        ?>
+		                        <span class="comment-count">(<?=count($comments)?>)</span>
 		                    </div>
 
 		                    <div class="hakkinda-kisa">

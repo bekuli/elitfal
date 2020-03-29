@@ -15,16 +15,23 @@
 					</div>
 
 					<div class="online-status">
-                    	<span class="badge active">Çevrimiçi</span>
+						<?php
+						if (strtotime($yorumcu->last_online) + 10 < time()){
+						?>
+                    	<span class="badge">Çevrimdışı</span>
+                    	<?php }else{ ?>
+                		<span class="badge active">Çevrimiçi</span>
+                    	<?php } ?>
                     </div>
 
 					<div class="review-stars">
-                        <i class="active fa fa-star"></i>
-                        <i class="active fa fa-star"></i>
-                        <i class="active fa fa-star"></i>
-                        <i class="active fa fa-star"></i>
-                        <i class=" fa fa-star"></i>
-                        <span class="comment-count">(51)</span>
+                        <?php
+						for ($i = 0; $i < $puan; $i++)
+							echo '<i class="active fa fa-star"></i>';
+						for ($i = $puan; $i < 5; $i++)
+                        	echo '<i class=" fa fa-star"></i>';
+                        ?>
+                        <span class="comment-count">(<?=count($comments)?>)</span>
                     </div>
 
                     <div class="hakkinda-kisa">
@@ -297,59 +304,31 @@
 
 						<div class="yorumlar-listesi">
 
+							<?php
+
+								foreach ($comments as $row)
+								{
+
+							?>
 							<div class="yorum">
 								<div class="review-stars">
-									<i class="active fa fa-star"></i>
-			                        <i class="active fa fa-star"></i>
-			                        <i class="active fa fa-star"></i>
-			                        <i class="active fa fa-star"></i>
-			                        <i class=" fa fa-star"></i>
+									<?php
+									for ($i = 0; $i < $row["puan"]; $i++)
+										echo '<i class="active fa fa-star"></i>';
+									for ($i = $row["puan"]; $i < 5; $i++)
+			                        	echo '<i class=" fa fa-star"></i>';
+			                        ?>
 								</div>
 
 								<div class="icerik">
-									Çok anlamlı bir yorumdu!...
+									<?=htmlspecialchars($row["comment"])?>
 								</div>
 
 								<div class="tarih">
-									19 Mart 2020
+									<?=$row["tarih"]?>
 								</div>
 							</div>
-
-							<div class="yorum">
-								<div class="review-stars">
-									<i class="active fa fa-star"></i>
-			                        <i class="active fa fa-star"></i>
-			                        <i class="active fa fa-star"></i>
-			                        <i class="active fa fa-star"></i>
-			                        <i class=" fa fa-star"></i>
-								</div>
-								
-								<div class="icerik">
-									Çok anlamlı bir yorumdu!...
-								</div>
-
-								<div class="tarih">
-									19 Mart 2020
-								</div>
-							</div>
-
-							<div class="yorum">
-								<div class="review-stars">
-									<i class="active fa fa-star"></i>
-			                        <i class="active fa fa-star"></i>
-			                        <i class="active fa fa-star"></i>
-			                        <i class="active fa fa-star"></i>
-			                        <i class=" fa fa-star"></i>
-								</div>
-								
-								<div class="icerik">
-									Çok anlamlı bir yorumdu!...
-								</div>
-
-								<div class="tarih">
-									19 Mart 2020
-								</div>
-							</div>
+							<?php } ?>
 
 						</div>
 

@@ -41,16 +41,23 @@
 				</div>
 
 				<div class="online-status">
-                	<span class="badge active">Çevrimiçi</span>
+                	<?php
+                    if (strtotime($fal_data->yorumcu["last_online"]) + 10 < time()){
+                    ?>
+                    <span class="badge">Çevrimdışı</span>
+                    <?php }else{ ?>
+                    <span class="badge active">Çevrimiçi</span>
+                    <?php } ?>
                 </div>
 
 				<div class="review-stars">
-                    <i class="active fa fa-star"></i>
-                    <i class="active fa fa-star"></i>
-                    <i class="active fa fa-star"></i>
-                    <i class="active fa fa-star"></i>
-                    <i class=" fa fa-star"></i>
-                    <span class="comment-count">(51)</span>
+                    <?php
+                        for ($i = 0; $i < $puan; $i++)
+                            echo '<i class="active fa fa-star"></i>';
+                        for ($i = $puan; $i < 5; $i++)
+                            echo '<i class=" fa fa-star"></i>';
+                        ?>
+                        <span class="comment-count">(<?=count($comments)?>)</span>
                 </div>
 
                 <div class="mesaj-gonder-btn">
@@ -58,8 +65,191 @@
                 </div>
             </div>
         </div>
+
+        <?php if ($this->fal->empty($fal_data->comment)) { ?>
+        <div class="comment col-md-3">
+            <div class="yorum-gonder-kart">
+                <div class="yorum-ack">
+                    Falınızı beğendinizmi? yorum yapmayı unutmayın
+                </div>
+                
+                <div class="yorum-gonder-btn">
+                    <a href="#">
+                        Yorum Gönder
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <?php } ?>
+
 	</div>
 </div>
+
+<?php if ($this->fal->empty($fal_data->comment)) { ?>
+
+<div class="comment modal fade" id="yorum-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Yorum Gönder</h4>
+      </div>
+      <div class="modal-body">
+        <form method="post">
+            <label>Yorumunuz</label>
+            <textarea name="comment" class="form-control" id="yorum-text"></textarea><br>
+            <label>Oyunuz</label>
+            <div class="pt-form-grup" id="yorum_oyla_grup">
+                <div class="yorum_oyla">
+                  <div class="review-stars">
+                    <i class="fa fa-star" data-oy="1"></i><i class="fa fa-star" data-oy="2"></i><i class="fa fa-star" data-oy="3"></i><i class="fa fa-star" data-oy="4"></i><i class="fa fa-star" data-oy="5"></i>
+                  </div>
+                </div>
+
+                <input type="hidden" id="oy_value" name="oy_value">
+            </div>
+            <br>
+            <button type="submit" class="btn btn-def">Gönder</button>
+        </form>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script type="text/javascript">
+    var submitting_yorum = false;
+    var oylandi = 0;
+    var oylandihover = 0;
+    var oylandibefore = 0;
+    var oyvalue = 0;
+
+    $(document).ready(function(){
+        $(".yorum-gonder-btn a").click(function(e){
+            e.preventDefault();
+            $("#yorum-modal").modal();
+
+            setTimeout(
+            function() {
+              $("#yorum-text").focus();
+            }, 500);
+        });
+
+        $("#yorum-modal form").submit(function(e){
+            e.preventDefault();
+
+            if ($.trim($('#yorum-modal textarea').val()) == ""){
+                $.notify("Yorum boş gönderilemez", "error");
+                return;
+            }
+
+            if (oyvalue == 0){
+                $.notify("Oylamadınız!", "error");
+                return;
+            }
+
+            $("#yorum-modal form button").val("Gönderiliyor...");
+            $("#yorum-modal form button").attr("disabled", "");
+
+            if (submitting_yorum == true)
+                return;
+            submitting_yorum = true;
+            var form_data = new FormData($(this)[0]);
+
+            $.ajax({
+                url : base_url + "profil/cevap/<?=$fal_data->id?>/comment",
+                type : "post",
+                data : form_data,
+                contentType : false,
+                processData : false,
+                success : function(result) {
+                    if (result == "true"){
+                        $.notify("Yorumunuz gönderildi!", "success");
+                        $("#yorum-modal").modal('hide');
+                        setTimeout(
+                        function() {
+                          $(".comment").each(function(){
+                            $(this).remove();
+                        });
+                        }, 500);
+                        
+                    }else{
+                        $.notify("Bilinmeyen bir hata oluştu!", "error");
+                        submitting_yorum = false;
+                        $("#yorum-modal form button").val("Gönder");
+                        $("#yorum-modal form button").removeAttr("disabled", "");
+                    }
+                    
+                },
+                error : function(r){
+                    $.notify("Bilinmeyen bir hata oluştu!", "error");
+                    submitting_yorum = false;
+                    $("#yorum-modal form button").val("Gönder");
+                    $("#yorum-modal form button").removeAttr("disabled", "");
+                }
+            });
+        });
+
+        //Yorum oyla
+        
+        $(".yorum_oyla>.review-stars>i").hover(function(){
+            if (oylandihover == 0)
+            {
+                oylandi = 0;
+                var imgindex = $(this).attr("data-oy");
+                for (var i = 1; i <= imgindex; i++)
+                    $("i[data-oy="+i+"]").addClass("active");
+                for (var i = 5; i > imgindex; i--)
+                    $("i[data-oy="+i+"]").removeClass("active");
+            }
+            
+        }, function(){
+            if (oylandi == 0)
+            {
+                var imgindex = $(this).attr("data-oy");
+                for (var i = 5; i >= imgindex; i--)
+                    $("i[data-oy="+i+"]").removeClass("active");
+            }
+            oylandihover = 0;
+            
+        });
+        
+        $(".yorum_oyla>.review-stars").hover(function(){
+            
+        }, function(){
+            if (oylandi == 0)
+            {
+                if (oylandibefore !== 1)
+                {
+                    for (var i = 1; i <= 5; i++)
+                        $("i[data-oy="+i+"]").removeClass("active");
+                }
+                else
+                {
+                    for (var i = 5; i > oyvalue; i--)
+                        $("i[data-oy="+i+"]").removeClass("active");
+                    for (var i = 1; i <= oyvalue; i++)
+                        $("i[data-oy="+i+"]").addClass("active");
+                }
+            }
+            oylandihover = 0;
+        });
+        
+        $(".yorum_oyla>.review-stars>i").click(function(){
+            $("#oy_value").val($(this).attr("data-oy"));
+            oylandi = 1;
+            oylandihover = 1;
+            oylandibefore = 1;
+            oyvalue = $(this).attr("data-oy");
+            
+        });
+            
+        // */Yorum oyla end
+
+    });
+</script>
+
+<?php } ?>
 
 <style>
 	body{background: #f1f1f1}
@@ -121,5 +311,20 @@
     .kahve-fali-img img{
         width:100%;
     }
+
+    .yorum_oyla .review-stars i.active{
+        color:orange;
+    }
+
+    .yorum_oyla .review-stars{
+        display: inline-block;
+    }
+
+    .yorum_oyla .review-stars i{
+        cursor:pointer;
+        font-size:20px;
+        padding-right:5px;
+    }
+
 
 </style>
