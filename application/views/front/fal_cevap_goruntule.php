@@ -54,7 +54,7 @@
                 </div>
 
                 <div class="mesaj-gonder-btn">
-                	<a href="<?=base_url()?>mesaj">Mesaj Gönder</a>
+                	<a href="<?=base_url()?>mesaj/<?=$fal_data->yorumcu["id"]?>">Mesaj Gönder</a>
                 </div>
             </div>
         </div>
