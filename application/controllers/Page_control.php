@@ -903,7 +903,7 @@ class Page_control extends CI_Controller {
         $query = $this->db->get_where("fal_istekleri", array("id" => $id, "status" => 1));
         if ($query !== false && $query->num_rows() > 0)
         {
-            $this->db->where("id", $query->id)->update("fal_istekleri", array("seen" => "true"));
+            $this->db->where("id", $query->row()->id)->update("fal_istekleri", array("seen" => "true"));
             $page_data["fal_data"] = $query->row();
 
             $page_data["fal_icerik"] = json_decode($query->row()->fal_icerik, true);
