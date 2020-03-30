@@ -16,32 +16,32 @@
           </a>
         </li>
 	  <li class="nav-item">
-		  <a class="nav-link <?php if ($page_name == "yorumcular"){?>active<?php } ?>" data-title="" href="<?= base_url()?>admin/yorumcular">
-			  <i class="fas fa-user"></i>
+		  <a class="nav-link <?php if ($page_name == "yorumlar"){?>active<?php } ?>" data-title="" href="<?= base_url()?>yorumcu/yorumlar">
+			  <i class="fas fa-comment"></i>
 			  Yorumlar
 		  </a>
 	  </li>
     	<li class="nav-item">
     	  <a class="nav-link <?php if ($page_name == "mesajlar"){?>active<?php } ?>" data-title="" href="<?= base_url()?>yorumcu/mesajlar">
-    		<i class="fas fa-comments"></i>
+    		<i class="fas fa-inbox"></i>
     		Mesajlar
     	  </a>
     	</li>
     	<li class="nav-item">
-    	  <a class="nav-link <?php if ($page_name == "settings"){?>active<?php } ?>" data-title="" href="<?= base_url()?>admin/sikayetler">
-    		<i class="fas fa-cog"></i>
+    	  <a class="nav-link <?php if ($page_name == "odemeler"){?>active<?php } ?>" data-title="" href="<?= base_url()?>yorumcu/odemeler">
+    		<i class="fas fa-lira-sign"></i>
     		Ödemeler
     	  </a>
     	</li>
         <li class="nav-item">
-          <a class="nav-link <?php if ($page_name == "settings"){?>active<?php } ?>" data-title="" href="<?= base_url()?>admin/sikayetler">
-            <i class="fas fa-cog"></i>
+          <a class="nav-link <?php if ($page_name == "profil"){?>active<?php } ?>" data-title="" href="<?= base_url()?>yorumcu/profil">
+            <i class="fas fa-user"></i>
             Profil
           </a>
         </li>
 
     	<li class="nav-item">
-    	  <a class="nav-link <?php if ($page_name == "settings"){?>active<?php } ?>" data-title="" href="<?= base_url()?>admin/ayarlar">
+    	  <a class="nav-link <?php if ($page_name == "ayarlar"){?>active<?php } ?>" data-title="" href="<?= base_url()?>yorumcu/ayarlar">
     		<i class="fas fa-cog"></i>
     		Ayarlar
     	  </a>

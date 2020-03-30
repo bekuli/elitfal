@@ -7,7 +7,7 @@
 
 				<div class="profil-karti-g">
 					<div class="pp">
-						<img class="img-circle" src="<?=base_url()?>uploads/yorumcupp.jpg">
+						<img class="img-circle" src="<?=base_url()?>uploads/<?=$yorumcu->pp?>" onerror="this.src='<?=base_url()?>src/img/pp.png';">
 					</div>
 
 					<div class="isim">
@@ -41,6 +41,7 @@
                     <div class="fal-listesi">
 
                     	<ul>
+                    		<?php if (isset($yorumcu->baktigi_fallar["katina_fali"])) { ?>
                     		<li>
                     			<div class="fal-li">
                     				<div class="fal-li-resim">
@@ -49,7 +50,8 @@
                     				<div class="fal-li-isim">Katina Falı</div>
                     			</div>
                 			</li>
-
+                			<?php } ?>
+                			<?php if (isset($yorumcu->baktigi_fallar["kahve_fali"])) { ?>
                 			<li>
                     			<div class="fal-li">
                     				<div class="fal-li-resim">
@@ -58,7 +60,8 @@
                     				<div class="fal-li-isim">Kahve Falı</div>
                     			</div>
                 			</li>
-
+                			<?php } ?>
+                			<?php if (isset($yorumcu->baktigi_fallar["tarot_fali"])) { ?>
                 			<li>
                     			<div class="fal-li">
                     				<div class="fal-li-resim">
@@ -67,7 +70,8 @@
                     				<div class="fal-li-isim">Tarot Falı</div>
                     			</div>
                 			</li>
-
+                			<?php } ?>
+                			<?php if (isset($yorumcu->baktigi_fallar["su_fali"])) { ?>
                 			<li>
                     			<div class="fal-li">
                     				<div class="fal-li-resim">
@@ -76,7 +80,8 @@
                     				<div class="fal-li-isim">Su Falı</div>
                     			</div>
                 			</li>
-
+                			<?php } ?>
+                			<?php if (isset($yorumcu->baktigi_fallar["yildizname"])) { ?>
                 			<li>
                     			<div class="fal-li">
                     				<div class="fal-li-resim">
@@ -85,7 +90,8 @@
                     				<div class="fal-li-isim">Yıldızname</div>
                     			</div>
                 			</li>
-
+                			<?php } ?>
+                			<?php if (isset($yorumcu->baktigi_fallar["ruya_yorumu"])) { ?>
                 			<li>
                     			<div class="fal-li">
                     				<div class="fal-li-resim">
@@ -94,7 +100,8 @@
                     				<div class="fal-li-isim">Rüya Yorumu</div>
                     			</div>
                 			</li>
-
+                			<?php } ?>
+                			<?php if (isset($yorumcu->baktigi_fallar["dert_ortagi"])) { ?>
                 			<li>
                     			<div class="fal-li">
                     				<div class="fal-li-resim">
@@ -103,7 +110,7 @@
                     				<div class="fal-li-isim">Dert Ortağı</div>
                     			</div>
                 			</li>
-
+                			<?php } ?>
 
 
                     	</ul>
@@ -129,7 +136,7 @@
 					<div class="fallar">
 
 						<div class="row" style="text-align: center">
-
+							<?php if (isset($yorumcu->baktigi_fallar["katina_fali"])) { ?>
 							<div class="col-md-3 col-xs-6 col-sm-4 fal-box-wrapper">
 								<div class="fal-box">
 									<div class="fal-resim">
@@ -152,6 +159,9 @@
 									</div>
 								</div>
 							</div>
+							<?php } ?>
+
+							<?php if (isset($yorumcu->baktigi_fallar["kahve_fali"])) { ?>
 
 							<div class="col-md-3 col-xs-6 col-sm-4 fal-box-wrapper">
 								<div class="fal-box">
@@ -176,6 +186,9 @@
 								</div>
 							</div>
 
+							<?php } ?>
+
+							<?php if (isset($yorumcu->baktigi_fallar["tarot_fali"])) { ?>
 							<div class="col-md-3 col-xs-6 col-sm-4 fal-box-wrapper">
 								<div class="fal-box">
 									<div class="fal-resim">
@@ -198,6 +211,9 @@
 									</div>
 								</div>
 							</div>
+							<?php } ?>
+
+							<?php if (isset($yorumcu->baktigi_fallar["su_fali"])) { ?>
 
 							<div class="col-md-3 col-xs-6 col-sm-4 fal-box-wrapper">
 								<div class="fal-box">
@@ -222,6 +238,8 @@
 								</div>
 							</div>
 
+							<?php } ?>
+							<?php if (isset($yorumcu->baktigi_fallar["yildizname"])) { ?>
 							<div class="col-md-3 col-xs-6 col-sm-4 fal-box-wrapper">
 								<div class="fal-box">
 									<div class="fal-resim">
@@ -244,7 +262,8 @@
 									</div>
 								</div>
 							</div>
-
+							<?php } ?>
+							<?php if (isset($yorumcu->baktigi_fallar["ruya_yorumu"])) { ?>
 							<div class="col-md-3 col-xs-6 col-sm-4 fal-box-wrapper">
 								<div class="fal-box">
 									<div class="fal-resim">
@@ -267,7 +286,8 @@
 									</div>
 								</div>
 							</div>
-
+							<?php } ?>
+							<?php if (isset($yorumcu->baktigi_fallar["dert_ortagi"])) { ?>
 							<div class="col-md-3 col-xs-6 col-sm-4 fal-box-wrapper">
 								<div class="fal-box">
 									<div class="fal-resim">
@@ -290,6 +310,7 @@
 									</div>
 								</div>
 							</div>
+							<?php } ?>
 
 						</div>
 

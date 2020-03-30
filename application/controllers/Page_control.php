@@ -187,6 +187,27 @@ class Page_control extends CI_Controller {
                     return;
                 }
                 break;
+            case "kahve-fali":
+                $this->yorumcu_list_for("kahve_fali");
+                break;
+            case "tarot-fali":
+                $this->yorumcu_list_for("tarot_fali");
+                break;
+            case "yildizname":
+                $this->yorumcu_list_for("yildizname");
+                break;
+            case "ruya-yorumu":
+                $this->yorumcu_list_for("ruya_yorumu");
+                break;
+            case "katina-ask-fali":
+                $this->yorumcu_list_for("katina_fali");
+                break;
+            case "su-fali":
+                $this->yorumcu_list_for("su_fali");
+                break;
+            case "dert-ortagi":
+                $this->yorumcu_list_for("dert_ortagi");
+                break;
             default :
                 show_404();
                 break;
@@ -325,7 +346,6 @@ class Page_control extends CI_Controller {
             if ($query !== false && $query->num_rows() > 0)
             {
                 $data["yorumcu"] = $query->row();
-
             }
             else{
                 show_404();
@@ -407,6 +427,7 @@ class Page_control extends CI_Controller {
             if ($query !== false && $query->num_rows() > 0)
             {
                 $data["yorumcu"] = $query->row();
+                $data["yorumcu"]->baktigi_fallar = $this->fal->yorumcu_baktigi_fallar($query->row()->baktigi_fallar);
                 $data["page"] = "yorumcu";
                 $this->load->view('front/index', $data);
             }
@@ -1122,5 +1143,35 @@ class Page_control extends CI_Controller {
             show_404();
             return;
         }
+    }
+
+    public function yorumcu_list_for($fal_turu)
+    {
+        $yorumcular = array();
+        $query = $this->db->get_where("yorumcu", array("status" => "1"));
+        if ($query !== false && $query->num_rows() > 0)
+        {
+            foreach ($query->result_array() as $row)
+            {
+                if (empty($row["baktigi_fallar"]))
+                {
+                    array_push($yorumcular, $row);
+                    continue;
+                }
+                $bfallar = json_decode($row["baktigi_fallar"], true);
+                foreach ($bfallar as $key => $value)
+                {
+                    if ($key == $fal_turu)
+                    {
+                        array_push($yorumcular, $row);
+                        break;
+                    }
+                }
+            }
+        }
+
+        $data["yorumcular"] = $yorumcular;
+        $data["page"] = "yorumcular";
+        $this->load->view('front/index', $data);
     }
 }

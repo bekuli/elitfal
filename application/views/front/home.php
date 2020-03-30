@@ -16,7 +16,7 @@
 			<div class="row">
 
 				<div class="fal-tur-box">
-					<a href="">
+					<a href="<?=base_url()?>kahve-fali">
 						<div class="fal-tur-item">
 							<div class="row">
 								<div class="fal-tur-img-box">
@@ -33,7 +33,7 @@
 				</div>
 
 				<div class="fal-tur-box">
-					<a href="">
+					<a href="<?=base_url()?>tarot-fali">
 						<div class="fal-tur-item">
 							<div class="row">
 								<div class="fal-tur-img-box">
@@ -50,7 +50,7 @@
 				</div>
 
 				<div class="fal-tur-box">
-					<a href="">
+					<a href="<?=base_url()?>yildizname">
 						<div class="fal-tur-item">
 							<div class="row">
 								<div class="fal-tur-img-box">
@@ -67,7 +67,7 @@
 				</div>
 
 				<div class="fal-tur-box">
-					<a href="">
+					<a href="<?=base_url()?>ruya-yorumu">
 						<div class="fal-tur-item">
 							<div class="row">
 								<div class="fal-tur-img-box">
@@ -84,7 +84,7 @@
 				</div>
 
 				<div class="fal-tur-box">
-					<a href="">
+					<a href="<?=base_url()?>katina-ask-fali">
 						<div class="fal-tur-item">
 							<div class="row">
 								<div class="fal-tur-img-box">
@@ -101,6 +101,7 @@
 				</div>
 
 				<div class="fal-tur-box">
+					<a href="<?=base_url()?>su-fali">
 						<div class="fal-tur-item">
 							<div class="row">
 								<div class="fal-tur-img-box">
@@ -116,27 +117,28 @@
 					</a>
 				</div>
 
-					<a href="">
 				<div class="fal-tur-box">
-					<a href="">
+					<a href="<?=base_url()?>dert-ortagi">
 						<div class="fal-tur-item">
-							<div class="row">
-								<div class="fal-tur-img-box">
-									<img src="<?=base_url()?>src/img/icon-dert.png" class="fal-tur-img">
-								</div>
-								<div class="fal-text">
-									<div class="fal-tur-isim">
-										Dert Ortağı
-									</div>
-								</div>
-					</a>
+						<div class="row">
+							<div class="fal-tur-img-box">
+								<img src="<?=base_url()?>src/img/icon-dert.png" class="fal-tur-img">
 							</div>
+							<div class="fal-text">
+								<div class="fal-tur-isim">
+									Dert Ortağı
+								</div>
+							</div>
+						</div>
+						</div>
+					</a>
 				</div>
-			</div>
+				
 			</div>
 		</div>
 	</div>
 </div>
+
 
 <div class="yorumcular">
 	<div class="container">
@@ -152,7 +154,7 @@
 				            <div class="yorumcu-box">
 				                <div class="row">
 				                    <div class="col-sm-6 col-md-4 pp">
-				                        <img src="<?=base_url()?>uploads/yorumcupp.jpg" alt="" class="img-circle">
+				                        <img src="<?=base_url()?>uploads/<?=$row["pp"]?>" onerror="this.src='<?=base_url()?>src/img/pp.png';" alt="" class="img-circle">
 				                    </div>
 				                    <div class="col-sm-6 col-md-8">
 				                        <div class="isim"><h4><?=$row["name"]?></h4></div>

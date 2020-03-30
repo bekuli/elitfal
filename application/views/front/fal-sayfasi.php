@@ -9,7 +9,7 @@
 					<div class="col-md-3">
 						<div class="profil-karti-g">
 							<div class="pp">
-								<img class="img-circle" src="<?=base_url()?>uploads/yorumcupp.jpg">
+								<img onerror="this.src='<?=base_url()?>src/img/pp.png';" class="img-circle" src="<?=base_url()?>uploads/<?=$yorumcu->pp?>">
 							</div>
 
 							<div class="isim">

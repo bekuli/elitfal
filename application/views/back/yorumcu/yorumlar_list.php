@@ -15,7 +15,7 @@
                 Tarih
             </div>
             <div class="urltable-th ut-expires-at">
-               Durum 
+               Puan 
             </div>
             <div class="urltable-th ut-actions">
                 
@@ -70,18 +70,14 @@
                             <div class="urlbox-td urlbox-status">
                                 <span class="hidden-text">Durum: </span>
                                 <div>
-                                <?php 
-                                    if ($row["status"] == 1)
-                                        echo '<span class="badge badge-success">Cevaplandı</span>';
-                                    else
-                                        echo '<span class="badge badge-danger">Cevaplanmadı</span>';
-                                    ?>
+                                    <?=$row["puan"]?> Yıldız
                                 </div>
                             </div>
 
                             <div class="urlbox-td urlbox-actions" data-id="<?=$row["id"]?>">
 
-                                <a data-toggle="tooltip" data-placement="bottom" data-action="view" title="Görüntüle" href="<?=base_url()?>yorumcu/falistekleri/<?=$row["id"]?>"><i class="fas fa-eye"></i></a>
+                                <a data-toggle="tooltip" data-placement="bottom" data-action="view" title="Görüntüle" href="#"><i class="fas fa-eye"></i></a>
+                                <a data-toggle="tooltip" data-placement="bottom" data-action="delete" title="Yorumu Kaldır" href="#"><i class="fas fa-trash"></i></a>
                             </div>
                         </div>
                     </div>

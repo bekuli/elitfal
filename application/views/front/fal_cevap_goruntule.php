@@ -33,7 +33,7 @@
 		<div class="col-md-3">
 			<div class="profil-karti-g" style="margin-top:30px">
 				<div class="pp">
-					<img class="img-circle" src="<?=base_url()?>uploads/yorumcupp.jpg">
+					<img class="img-circle" onerror="this.src='<?=base_url()?>src/img/pp.png';" src="<?=base_url()?>uploads/<?=$fal_data->yorumcu["pp"]?>">
 				</div>
 
 				<div class="isim">

@@ -659,4 +659,20 @@ class Fal extends CI_Model
         return round($ortalama);
     }
 
+    function yorumcu_baktigi_fallar($fallar)
+    {
+        if (!empty($fallar))
+            return json_decode($fallar, true);
+
+         return array(
+            "kahve_fali" => "",
+            "tarot_fali" => "",
+            "yildizname" => "",
+            "ruya_yorumu" => "",
+            "katina_fali" => "",
+            "su_fali" => "",
+            "dert_ortagi" => ""
+        );
+    }
+
 }

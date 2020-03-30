@@ -7,7 +7,7 @@
 
       <div class="col-md-6 msg-user-wrapper">
         <div class="msg-pp">
-          <img class="img-circle" src="<?=base_url()?>uploads/<?=$yorumcu->pp?>">
+          <img class="img-circle" onerror="this.src='<?=base_url()?>src/img/pp.png';" src="<?=base_url()?>uploads/<?=$yorumcu->pp?>">
         </div>
         <div class="msg-title msg-name">
           <?=$yorumcu->name?>

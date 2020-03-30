@@ -12,7 +12,7 @@
       </li>
 
       <li class="nav-item text-nowrap">
-        <a class="nav-link" style="color:#dc3545;" href="http://192.168.1.47/urlsdeneme/admin"><?=$profil->name?></a>
+        <a class="nav-link" style="color:#dc3545;" href="<?=base_url()?>yorumcu/profil"><?=$profil->name?></a>
       </li>
 
       <li class="nav-item text-nowrap">

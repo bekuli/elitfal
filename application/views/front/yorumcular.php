@@ -13,7 +13,7 @@
 				            <div class="yorumcu-box">
 				                <div class="row">
 				                    <div class="col-sm-6 col-md-4 pp">
-				                        <img src="<?=base_url()?>uploads/yorumcupp.jpg" alt="" class="img-circle">
+				                        <img src="<?=base_url()?>uploads/<?=$row["pp"]?>" onerror="this.src='<?=base_url()?>src/img/pp.png';" alt="" class="img-circle">
 				                    </div>
 				                    <div class="col-sm-6 col-md-8">
 				                        <div class="isim"><h4><?=$row["name"]?></h4></div>

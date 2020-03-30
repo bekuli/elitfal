@@ -62,7 +62,7 @@
 									 			?>
 									 			<tr>
 									 				<td><?=$this->fal->fal_turu_name_to_org($row["fal_turu"])?></td>
-									 				<td><img src="<?=base_url().'uploads/'.$row["yorumcu"]["pp"]?>" height="35" width="35" class="img-circle" alt="yorumcu_foto" border="2"><?=$row["yorumcu"]["name"]?></td>
+									 				<td><img src="<?=base_url().'uploads/'.$row["yorumcu"]["pp"]?>" onerror="this.src='<?=base_url()?>src/img/pp.png';" height="35" width="35" class="img-circle" alt="yorumcu_foto" border="2"><?=$row["yorumcu"]["name"]?></td>
 									 				<td>
 									 					<?php
 									 						if ($row["status"] == "0") {
@@ -114,7 +114,7 @@
 									 			?>
 									 			<tr>
 									 				<td><?=$this->fal->fal_turu_name_to_org($row["fal_turu"])?></td>
-									 				<td><img src="<?=base_url().'uploads/'.$row["yorumcu"]["pp"]?>" height="35" width="35" class="img-circle" alt="yorumcu_foto" border="2"><?=$row["yorumcu"]["name"]?></td>
+									 				<td><img src="<?=base_url().'uploads/'.$row["yorumcu"]["pp"]?>" onerror="this.src='<?=base_url()?>src/img/pp.png';" height="35" width="35" class="img-circle" alt="yorumcu_foto" border="2"><?=$row["yorumcu"]["name"]?></td>
 									 				<td>
 									 					Cevaplandı
 									 				</td>
