@@ -16,21 +16,15 @@
           </a>
         </li>
 	  <li class="nav-item">
-		  <a class="nav-link <?php if ($page_name == "yorumcular"){?>active<?php } ?>" data-title="Users" href="<?= base_url()?>admin/yorumcular">
+		  <a class="nav-link <?php if ($page_name == "yorumcular"){?>active<?php } ?>" data-title="Yorumcular" href="<?= base_url()?>admin/yorumcular">
 			  <i class="fas fa-user"></i>
 			  Yorumcular
 		  </a>
 	  </li>
 	<li class="nav-item">
 	  <a class="nav-link <?php if ($page_name == "settings"){?>active<?php } ?>" data-title="Settings" href="<?= base_url()?>admin/kredi">
-		<i class="fas fa-cog"></i>
+		<i class="fas fa-lira-sign"></i>
 		Kredi
-	  </a>
-	</li>
-	<li class="nav-item">
-	  <a class="nav-link <?php if ($page_name == "settings"){?>active<?php } ?>" data-title="Settings" href="<?= base_url()?>admin/sikayetler">
-		<i class="fas fa-cog"></i>
-		Şikayetler
 	  </a>
 	</li>
 

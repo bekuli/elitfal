@@ -321,7 +321,8 @@ class Page_control extends CI_Controller {
             $data = array(
                 "id" => $query->row()->id,
                 "name" => $query->row()->name,
-                "surname" => $query->row()->surname
+                "surname" => $query->row()->surname,
+                "kredi" => $query->row()->kredi,
             );
 
             echo json_encode($data);
@@ -428,6 +429,10 @@ class Page_control extends CI_Controller {
             {
                 $data["yorumcu"] = $query->row();
                 $data["yorumcu"]->baktigi_fallar = $this->fal->yorumcu_baktigi_fallar($query->row()->baktigi_fallar);
+                if (empty($data["yorumcu"]->fiyat_listesi))
+                    $data["yorumcu"]->fiyat_listesi = json_decode($this->fal->get_setting("fiyat_listesi"), true);
+                else
+                    $data["yorumcu"]->fiyat_listesi = json_decode($data["yorumcu"]->fiyat_listesi, true);
                 $data["page"] = "yorumcu";
                 $this->load->view('front/index', $data);
             }

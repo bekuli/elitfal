@@ -744,7 +744,8 @@ class Yorumcu extends CI_Controller {
                 if ($this->db->affected_rows() > 0)
                 {
                     echo "success.".$return;
-                    unlink("./uploads/".$this->profil->pp);
+                    if (!empty($this->profil->pp))
+                        unlink("./uploads/".$this->profil->pp);
                 }else{
                     echo "error";
                     unlink($image_name);

@@ -61,40 +61,6 @@ class Fal extends CI_Model
         }
     }
 
-    function fal_turu_name_to_org($name)
-    {
-        switch ($name) {
-            case 'kahve_fali':
-                return "Kahve Falı";
-                break;
-             case 'tarot_fali':
-                return "Tarot Falı";
-                break;
-             case 'yildizname':
-                return "Yıldız Name";
-                break;
-             case 'ruya_yorumu':
-                return "Rüya Yorumu";
-                break;
-             case 'katina_ask_fali':
-                return "Katina Aşk Falı";
-                break;
-             case 'su_fali':
-                return "Su Falı";
-                break;
-             case 'dert_ortagi':
-                return "Dert Ortağı";
-                break;
-            case 'katina_fali':
-                return "Katina Falı";
-                break;
-            default:
-                return $name;
-                break;
-        }
-    }
-
-
     function fal_gonder_check_profile_data()
     {
         $profil_data = array(
@@ -673,6 +639,39 @@ class Fal extends CI_Model
             "su_fali" => "",
             "dert_ortagi" => ""
         );
+    }
+
+    function fal_turu_name_to_org($name)
+    {
+        switch ($name) {
+            case 'kahve_fali':
+                return "Kahve Falı";
+                break;
+             case 'tarot_fali':
+                return "Tarot Falı";
+                break;
+             case 'yildizname':
+                return "Yıldız Name";
+                break;
+             case 'ruya_yorumu':
+                return "Rüya Yorumu";
+                break;
+             case 'katina_ask_fali':
+                return "Katina Aşk Falı";
+                break;
+             case 'su_fali':
+                return "Su Falı";
+                break;
+             case 'dert_ortagi':
+                return "Dert Ortağı";
+                break;
+            case 'katina_fali':
+                return "Katina Falı";
+                break;
+            default:
+                return $name;
+                break;
+        }
     }
 
 }

@@ -1,13 +1,13 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-  <h1 class="h2">Kullanıcılar</h1>
+  <h1 class="h2">Yorumcular</h1>
 </div>
 
 <div class="urltable">
 
     <div class="row urltable-top">
         <div class="col-xl-2 col-md-4">
-
+            <a href="#" class="btn btn-primary" id="yorumcu-ekle-btn">Yorumcu Ekle</a>
         </div>
         <div class="col-xl-8 col-md-4"></div>
         <div class="col-xl-2 col-md-4">
@@ -65,6 +65,24 @@
     </div>
 </div>
 
+<div class="modal" tabindex="-1" role="dialog" id="add-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Yorumcu Ekle</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="add-modal-content"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="add-save">Kaydet</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal" tabindex="-1" role="dialog" id="delete-modal" style="top:15%">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -86,26 +104,64 @@
   </div>
 </div>
 
+<script type="text/javascript" src="<?=base_url()?>src/js/croppie/croppie.js"></script>
+<link rel="stylesheet" type="text/css" href="<?=base_url()?>src/js/croppie/croppie.css">
+
+<div id="uploadimageModal" class="modal" role="dialog">
+ <div class="modal-dialog">
+  <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title">Resmi kırp</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <div class="modal-body text-center">
+        <div id="image_demo" style="width:350px; margin-top:30px"></div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-success crop_image">Kaydet</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">İptal</button>
+        </div>
+     </div>
+    </div>
+</div>
 
 <script type="text/javascript">
     
     $(document).ready(function () {
 
         $(".urltable-content").html(loading_set_np);
-        $(".urltable-content").load("<?=base_url()?>admin/user_list");
+        $(".urltable-content").load("<?=base_url()?>admin/yorumcular_list");
+
+        $("#yorumcu-ekle-btn").click(function(e){
+            e.preventDefault();
+            $.ajax({
+                url: "<?=base_url()?>admin/yorumcular/ekle-view",
+                contentType: false,
+                processData: false,
+                beforeSend: function(){
+                    $("#add-modal-content").html(loading_set_np);
+                    $("#add-modal").modal();
+                },
+                success: function( data){
+                    $("#add-modal-content").html(data);
+                },
+                error: function( e ){
+                    console.log( e );
+                }
+            });
+
+        });
 
         $(".urltable-content").on("click", "a[data-action]", function(e){
             e.preventDefault();
             
-            if ($(this).attr("data-action") == "view"){
-                var url = $(this).attr("href");
-                window.history.pushState("", "", url);
-                set_page(url);
-                $("#nav").find("a").removeClass("active");
-            }else if ($(this).attr("data-action") == "view_user"){
+            if ($(this).attr("data-action") == "view_yorumcu"){
 
                 $.ajax({
-                    url: '<?=base_url()?>admin/users/' + $(this).parent().attr("data-id") + "/view",
+                    url: '<?=base_url()?>admin/yorumcular/' + $(this).parent().attr("data-id") + "/view",
                     contentType: false,
                     processData: false,
                     beforeSend: function(){
@@ -129,7 +185,7 @@
             }else if ($(this).attr("data-action") == "edit"){
                 
                 $.ajax({
-                    url: '<?=base_url()?>admin/users/' + $(this).parent().attr("data-id") + "/edit",
+                    url: '<?=base_url()?>admin/yorumcular/' + $(this).parent().attr("data-id") + "/edit",
                     contentType: false,
                     processData: false,
                     beforeSend: function(){
@@ -153,7 +209,7 @@
                 var selector = $(this);
 
                 $.ajax({
-                    url: '<?=base_url()?>admin/users/' + $(this).parent().attr("data-id") + "/update-status",
+                    url: '<?=base_url()?>admin/yorumcular/' + $(this).parent().attr("data-id") + "/update-status",
                     contentType: false,
                     processData: false,
                     beforeSend: function(){
@@ -192,7 +248,7 @@
         
         $("#delete-yes").click(function(){
             $.ajax({
-                url: '<?=base_url()?>admin/users/' + $("input[name='delete-id']").attr("value") + "/delete",
+                url: '<?=base_url()?>admin/yorumcular/' + $("input[name='delete-id']").attr("value") + "/delete",
                 contentType: false,
                 processData: false,
                 success: function( data){
@@ -201,7 +257,7 @@
                     if (data == "success")
                     {
                         $.notify("Başarıyla silindi", "success");
-                        $("#nav a[data-title='Users']").click();
+                        $("#nav a[data-title='Yorumcular']").click();
                     }else
                         $.notify("Silerken bir hata oluştu", "error");
                     
@@ -216,10 +272,55 @@
         });
         
         $("#edit-save").click(function(){
-            $("#user-edit-form").submit();
+            $("#yorumcular-edit-form").submit();
+        });
+
+        $("#add-save").click(function(){
+            $("#add-form").submit();
+        });
+
+        $("#add-modal").on("submit", "#add-form",function(e){
+            e.preventDefault();
+
+            var form_data = new FormData($(this)[0]);
+
+            $.ajax({
+                url: "<?=base_url()?>admin/yorumcular/ekle",
+                type: 'post',
+                data: form_data,
+                contentType: false,
+                processData: false,
+                beforeSend: function(){
+                    $("#add-save").text("Yükleniyor...");
+                    $("#add-save").attr("disabled", "");
+                },
+                success: function( data){
+                    $("#add-save").removeAttr("disabled");
+                    $("#add-save").text("Kaydet");
+                    console.log(data);
+
+                    if (data == "success")
+                    {
+                        $.notify("Kaydedildi!", "success");
+                        location.reload();
+                        $("#add-modal").hide();
+                    }else if (data == "false")
+                    {
+                        $.notify("Tüm alanları doldurmak zorunludur!", "error");
+                    }else if (data == "error"){
+                    
+                        $.notify("Bilinmeyen Hata", "error");
+                    }
+                },
+                error: function( e ){
+                    $("#add-save").text("Kaydet");
+                    $("#add-save").removeAttr("disabled");
+                    console.log( e );
+                }
+            });
         });
         
-        $("#edit-modal").on("submit", "#user-edit-form",function(e){
+        $("#edit-modal").on("submit", "#yorumcular-edit-form",function(e){
             e.preventDefault();
 
             var form_data = new FormData($(this)[0]);
@@ -242,13 +343,11 @@
                     if (data == "success")
                     {
                         $.notify("Kaydedildi!", "success");
-                    }else if (data == "bad_email")
+                    }else if (data == "false")
                     {
-                        $.notify("Hatalı eposta adresi!", "error");
-                    }else if (data == "empty"){
                         $.notify("Tüm alanları doldurmak zorunludur!", "error");
-                    }else
-                    {
+                    }else if (data == "error"){
+                    
                         $.notify("Bilinmeyen Hata", "error");
                     }
                 },
@@ -267,16 +366,16 @@
             {
                 var q = $(this).attr("search");
                 if (typeof q !== typeof undefined && q !== false)
-                    $(".urltable-content").load("<?=base_url()?>admin/user_list/" + $(this).attr("page") + "/" + $(this).attr("search"));
+                    $(".urltable-content").load("<?=base_url()?>admin/yorumcular_list/" + $(this).attr("page") + "/" + $(this).attr("search"));
                 else
-                    $(".urltable-content").load("<?=base_url()?>admin/user_list/" + $(this).attr("page"));
+                    $(".urltable-content").load("<?=base_url()?>admin/yorumcular_list/" + $(this).attr("page"));
             }
         });
 
         $("#search-url").submit(function(e){
             e.preventDefault();
 
-            $(".urltable-content").load("<?=base_url()?>admin/user_list/1/"+$("#search-url input").val());
+            $(".urltable-content").load("<?=base_url()?>admin/yorumcular_list/1/"+$("#search-url input").val());
         });
     });
     

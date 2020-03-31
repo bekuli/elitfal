@@ -191,10 +191,21 @@
 					}
 					var profil_data = JSON.parse(result);
 
-					var headerprofil = '<li><a href="<?=base_url()?>profil">'+ profil_data["name"] +' '+ profil_data["surname"] + '</a></li>'+
-            '<li><a href="<?=base_url()?>profil" class="buton-red">Profil</a></li>'+
-            '<li><a href="<?=base_url()?>logout" class="buton-red">Çıkış Yap</a></li>';
-            		$(".header-right").html(headerprofil);
+            		
+
+
+                    var headerprofil = '<li><a href="<?=base_url()?>profil"><span class="badge kredi-badge">Kredi:'+profil_data["kredi"]
+                    +'</span></a></li>'
+                    +'<li>'
+              +'<div class="dropdown show">'
+                +'<a class="bildirim dropdown-toggle" id="bildirim" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bell"></i> <span id="notfycount"></span></a>'
+                +'<div class="dropdown-menu bildirim-list" aria-labelledby="bildirim">'
+                    +'</div>'
+                  +'</div>'
+                +'</li>'
+                +'<li><a href="<?=base_url()?>profil">'+ profil_data["name"] +' '+ profil_data["surname"] + '</a></li>'
+                +'<li><a href="<?=base_url()?>logout">Çıkış Yap</a></li>';
+                $(".user-datas ul").html(headerprofil);
 				},
 				error : function(){
 					process_output_data_login_modal("error");
@@ -215,11 +226,13 @@
         $(".login-register-form").modal();
         $("#registration-form-a").click();
     });
-    <?php
-        if ($this->fal->check_any_fal_exists() == true){
-    ?>
+
     var noties = [];
     var notify_count = 0;
+
+    <?php
+        if ($this->fal->check_login() !== false){
+        if ($this->fal->check_any_fal_exists()){ ?>
 
     function update_notification()
     {
@@ -324,7 +337,7 @@ setInterval(function(){
  update_notification();;
 }, 5000);
 
-<?php } ?>
+<?php } } ?>
 
 </script>
 </body>

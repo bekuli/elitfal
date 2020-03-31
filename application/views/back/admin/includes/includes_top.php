@@ -25,6 +25,7 @@
         var gchart = null;
         var gmap = null;
         var currentPathname = location.pathname;
+        var base_url = "<?=base_url()?>";
         
         function set_page(url)
         {

@@ -2,6 +2,7 @@
 
 <script type="text/javascript">
 	<?php
+        
         if ($this->fal->check_any_fal_exists_yorumcu() == true){
     ?>
     var noties = [];
@@ -130,6 +131,6 @@ setInterval(function(){
  keep_online();
 }, 5000);
 
-<?php } ?>
+<?php }  ?>
 
 </script>

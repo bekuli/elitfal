@@ -150,7 +150,7 @@
 									<div class="alt">
 
 										<div class="fal-kredi">
-											<span class="badge">150 Kredi</span>
+											<span class="badge"><?=$yorumcu->fiyat_listesi["katina_fali"]?> Kredi</span>
 										</div>
 
 										<a href="<?=base_url()?>yorumcular/<?=$yorumcu->id?>/katina-fali">
@@ -176,7 +176,7 @@
 									<div class="alt">
 
 										<div class="fal-kredi">
-											<span class="badge">150 Kredi</span>
+											<span class="badge"><?=$yorumcu->fiyat_listesi["kahve_fali"]?> Kredi</span>
 										</div>
 
 										<a href="<?=base_url()?>yorumcular/<?=$yorumcu->id?>/kahve-fali">
@@ -202,7 +202,7 @@
 									<div class="alt">
 
 										<div class="fal-kredi">
-											<span class="badge">150 Kredi</span>
+											<span class="badge"><?=$yorumcu->fiyat_listesi["tarot_fali"]?> Kredi</span>
 										</div>
 
 										<a href="<?=base_url()?>yorumcular/<?=$yorumcu->id?>/tarot-fali">
@@ -228,7 +228,7 @@
 									<div class="alt">
 
 										<div class="fal-kredi">
-											<span class="badge">150 Kredi</span>
+											<span class="badge"><?=$yorumcu->fiyat_listesi["su_fali"]?> Kredi</span>
 										</div>
 
 										<a href="<?=base_url()?>yorumcular/<?=$yorumcu->id?>/su-fali">
@@ -253,7 +253,7 @@
 									<div class="alt">
 
 										<div class="fal-kredi">
-											<span class="badge">150 Kredi</span>
+											<span class="badge"><?=$yorumcu->fiyat_listesi["yildizname"]?> Kredi</span>
 										</div>
 
 										<a href="<?=base_url()?>yorumcular/<?=$yorumcu->id?>/yildizname">
@@ -277,7 +277,7 @@
 									<div class="alt">
 
 										<div class="fal-kredi">
-											<span class="badge">150 Kredi</span>
+											<span class="badge"><?=$yorumcu->fiyat_listesi["ruya_yorumu"]?> Kredi</span>
 										</div>
 
 										<a href="<?=base_url()?>yorumcular/<?=$yorumcu->id?>/ruya-yorumu">
@@ -301,7 +301,7 @@
 									<div class="alt">
 
 										<div class="fal-kredi">
-											<span class="badge">150 Kredi</span>
+											<span class="badge"><?=$yorumcu->fiyat_listesi["dert_ortagi"]?> Kredi</span>
 										</div>
 
 										<a href="<?=base_url()?>yorumcular/<?=$yorumcu->id?>/dert-ortagi">

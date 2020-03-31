@@ -38,7 +38,7 @@
                             <div class="urlbox-td urlbox-head">
                                 <div class="urlbox-url">
                                 <?php 
-                                $name = $query->row()->name." ".$query->row()->surname;
+                                $name = $row["name"]." ".$row["surname"];
                                 if (strlen($name) > 40)
                                     echo substr($name,0,40)."...";
                                 else
