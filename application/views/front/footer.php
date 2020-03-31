@@ -80,9 +80,19 @@
 		                            </div>
 	                            </div>
                             </div>
-                            <div class="form-group">
-                                <label for="neweposta">Eposta</label>
-                                <input type="email" class="form-control" id="neweposta" placeholder="Eposta Adresinizi Giriniz" name="newemail">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="tel">Telefon Numarası</label>
+                                        <input type="number" class="form-control" id="tel" placeholder="Telefon Numarası" name="tel">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="neweposta">Eposta</label>
+                                        <input type="email" class="form-control" id="neweposta" placeholder="Eposta Adresinizi Giriniz" name="newemail">
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="newpwd">Şifre</label>
@@ -148,6 +158,15 @@
 						$('#login-modal').modal('hide');
 						$(".btn-submit-fal").click();
 						update_login();
+                        <?php
+
+                            if ($page !== "fal-sayfasi"){
+                                ?>
+                                location.href = base_url + "profil";
+                                <?php
+                            }
+
+                        ?>
 					}
 					else
 					{
@@ -203,9 +222,11 @@
                     +'</div>'
                   +'</div>'
                 +'</li>'
+                +'<li><a href="<?=base_url()?>profil">Fal Geçmişi</a></li>'
                 +'<li><a href="<?=base_url()?>profil">'+ profil_data["name"] +' '+ profil_data["surname"] + '</a></li>'
                 +'<li><a href="<?=base_url()?>logout">Çıkış Yap</a></li>';
                 $(".user-datas ul").html(headerprofil);
+                $(".yorumcu-ol-li").remove();
 				},
 				error : function(){
 					process_output_data_login_modal("error");

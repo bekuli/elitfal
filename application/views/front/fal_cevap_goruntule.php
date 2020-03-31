@@ -66,7 +66,7 @@
             </div>
         </div>
 
-        <?php if ($this->fal->empty($fal_data->comment)) { ?>
+        <?php if ($this->fal->empty_fal($fal_data->comment)) { ?>
         <div class="comment col-md-3">
             <div class="yorum-gonder-kart">
                 <div class="yorum-ack">
@@ -86,7 +86,7 @@
 	</div>
 </div>
 
-<?php if ($this->fal->empty($fal_data->comment)) { ?>
+<?php if ($this->fal->empty_fal($fal_data->comment)) { ?>
 
 <div class="comment modal fade" id="yorum-modal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">

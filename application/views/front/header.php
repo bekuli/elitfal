@@ -18,6 +18,7 @@
                 </div>
               </div>
             </li>
+            <li><a href="<?=base_url()?>profil">Fal Geçmişi</a></li>
             <li><a href="<?=base_url()?>profil"><?=$user_data->name." ".$user_data->surname?></a></li>
             <li><a href="<?=base_url()?>logout">Çıkış Yap</a></li>
           <?php } ?>
@@ -53,7 +54,10 @@
             </li>
             <li><a href="<?=base_url()?>yorumcular">Yorumcular</a></li>
             <li><a href="<?=base_url()?>kredi-satin-al">Fiyatlandırma</a></li>
-            <li><a href="<?=base_url()?>yorumcu-ol">Yorumcu Ol</a></li>
+            <?php
+              if ($this->fal->check_login() == false) { ?>
+            <li class="yorumcu-ol-li"><a href="<?=base_url()?>yorumcu-ol">Yorumcu Ol</a></li>
+          <?php } ?>
             <li><a href="<?=base_url()?>iletisim">İletişim</a></li>
           </ul>
         </div><!--/.nav-collapse -->

@@ -8,6 +8,7 @@
 
 <div class="row">
 	<div id="previewImg">
+        <div style="float:left" class="col-md-2"><div class="preview-img-wrap"><div class="inner"><div class="preview-img-tag"><img src=""><i class="fa fa-camera"></i></div></div></div></div>
 	</div>
 </div>
 
@@ -119,3 +120,16 @@
         $(".images_file_select").val("");
     });
 </script>
+
+<style>
+    .fa-camera{
+        color: #000;
+        position: absolute;
+        z-index: 999;
+        font-size: 20px;
+        left: 0;
+        right: 0;
+        top:35px;
+        background: #fff;
+    }
+</style>
