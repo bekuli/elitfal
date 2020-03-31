@@ -3,7 +3,7 @@
 <div class="yorumcu-sayfa">
 	<div class="container">
 		<div class="row">
-			<div class="col-lg-3 profil-wrapper">
+			<div class="col-lg-4 profil-wrapper">
 
 				<div class="profil-karti-g">
 					<div class="pp">
@@ -43,12 +43,21 @@
                     	<ul>
                     		<?php if (isset($yorumcu->baktigi_fallar["katina_fali"])) { ?>
                     		<li>
-                    			<div class="fal-li">
-                    				<div class="fal-li-resim">
-                    					<img src="<?=base_url()?>src/img/icon-katina.png">
-                    				</div>
-                    				<div class="fal-li-isim">Katina Falı</div>
-                    			</div>
+                    			<div class="row">
+                    				<div class="col-md-8">
+		                    			<a href="">
+			                    			<div class="fal-li">
+			                    				<div class="fal-li-resim">
+			                    					<img src="<?=base_url()?>src/img/icon-katina.png">
+			                    				</div>
+			                    				<div class="fal-li-isim">Katina Falı</div>
+			                    			</div>
+		                    			</a>
+	                    			</div>
+	                    			<div class="col-md-4">
+	                    				<a href="" class="fal-gonder-btn">Falını Gönder</a>
+	                    			</div>
+	                    		</div>
                 			</li>
                 			<?php } ?>
                 			<?php if (isset($yorumcu->baktigi_fallar["kahve_fali"])) { ?>
@@ -121,7 +130,7 @@
 
 			</div>
 
-			<div class="col-lg-9 profil-sag-wrapper">
+			<div class="col-lg-8 profil-sag-wrapper">
 
 				<div class="profil-sag">
 					<div class="hakkimda">

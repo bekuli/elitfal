@@ -2,14 +2,33 @@
 
 <div class="form-group">
 	<label for="soru">Fal Fotoğraflarını Yükleyin (En Fazla 5 Fotoğraf)</label><br>
-	<label for="img-select" class="foto-btn">Fotoğrafları Seçin</label>
-	<input style="display: none" type="file" name="img[]" accept=".gif,.jpg,.png,.jpeg,.bmp" multiple id="img-select" class="images_file_select">
+	<input style="display: none" type="file" name="img[]" accept=".gif,.jpg,.png,.jpeg,.bmp" id="img-select" class="images_file_select">
 </div>
 
 <div class="row">
-	<div id="previewImg">
-        <div style="float:left" class="col-md-2"><div class="preview-img-wrap"><div class="inner"><div class="preview-img-tag"><img src=""><i class="fa fa-camera"></i></div></div></div></div>
-	</div>
+    <div id="previewImg">
+        <div data-id="1" class="img-select-box col-md-2 col-xs-6"><div class="preview-img-wrap">
+            <span class="close" data-name="">&times;</span>
+            <div class="inner"><div class="preview-img-tag"><img src=""><i class="fa fa-camera"></i></div></div></div>
+        </div>
+        <div data-id="2" class="img-select-box col-md-2 col-xs-6" ><div class="preview-img-wrap">
+            <span class="close" data-name="">&times;</span>
+            <div class="inner"><div class="preview-img-tag"><img src=""><i class="fa fa-camera"></i></div></div></div>
+        </div>
+        <div data-id="3" class="img-select-box col-md-2 col-xs-6"><div class="preview-img-wrap">
+            <span class="close" data-name="">&times;</span>
+            <div class="inner"><div class="preview-img-tag"><img src=""><i class="fa fa-camera"></i></div></div></div>
+        </div>
+        <div data-id="4" class="img-select-box col-md-2 col-xs-6"  ><div class="preview-img-wrap">
+            <span class="close" data-name="">&times;</span>
+            <div class="inner"><div class="preview-img-tag"><img src=""><i class="fa fa-camera"></i></div></div></div>
+        </div>
+        <div data-id="5" class="img-select-box col-md-2 col-xs-6" ><div class="preview-img-wrap">
+            <span class="close" data-name="">&times;</span>
+            <div class="inner"><div class="preview-img-tag"><img src=""><i class="fa fa-camera"></i></div></div></div>
+        </div>
+    </div>
+
 </div>
 
 <div class="form-group">
@@ -46,9 +65,6 @@
         vertical-align: middle;
     }
 
-    .preview-img-wrap:hover {
-        border: 2px solid transparent;
-    }
 
     .preview-img-wrap .inner {
         padding: 5px;
@@ -76,6 +92,13 @@
 
 <script>
 	var images_files = [];
+    var cur_img_id = 0;
+
+    $("#previewImg .img-select-box").click(function(){
+        cur_img_id = $(this).attr("data-id");
+        if ($(this).find("span").attr("data-name") == "")
+            $("#img-select").click();
+    });
 
     $(".images_file_select").on("change", function(e) {
         var fileTypes = ['jpg', 'jpeg', 'png', 'bmp', 'JPG', 'PNG', 'JPEG', 'BMP']; 
@@ -100,15 +123,27 @@
                     fileReader.filename = f.name;
                     fileReader.onload = (function(e) {
                         var file = e.target;
-                        $("#previewImg").append("<div style='float:left' class=\"col-md-2\">" + "<div class=\"preview-img-wrap\">" + "<span class=\"close\" data-name=\"" + file.filename + "\">&times;</span>" + "<div class=\"inner\">" + "<div class=\"preview-img-tag\">" + "<img src=\"" + e.target.result + "\" title=\"" + file.filename + "\"/>" + "</div></div></div></div>");
+                        $("#previewImg div[data-id='"+cur_img_id+"'] img").attr("src", e.target.result);
+                        $("#previewImg div[data-id='"+cur_img_id+"'] span").show();
+                        $("#previewImg div[data-id='"+cur_img_id+"'] span").attr("data-name", file.filename);
+                        $("#previewImg div[data-id='"+cur_img_id+"'] i").hide();
                         $(".close").click(function() {
-                            for (var j = 0; j < images_files.length; j++) {
-                                if (images_files[j].name == $(this).attr("data-name")) {
+                            var ths = $(this);
+                            setTimeout(function() {
+                                for (var j = 0; j < images_files.length; j++) {
+                                if (images_files[j].name == $(ths).attr("data-name")) {
                                     images_files.splice(j, 1);
                                 }
                             }
-                            $(this).parent(".preview-img-wrap").parent().remove();
+                            $(ths).parent().find("img").attr("src", "");
+                            $(ths).parent().find("span").hide();
+                            $(ths).parent().find("span").attr("data-name", "");
+                            $(ths).parent().find("i").show();
+                        }, 100);
+                            
+
                         });
+                        cur_img_id = 0;
                     });
                     fileReader.readAsDataURL(f);
                     images_files.push(files[i]);
@@ -131,5 +166,13 @@
         right: 0;
         top:35px;
         background: #fff;
+    }
+
+    #previewImg .img-select-box{
+        cursor: pointer;
+    }
+
+    #previewImg span{
+        display: none;
     }
 </style>

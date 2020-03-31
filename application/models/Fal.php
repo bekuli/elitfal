@@ -67,7 +67,6 @@ class Fal extends CI_Model
             "ad" => trim($this->input->post("ad")),
             "soyad" => trim($this->input->post("soyad")),
             "email" => trim($this->input->post("email")),
-            "sektor" => trim($this->input->post("sektor")),
             "cinsiyet" => trim($this->input->post("cinsiyet")),
             "iliski" => trim($this->input->post("iliski_durumu")),
             "tarih" => trim($this->input->post("dogum_tarihi"))
@@ -75,7 +74,7 @@ class Fal extends CI_Model
 
         foreach ($profil_data as $key => $row)
         {
-            if ($this->empty($row)){
+            if ($this->empty_fal($row)){
                 return $key."_bos";
             }
         }
@@ -83,27 +82,13 @@ class Fal extends CI_Model
         if (!isset($_POST["kosullar"]))
             return "kosullar";
 
-        $sektor = array("Belirtilmemiş", "İşsiz", "Diğer", "Basın-Yayın", "Danışmanlık", "Doktor", "Emekli", "Ev Kadını", "Halkla İlişkiler", "Hukukçu", "Kamu Sektörü", "Manken/Model", "Mimar", "Muhasebe", "Mühendis", "Müzik", "Otomotiv", "Psikolog", "Reklam", "Sanatçı", "Satış/Pazarlama", "Sağlık Hizmetleri", "Sağlık Sektörü", "Serbest Meslek", "Sigortacı", "Sport", "Tekstil", "Ticaret", "Turizm", "Yöneticilik", "Öğrenci", "Öğretim Görevlisi/Asistan", "Öğretmen", "İnsan Kaynakları");
-
         $iliski_durumu = array("İlişki Durumu", "Ayrı yaşıyor", "Boşanmış", "Evli", "Karmaşık", "İlişkisi var", "İlişkisi yok");
 
         $cinsiyet = array("erkek", "kadın");
 
-        $issektor = false;
         $isiliski = false;
         $iscinsiyet = false;
 
-        foreach ($sektor as $row)
-        {
-            if ($profil_data["sektor"] == $row)
-            {
-                $issektor = true;
-                break;
-            }
-        }
-
-        if ($issektor == false)
-            return "sektor_bos";
 
         foreach ($iliski_durumu as $row)
         {
@@ -125,9 +110,6 @@ class Fal extends CI_Model
                 break;
             }
         }
-
-        if ($issektor == false)
-            return "sektor_bos";
 
         return $profil_data;
     }
