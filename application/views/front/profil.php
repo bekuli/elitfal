@@ -145,10 +145,10 @@
 									    <tr>
 									      <th style="width: 20%">Fal Türü</th>
 									      <th style="width: 25%">Yorumcu</th>
-									      <th style="width: 20%">Sonuç</th>
-									      <th style="width: 10%">Ücret</th>
-									      <th style="width: 20%">Tarih</th>
-									      <th style="width: 5%"></th>
+									      <th style="width: 10%">Miktar</th>
+									      <th style="width: 15%">Ödeme Türü</th>
+									      <th style="width: 20%">Ödeme Sonucu</th>
+									      <th style="width: 10%">Tarih</th>
 									    </tr>
 									</thead>
 
@@ -158,14 +158,13 @@
 									 			?>
 									 			<tr>
 									 				<td><?=$this->fal->fal_turu_name_to_org($row["fal_turu"])?></td>
+									 				<td></td>
 									 				<td>
-									 					Cevaplandı
+									 					<?=$row["odeme"]?>
 									 				</td>
-									 				<td><?=$row["odeme"]?></td>
+									 				<td></td>
+									 				<td>Cevaplandı</td>
 									 				<td><?=$row["tarih"]?></td>
-									 				<td>
-									      				<button type="button" class="kullanici-btn btn btn-xs">Detaylar</button>
-									      			</td>
 
 									 			</tr>
 									 			<?php
