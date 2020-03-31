@@ -74,54 +74,6 @@
 									      		</select>
 									    	</div>
 									    	<div class="form-group col-md-6">
-									      		<label for="inputSektor4">Sektörünüz</label>
-									      		<select id="inputSektor4" class="form-control">
-									      			<option value="">Sektörünüz</option>
-								            		<option  value="Belirtilmemiş">Belirtilmemiş</option>
-										            <option value="İşsiz">İşsiz</option>
-										            <option  value="Diğer">Diğer</option>
-										            <option  value="Basın-Yayın">Basın-Yayın</option>
-										            <option  value="Danışmanlık">Danışmanlık</option>
-										            <option  value="Doktor">Doktor</option>
-										            <option  value="Emekli">Emekli</option>
-										            <option  value="Ev Kadını">Ev Kadını</option>
-										            <option value="Halkla İlişkiler">Halkla İlişkiler</option>
-										            <option  value="Hukukçu">Hukukçu</option>
-										            <option value="Kamu Sektörü">Kamu Sektörü</option>
-										            <option  value="Manken/Model">Manken/Model</option>
-										            <option value="Mimar">Mimar</option>
-										            <option  value="Muhasebe">Muhasebe</option>
-										            <option value="Mühendis">Mühendis</option>
-										            <option  value="Müzik">Müzik</option>
-										            <option  value="Otomotiv">Otomotiv</option>
-										            <option  value="Psikolog">Psikolog</option>
-										            <option  value="Reklam">Reklam</option>
-										            <option  value="Sanatçı">Sanatçı</option>
-										            <option value="Satış/Pazarlama">Satış/Pazarlama</option>
-										            <option value="Sağlık Hizmetleri">Sağlık Hizmetleri</option>
-										            <option  value="Sağlık Sektörü">Sağlık Sektörü</option>
-										            <option  value="Serbest Meslek">Serbest Meslek</option>
-										            <option  value="Sigortacı">Sigortacı</option>
-										            <option value="Sport">Sport</option>
-										            <option  value="Tekstil">Tekstil</option>
-										            <option  value="Ticaret">Ticaret</option>
-										            <option  value="Turizm">Turizm</option>
-										            <option  value="Yöneticilik">Yöneticilik</option>
-										            <option value="Öğrenci">Öğrenci</option>
-										            <option value="Öğretim Görevlisi/Asistan">Öğretim Görevlisi/Asistan</option>
-										            <option  value="Öğretmen">Öğretmen</option>
-										            <option  value="İnsan Kaynakları">İnsan Kaynakları</option>
-									      		</select>
-									    	</div>
-									    </div>
-									  </div>
-									  <div class="form-row">
-									  	<div class="row">
-									  		<div class="form-group col-md-6">
-									      		<label for="inputDogum4">Doğum tarihiniz</label>
-									      		<input type="text" class="form-control datepicker" id="inputDogum4" placeholder="Doğum tarihiniz">
-									    	</div>
-									    	<div class="form-group col-md-6">
 									      		<label for="inputIliski4">İlişki Durumunuz</label>
 									      		<select id="inputIliski4" class="form-control">
 									      			<option value="İlişki Durumu">İlişki Durumu</option>
@@ -132,6 +84,14 @@
 		                                            <option value="İlişkisi var">İlişkisi var</option>
 		                                            <option value="İlişkisi yok">İlişkisi yok</option>
 									      		</select>
+									    	</div>
+									    </div>
+									  </div>
+									  <div class="form-row">
+									  	<div class="row">
+									  		<div class="form-group col-md-12">
+									      		<label for="inputDogum4">Doğum tarihiniz</label>
+									      		<input type="text" class="form-control datepicker" id="inputDogum4" placeholder="Doğum tarihiniz">
 									    	</div>
 									    </div>
 									  </div>
