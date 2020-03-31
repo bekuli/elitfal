@@ -198,7 +198,7 @@ class Yorumcu extends CI_Controller {
 
                     $cevap = $this->input->post("cevap");
 
-                    if ($this->fal->empty($cevap)){
+                    if ($this->fal->empty_fal($cevap)){
                         echo "Cevap boş bırakılımaz!";
                         return;
                     }
@@ -289,7 +289,7 @@ class Yorumcu extends CI_Controller {
     public function send_message($user)
     {
         $msg = trim($this->input->post("message"));
-        if ($this->fal->empty($msg))
+        if ($this->fal->empty_fal($msg))
         {
             echo "none";
             return;
@@ -661,7 +661,7 @@ class Yorumcu extends CI_Controller {
 
             foreach ($data as $row)
             {
-                if ($this->fal->empty($row))
+                if ($this->fal->empty_fal($row))
                 {
                     echo "false";
                     return;

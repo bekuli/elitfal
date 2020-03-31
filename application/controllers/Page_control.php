@@ -108,7 +108,7 @@ class Page_control extends CI_Controller {
                     return;
                 }
 
-                if($this->fal->empty($this->uri->segment(2)))
+                if($this->fal->empty_fal($this->uri->segment(2)))
                 {
                     show_404();
                     return;
@@ -136,7 +136,7 @@ class Page_control extends CI_Controller {
                     return;
                 }
                 $id = false;
-                if ($this->fal->empty($this->uri->segment(2)) == false)
+                if ($this->fal->empty_fal($this->uri->segment(2)) == false)
                     $id = $this->uri->segment(2);
                 $this->mesaj_check($id);
                 return;
@@ -615,7 +615,7 @@ class Page_control extends CI_Controller {
                     "acilim" => "acilim",
                 );
 
-                if ($this->fal->empty($fields["acilim"]))
+                if ($this->fal->empty_fal($fields["acilim"]))
                 {
                     echo "acilim";
                     return;
@@ -654,7 +654,7 @@ class Page_control extends CI_Controller {
                     "acilim" => "acilim",
                 );
 
-                if ($this->fal->empty($fields["acilim"]))
+                if ($this->fal->empty_fal($fields["acilim"]))
                 {
                     echo "acilim";
                     return;
@@ -745,7 +745,7 @@ class Page_control extends CI_Controller {
                     "acilim" => "acilim",
                 );
 
-                if ($this->fal->empty($_POST["acilim"]))
+                if ($this->fal->empty_fal($_POST["acilim"]))
                 {
                     echo "acilim";
                     return;
@@ -847,7 +847,7 @@ class Page_control extends CI_Controller {
                 $arry = array();
                 foreach ($value as $key1 => $value1) {
                     $var = trim($this->input->post($value1));
-                    if ($this->fal->empty($var) || isset($_POST[$value1]) == false)
+                    if ($this->fal->empty_fal($var) || isset($_POST[$value1]) == false)
                     {
                         echo $value1."_bos";
                         return;
@@ -862,7 +862,7 @@ class Page_control extends CI_Controller {
 
         foreach ($fields as $key => $value) {
             $var = trim($this->input->post($value));
-            if ($this->fal->empty($var) || isset($_POST[$value]) == false)
+            if ($this->fal->empty_fal($var) || isset($_POST[$value]) == false)
             {
                 echo $value."_bos";
                 return;
@@ -1003,7 +1003,7 @@ class Page_control extends CI_Controller {
     public function mesaj_gonder($yorumcu_id)
     {
         $msg = trim($this->input->post("message"));
-        if ($this->fal->empty($msg))
+        if ($this->fal->empty_fal($msg))
         {
             echo "none";
             return;
@@ -1114,7 +1114,7 @@ class Page_control extends CI_Controller {
         $query = $this->db->get_where("fal_istekleri", array("id" => $id, "status" => 1, "user_id" => $this->session->userdata("id")));
         if ($query !== false && $query->num_rows() > 0)
         {
-            if ($this->fal->empty($query->row()->comment))
+            if ($this->fal->empty_fal($query->row()->comment))
             {
                 $comment = trim($this->input->post("comment"));
                 if (empty($comment))

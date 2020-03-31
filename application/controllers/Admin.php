@@ -392,7 +392,7 @@ class Admin extends CI_Controller {
 
                         foreach ($dataf as $row)
                         {
-                            if ($this->fal->empty($row))
+                            if ($this->fal->empty_fal($row))
                             {
                                 echo "false";
                                 return;
@@ -546,7 +546,7 @@ class Admin extends CI_Controller {
 
                         foreach ($dataf as $row)
                         {
-                            if ($this->fal->empty($row))
+                            if ($this->fal->empty_fal($row))
                             {
                                 echo "false";
                                 return;

@@ -180,7 +180,7 @@ class Fal extends CI_Model
         return true;
     }
 
-    function empty($data)
+    function empty_fal($data)
     {
         if (trim($data) == "" || $data == null)
             return true;
