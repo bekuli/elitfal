@@ -179,11 +179,11 @@
 												  	<div class="row">
 												    	<div class="form-group col-md-6">
 												      		<label for="inputAd4">Ad</label>
-												      		<input type="text" class="form-control" id="inputAd4" placeholder="Adınız">
+												      		<input name="ad" type="text" class="form-control" value="<?=$user_data->name?>" id="inputAd4" placeholder="Adınız">
 												    	</div>
 												    	<div class="form-group col-md-6">
 												      		<label for="inputSoyad4">Soyad</label>
-												      		<input type="text" class="form-control" id="inputSoyad4" placeholder="Soyadınız">
+												      		<input name="soyad" type="text" class="form-control" value="<?=$user_data->surname?>" id="inputSoyad4" placeholder="Soyadınız">
 												    	</div>
 												    </div>
 												  </div>
@@ -191,11 +191,11 @@
 												  	<div class="row">
 												  		<div class="form-group col-md-6">
 												      		<label for="inputEmail4">E-mailiniz</label>
-												      		<input type="email" class="form-control" id="inputEmaill4" placeholder="E-mailiniz">
+												      		<input name="email" type="email" class="form-control" value="<?=$user_data->email?>" id="inputEmaill4" placeholder="E-mailiniz">
 												    	</div>
 												    	<div class="form-group col-md-6">
 												      		<label for="inputTelefon4">Telefon Numaranız</label>
-												      		<input type="number" class="form-control" id="inputTelefo4" placeholder="Telefon Numaranız">
+												      		<input name="tel" type="number" class="form-control" value="<?=$user_data->telefon?>" id="inputTelefo4" placeholder="Telefon Numaranız">
 												    	</div>
 												    </div>
 												  </div>
@@ -203,22 +203,22 @@
 												  	<div class="row">
 												  		<div class="form-group col-md-6">
 												      		<label for="inputCinsiyet4">Cinsiyetiniz</label>
-												      		<select id="inputCinsiyet4" class="form-control">
+												      		<select id="inputCinsiyet4" name="cinsiyet" class="form-control">
 												      			<option value="">Cinsiyetiniz</option>
-																<option value="erkek">erkek</option>
-																<option value="kadın">kadın</option>
+																<option <?=$user_data->cinsiyet == "erkek" ?  ' selected="selected"' : '';?> value="erkek">erkek</option>
+																<option <?=$user_data->cinsiyet == "kadın" ?  ' selected="selected"' : '';?> value="kadın">kadın</option>
 												      		</select>
 												    	</div>
 												    	<div class="form-group col-md-6">
 												      		<label for="inputIliski4">İlişki Durumunuz</label>
-												      		<select id="inputIliski4" class="form-control">
+												      		<select id="inputIliski4" name="iliski_durumu" class="form-control">
 												      			<option value="İlişki Durumu">İlişki Durumu</option>
-					                                            <option value="Ayrı yaşıyor">Ayrı yaşıyor</option>
-					                                            <option value="Boşanmış">Boşanmış</option>
-					                                            <option value="Evli">Evli</option>
-					                                            <option value="Karmaşık">Karmaşık</option>
-					                                            <option value="İlişkisi var">İlişkisi var</option>
-					                                            <option value="İlişkisi yok">İlişkisi yok</option>
+					                                            <option <?=$user_data->iliski_durumu == "Ayrı yaşıyor" ?  ' selected="selected"' : '';?> value="Ayrı yaşıyor">Ayrı yaşıyor</option>
+					                                            <option <?=$user_data->iliski_durumu == "Boşanmış" ?  ' selected="selected"' : '';?> value="Boşanmış">Boşanmış</option>
+					                                            <option <?=$user_data->iliski_durumu == "Evli" ?  ' selected="selected"' : '';?> value="Evli">Evli</option>
+					                                            <option <?=$user_data->iliski_durumu == "Karmaşık" ?  ' selected="selected"' : '';?> value="Karmaşık">Karmaşık</option>
+					                                            <option <?=$user_data->iliski_durumu == "İlişkisi var" ?  ' selected="selected"' : '';?> value="İlişkisi var">İlişkisi var</option>
+					                                            <option <?=$user_data->iliski_durumu == "İlişkisi yok" ?  ' selected="selected"' : '';?> value="İlişkisi yok">İlişkisi yok</option>
 												      		</select>
 												    	</div>
 												    </div>
@@ -227,7 +227,7 @@
 												  	<div class="row">
 												  		<div class="form-group col-md-12">
 												      		<label for="inputDogum4">Doğum tarihiniz</label>
-												      		<input type="text" class="form-control datepicker" id="inputDogum4" placeholder="Doğum tarihiniz">
+												      		<input name="dogum_tarih" type="text" class="form-control datepicker" value="<?=$user_data->dogum_tarihi?>" id="inputDogum4" placeholder="Doğum tarihiniz">
 												    	</div>
 												    </div>
 												  </div>
@@ -240,12 +240,12 @@
 												  	<div class="row">
 												  		<div class="form-group col-md-6">
 												      		<label for="inputSifre4">Şifre</label>
-												      		<input type="password" class="form-control" id="inputSifre4" placeholder="Şifre">
+												      		<input name="password" type="password" class="form-control" id="inputSifre4" placeholder="Şifre">
 												      		<small class="form-text text-muted">Şifrenizi değiştirmek istemiyorsanız bu kısmı boş bırakınız.</small>
 												    	</div>
 												    	<div class="form-group col-md-6">
 												      		<label for="inputSifretekrar4">Şifre Tekrar</label>
-												      		<input type="password" class="form-control" id="inputSifretekrar4" placeholder="Şifre Tekrar">
+												      		<input name="password-repeat" type="password" class="form-control" id="inputSifretekrar4" placeholder="Şifre Tekrar">
 												    	</div>
 												  	</div>
 												</div>
