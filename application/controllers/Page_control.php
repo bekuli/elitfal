@@ -37,8 +37,9 @@ class Page_control extends CI_Controller {
                 if ($this->fal->check_login() == false)
                     $this->giris_ajax();
                 return;
-            case "kayit":
-                $this->kayit();
+            case "kayit-ajax":
+                if ($this->fal->check_login() == false)
+                    $this->kayit_ajax();
                 return;
             case "demo":
                 $this->load->view("front/demo");
@@ -224,18 +225,6 @@ class Page_control extends CI_Controller {
             if (valid_email($email))
             {
                 
-                $query = $this->db->get_where("users", array("email"=>$email));
-                if ($query !== false && $query->num_rows() > 0)
-                {
-                    if ($query->row()->password == $password)
-                    {
-                        $this->session->set_userdata("user_login", "yes");
-                        $this->session->set_userdata("id", $query->row()->id);
-                        redirect(base_url()."profil");
-                        return;
-                    }
-                }
-                
                 $query = $this->db->get_where("yorumcu", array("email"=>$email));
                 if ($query !== false && $query->num_rows() > 0)
                 {
@@ -271,13 +260,6 @@ class Page_control extends CI_Controller {
         $this->load->view('front/top');
         $this->load->view('front/giris', $data);
     }
-    
-    public function kayit()
-    {
-        $data["a"] = "a";
-        $this->load->view('front/top');
-        $this->load->view('front/kayit', $data);
-    }
 
     public function giris_ajax(){
         if (isset($_POST["email"]) && isset($_POST["password"]))
@@ -301,7 +283,7 @@ class Page_control extends CI_Controller {
                     {
                         $this->session->set_userdata("user_login", "yes");
                         $this->session->set_userdata("id", $query->row()->id);
-                        echo "success.".$query->row()->password;
+                        echo "success";
                         return;
                     }
                 }
@@ -309,6 +291,67 @@ class Page_control extends CI_Controller {
                 echo "hata";
             }else
                 echo "email";
+        }else
+        echo "error";
+    }
+
+    public function kayit_ajax()
+    {
+        $ad = trim($this->input->post("ad"));
+        $soyad = trim($this->input->post("soyad"));
+        $tel = trim($this->input->post("tel"));
+        $email = trim($this->input->post("email"));
+        $sifre = trim($this->input->post("password"));
+        $sifretekrar = trim($this->input->post("password-repeat"));
+
+        if (empty($ad) || empty($soyad) || empty($tel) || empty($email) || empty($sifre) || empty($sifretekrar))
+        {
+            echo "bos";
+            return;
+        }
+
+        if (!valid_email($email))
+        {
+            echo "email";
+            return;
+        }
+
+        if (!is_numeric($tel))
+        {
+            echo "tel";
+            return;
+        }
+
+        if ($sifre !== $sifretekrar)
+        {
+            echo "no_match";
+            return;
+        }
+
+        $query = $this->db->get_where("users", array("email" => $email));
+        if ($query !== false && $query->num_rows() > 0)
+        {
+            echo "exists";
+            return;
+        }
+
+        $data = array(
+            "name" => $ad,
+            "surname" => $soyad,
+            "telefon" => $tel,
+            "email" => $email,
+            "password" => sha1($sifre),
+            "tarih" => date("Y-m-d"),
+            "status" => "1",
+            "kredi" => 0
+        );
+
+        $this->db->insert("users", $data);
+        if ($this->db->affected_rows() > 0)
+        {
+            $this->session->set_userdata("user_login", "yes");
+            $this->session->set_userdata("id", $this->db->insert_id());
+            echo "success";
         }else
         echo "error";
     }

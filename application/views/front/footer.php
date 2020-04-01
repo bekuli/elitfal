@@ -65,7 +65,7 @@
                         </form>
                     </div>
                     <div id="registration-form" class="tab-pane fade">
-                        <form action="" method="post" >
+                        <form action="" method="post" id="register-modal-form" >
                         	<div class="row">
                         		<div class="col-md-6">
 		                            <div class="form-group">
@@ -75,8 +75,8 @@
 	                            </div>
 	                            <div class="col-md-6">
 	                            	<div class="form-group">
-		                                <label for="sirname">Soyad</label>
-		                                <input type="text" class="form-control" id="sirname" placeholder="Soyadınızı Giriniz" name="soyad">
+		                                <label for="surname">Soyad</label>
+		                                <input type="text" class="form-control" id="surname" placeholder="Soyadınızı Giriniz" name="soyad">
 		                            </div>
 	                            </div>
                             </div>
@@ -90,7 +90,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="neweposta">Eposta</label>
-                                        <input type="email" class="form-control" id="neweposta" placeholder="Eposta Adresinizi Giriniz" name="newemail">
+                                        <input type="email" class="form-control" id="neweposta" placeholder="Eposta Adresinizi Giriniz" name="email">
                                     </div>
                                 </div>
                             </div>
@@ -102,7 +102,7 @@
                                 <label for="newpwdr">Şifre Tekrar</label>
                                 <input type="password" class="form-control" id="newpwdr" placeholder="Tekrar Şifrenizi Giriniz" name="password-repeat">
                             </div>
-                            <button type="submit" class="btn">Üye Ol</button>
+                            <button type="submit" class="btn btn-register-form-submit">Üye Ol</button>
                             <a href="#" id="giris-hesap-var">Hesabın Var mı? Giriş Yapmak İçin Tıkla</a>
                         </form>
                     </div>
@@ -120,6 +120,7 @@
 
 <script>
 	var submitting_giris = false;
+    var submitting_register = false;
      $(document).ready(function(){
         $('.dropdown-toggle').dropdown();
 
@@ -131,6 +132,57 @@
         $("#giris-hesap-var").click(function(e){
         	e.preventDefault();
         	$("#login-form-a").click();
+        });
+
+        $("#register-modal-form").submit(function(e){
+            e.preventDefault();
+            $(".btn-register-form-submit").val("Gönderiliyor...");
+            $(".btn-register-form-submit").attr("disabled", "");
+            if (submitting_register == true)
+                return;
+            submitting_register = true;
+            var form_data = new FormData($(this)[0]);
+
+            $.ajax({
+                url : base_url + "kayit-ajax",
+                type : "post",
+                data : form_data,
+                contentType : false,
+                processData : false,
+                success : function(result) {
+                    submitting_register = false;
+                    if (result.substring(0,7) == "success")
+                    {
+                        $(".btn-register-form-submit").val("Üye Ol");
+                        $(".btn-register-form-submit").removeAttr("disabled", "");
+                        $('#login-modal').modal('hide');
+                        $(".btn-submit-fal").click();
+                        $.notify("Kayıt başarılı!", "success");
+                        update_login();
+                        <?php
+
+                            if ($page !== "fal-sayfasi"){
+                                ?>
+                                location.href = base_url + "profil";
+                                <?php
+                            }
+
+                        ?>
+                    }
+                    else
+                    {
+                        $(".btn-register-form-submit").val("Üye Ol");
+                        $(".btn-register-form-submit").removeAttr("disabled", "");
+                        process_output_data_reg_modal(result);
+                    }
+                },
+                error : function(){
+                    $(".btn-register-form-submit").val("Üye Ol");
+                    $(".btn-register-form-submit").removeAttr("disabled", "");
+                    submitting_register = false;
+                    process_output_data_reg_modal("error");
+                }
+            });
         });
 
         $("#login-modal-form").submit(function(e){
@@ -151,12 +203,13 @@
 				processData : false,
 				success : function(result) {
 					submitting_giris = false;
-					if (result.substring(0,7) == "success")
+					if (result == "success")
 					{
 						$(".btn-login-form-submit").val("Giriş Yap");
 						$(".btn-login-form-submit").removeAttr("disabled", "");
 						$('#login-modal').modal('hide');
 						$(".btn-submit-fal").click();
+                        $.notify("Giriş başarılı!", "success");
 						update_login();
                         <?php
 
@@ -178,12 +231,29 @@
 				error : function(){
 					$(".btn-login-form-submit").val("Giriş Yap");
 						$(".btn-login-form-submit").removeAttr("disabled", "");
-					submitting = false;
+					submitting_giris = false;
 					process_output_data_login_modal("error");
 				}
 			});
 		});
     });
+
+     function process_output_data_reg_modal(data)
+    {
+        if (data == "error" || data == "no_data"){
+            $.notify("Bilinmeyen bir hata oluştu tekrar deneyiniz", "error");
+        }else if (data == "tel"){
+            $.notify("Bu telefon geçerli değil!", "error");
+        }else if (data == "email"){
+            $.notify("Bu email adresi geçerli değil!", "error");
+        }else if (data == "bos"){
+            $.notify("Gerekli alanlar doldurulmalıdır!", "error");
+        }else if (data == "no_match"){
+            $.notify("Girdiğiniz şifreler birbirleriyle eşleşmiyor!", "error");
+        }else if (data == "exists"){
+            $.notify("Bu eposta ile açılmış bir hesap var!", "error");
+        }
+    }
 
     function process_output_data_login_modal(data)
     {
