@@ -5,27 +5,8 @@
 		<div class="col-md-12">
 			<div class="row">
 				<div class="ayarlar-profil">
-					<div class="col-md-3">
-						<div class="row">
 
-							<div class="col-md-12">
-								<div class="baslik-kullanici-ayarlar">
-								Profil Fotoğrafı
-								</div>
-							</div>
-
-							<div class="col-md-12">
-
-								<div class="ayarlar-profil-foto">
-									<img src="https://www.lacartedescolocs.fr/assets/fallbacks/profile_woman_medium_fallback-a7f0361efd57b6d193bef198dacdaaf2a0ac1aa17f23cd9613540c05f2c6bac6.png">
-								</div>
-
-							</div>
-
-						</div>
-					</div>
-
-					<div class="col-md-9">
+					<div class="col-md-12">
 						<div class="row">
 
 							<div class="col-md-12">

@@ -158,12 +158,7 @@ class Page_control extends CI_Controller {
                     return;
                 }
 
-                if($this->uri->segment(2) == "ayarlar")
-                {
-                    $this->profil_ayarlar();
-                    return;
-                }
-                else if ($this->uri->segment(2) == "get-data"){
+                if ($this->uri->segment(2) == "get-data"){
                     $this->get_user_data();
                     return;
                 }else if ($this->uri->segment(2) == "cevap"){
@@ -618,21 +613,6 @@ class Page_control extends CI_Controller {
             }
 
             $data["page"] = "profil";
-            $this->load->view("front/index", $data);
-        }
-        else
-        {
-            show_404();
-        }
-    }
-
-    public function profil_ayarlar()
-    {
-        $query = $this->db->get_where("users", array("id" => $this->session->userdata("id")));
-        if ($query !== false && $query->num_rows() > 0)
-        {
-            $data["profil"] = $query->row();
-            $data["page"] = "profil_ayarlar";
             $this->load->view("front/index", $data);
         }
         else

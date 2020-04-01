@@ -1102,10 +1102,10 @@ header .landing-icerik .landing-bot .landing-yorumcular .landing-box .landing-bo
 }
 
 .ayarlar-profil{
-	margin-top: 30px;
 	background: #fff;
 	padding: 20px;
 	display: inline-block;
+	width: 100%;
 }
 
 .ayarlar-profil .baslik-kullanici-ayarlar {
