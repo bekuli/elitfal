@@ -174,7 +174,7 @@
 
 											<div class="form-kullanici-ayarlar">
 												
-												<form>
+												<form id="profil-ayarlar-form">
 												  <div class="form-row">
 												  	<div class="row">
 												    	<div class="form-group col-md-6">
@@ -272,6 +272,61 @@
 </div>
 </div>
 </div>
+
+<script type="text/javascript">
+	var submiting_profil=false;
+	$(document).ready(function(){
+		$("#profil-ayarlar-form").submit(function(e){
+			e.preventDefault();
+			$(".btn-guncelle").val("Güncelleniyor...");
+			$(".btn-guncelle").attr("disabled","");
+			if (submiting_profil==true) {
+				return;
+			}
+			submiting_profil=true;
+
+			var form_data=new FormData($(this)[0]);
+
+			$.ajax({
+				url:base_url+"profil/ayarlar-kaydet",
+				type:"post",
+				success:function(result){
+					$(".btn-guncelle").val("Güncellendi");
+					$(".btn-guncelle").removeAttr("disabled");
+					submiting_profil=false;
+
+					if (result=="success") {
+						$.notify("Kaydedildi.", "success");
+					}else if (result=="error") {
+						$.notify("Bilinmiyen bir hata meydana geldi.", "error");
+					}else if (result=="bos") {
+						$.notify("Gerekli alanlar doldurulmalıdır", "error");
+					}else if (result=="email") {
+						$.notify("Geçerli bir email değil.", "error");
+					}else if (result=="no_match") {
+						$.notify("Girilen şifre uyuşmuyor.", "error");
+					}else if (result=="tel") {
+						$.notify("Geçerli bir telefon numarası giriniz.", "error");
+					}else {
+						$.notify("Bilinmiyen bir hata meydana geldi.", "error");
+					}
+
+				},
+				error:function(r){
+					$(".btn-guncelle").val("Güncellendi");
+					$(".btn-guncelle").removeAttr("disabled");
+					submiting_profil=false;
+
+
+					$.notify("Bilinmiyen bir hata meydana geldi.", "error");
+				},
+			});
+		});
+	});
+	$( function() {
+    	$( ".datepicker" ).datepicker();
+  	} );
+</script>
 
 <style>
 	body{background: #f1f1f1}
