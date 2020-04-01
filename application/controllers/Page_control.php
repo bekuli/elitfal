@@ -158,7 +158,10 @@ class Page_control extends CI_Controller {
                     return;
                 }
 
-                if ($this->uri->segment(2) == "get-data"){
+                if ($this->uri->segment(2) == "ayarlar-kaydet"){
+                    $this->ayarlar_kaydet();
+                    return;
+                }else if ($this->uri->segment(2) == "get-data"){
                     $this->get_user_data();
                     return;
                 }else if ($this->uri->segment(2) == "cevap"){
@@ -348,6 +351,62 @@ class Page_control extends CI_Controller {
             $this->session->set_userdata("id", $this->db->insert_id());
             echo "success";
         }else
+        echo "error";
+    }
+
+    public function ayarlar_kaydet()
+    {
+        $sifre = trim($this->input->post("password"));
+        $sifretekrar = trim($this->input->post("password-repeat"));
+
+        $profil_data = array(
+            "name" => trim($this->input->post("name")),
+            "surname" => trim($this->input->post("surname")),
+            "telefon" => trim($this->input->post("tel")),
+            "email" => trim($this->input->post("email")),
+            "cinsiyet" => trim($this->input->post("cinsiyet")),
+            "iliski_durumu" => trim($this->input->post("iliski_durumu")),
+            "dogum_tarihi" => trim($this->input->post("dogum_tarihi"))
+        );
+
+        foreach ($profil_data as $key => $row)
+        {
+            if (empty($row)){
+                echo "bos";
+                return;
+            }
+        }
+
+        if (!valid_email($profil_data["email"]))
+        {
+            echo "email";
+            return;
+        }
+
+        if (!is_numeric($profil_data["telefon"]))
+        {
+            echo "tel";
+            return;
+        }
+
+        if (!empty($sifre))
+        {
+            if ($sifre !== $sifretekrar)
+            {
+                echo "no_match";
+                return;
+            }
+
+            $profil_data["sifre"] = sha1($profil_data["sifre"]);
+        }
+
+        $this->db->where("id", $this->session->userdata("id"))->update("users", $profil_data);
+        if ($this->db->affected_rows() > 0)
+        {
+            echo "success";
+            return;
+        }
+
         echo "error";
     }
 
