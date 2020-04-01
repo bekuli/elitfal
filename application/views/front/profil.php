@@ -179,11 +179,11 @@
 												  	<div class="row">
 												    	<div class="form-group col-md-6">
 												      		<label for="inputAd4">Ad</label>
-												      		<input name="ad" type="text" class="form-control" value="<?=$user_data->name?>" id="inputAd4" placeholder="Adınız">
+												      		<input name="name" type="text" class="form-control" value="<?=$user_data->name?>" id="inputAd4" placeholder="Adınız">
 												    	</div>
 												    	<div class="form-group col-md-6">
 												      		<label for="inputSoyad4">Soyad</label>
-												      		<input name="soyad" type="text" class="form-control" value="<?=$user_data->surname?>" id="inputSoyad4" placeholder="Soyadınız">
+												      		<input name="surname" type="text" class="form-control" value="<?=$user_data->surname?>" id="inputSoyad4" placeholder="Soyadınız">
 												    	</div>
 												    </div>
 												  </div>
@@ -227,7 +227,7 @@
 												  	<div class="row">
 												  		<div class="form-group col-md-12">
 												      		<label for="inputDogum4">Doğum tarihiniz</label>
-												      		<input name="dogum_tarih" type="text" class="form-control datepicker" value="<?=$user_data->dogum_tarihi?>" id="inputDogum4" placeholder="Doğum tarihiniz">
+												      		<input name="dogum_tarihi" type="text" class="form-control datepicker" value="<?=$user_data->dogum_tarihi?>" id="inputDogum4" placeholder="Doğum tarihiniz">
 												    	</div>
 												    </div>
 												  </div>
@@ -290,10 +290,15 @@
 			$.ajax({
 				url:base_url+"profil/ayarlar-kaydet",
 				type:"post",
+				data:form_data,
+				contentType : false,
+                processData : false,
 				success:function(result){
-					$(".btn-guncelle").val("Güncellendi");
+					$(".btn-guncelle").val("Güncelle");
 					$(".btn-guncelle").removeAttr("disabled");
 					submiting_profil=false;
+
+					console.log(result);
 
 					if (result=="success") {
 						$.notify("Kaydedildi.", "success");
@@ -313,7 +318,7 @@
 
 				},
 				error:function(r){
-					$(".btn-guncelle").val("Güncellendi");
+					$(".btn-guncelle").val("Güncelle");
 					$(".btn-guncelle").removeAttr("disabled");
 					submiting_profil=false;
 
