@@ -43,13 +43,13 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Fal Türleri <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="#">Kahve Falı</a></li>
-                <li><a href="#">Tarot Falı</a></li>
-                <li><a href="#">Yıldızname</a></li>
-                <li><a href="#">Rüya Yorumu</a></li>
-                <li><a href="#">Katina Aşk Falı</a></li>
-                <li><a href="#">Su Falı</a></li>
-                <li><a href="#">Dert Ortağı</a></li>
+                <li><a href="<?=base_url()?>kahve-fali">Kahve Falı</a></li>
+                <li><a href="<?=base_url()?>tarot-fali">Tarot Falı</a></li>
+                <li><a href="<?=base_url()?>yildizname">Yıldızname</a></li>
+                <li><a href="<?=base_url()?>ruya-yorumu">Rüya Yorumu</a></li>
+                <li><a href="<?=base_url()?>katina-ask-fali">Katina Aşk Falı</a></li>
+                <li><a href="<?=base_url()?>su-fali">Su Falı</a></li>
+                <li><a href="<?=base_url()?>dert-ortagi">Dert Ortağı</a></li>
               </ul>
             </li>
             <li><a href="<?=base_url()?>yorumcular">Yorumcular</a></li>
