@@ -29,7 +29,7 @@
 					<div class="row">
 				    	<div class="col-md-12">
 				    		<label for="name">Mesajınız</label>
-				      		<textarea name="massage" id="massage" class="form-control" rows="3"></textarea>
+				      		<textarea style="height: 200px;" name="massage" id="massage" class="form-control" rows="3"></textarea>
 				    	</div>
 					</div>
 					<div class="row">
