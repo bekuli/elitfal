@@ -6,4 +6,6 @@
 <script type="text/javascript" src="<?=base_url()?>src/js/chartjs/Chart.min.js"></script>
 <link href="<?=base_url()?>src/js/chartjs/Chart.min.css" rel="stylesheet"/>
 
+<script type="text/javascript" src="<?=base_url()?>src/js/croppie/croppie.js"></script>
+<link rel="stylesheet" type="text/css" href="<?=base_url()?>src/js/croppie/croppie.css">
 </html>

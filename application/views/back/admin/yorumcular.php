@@ -104,8 +104,6 @@
   </div>
 </div>
 
-<script type="text/javascript" src="<?=base_url()?>src/js/croppie/croppie.js"></script>
-<link rel="stylesheet" type="text/css" href="<?=base_url()?>src/js/croppie/croppie.css">
 
 <div id="uploadimageModal" class="modal" role="dialog">
  <div class="modal-dialog">
@@ -128,7 +126,93 @@
     </div>
 </div>
 
+<div id="uploadimageModalEkle" class="modal" role="dialog">
+ <div class="modal-dialog">
+  <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title">Resmi kırp</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <div class="modal-body text-center">
+        <div id="image_demo_ekle" style="width:350px; margin-top:30px"></div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-success crop_image_ekle">Kaydet</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">İptal</button>
+        </div>
+     </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="kredi-ekle-modal" style="top:15%">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Kredi Ekle</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <div class="modal-body" id="kredi-ekle-modal-content">
+            <form id="kredi-ekle-form">
+                <input type="hidden" name="kredi-id"/>
+                <table style="width:100%">
+                    <tbody>
+                        <tr>
+                            <td><b>Kredi Miktarı</b></td>
+                            <td> : </td>
+                            <td><input type="number" name="kredi" class="form-control" value="0"></td>
+                            <input type="hidden" name="kredi-id"/>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </form>
+        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="kredi-add-btn">Gönder</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="kredi-azalt-modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Kredi Azalt</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="kredi-azalt-modal-content"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="kredi-azalt-save">Gönder</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script type="text/javascript">
+
+    var image_crop;
+
+    $("#uploadimageModalEkle").on('hidden.bs.modal', function () {
+      try{
+        image_crop.destroy();
+      }catch(err){}
+    })
+
+    $("#uploadimageModal").on('hidden.bs.modal', function () {
+      try{
+        image_crop.destroy();
+      }catch(err){}
+    })
     
     $(document).ready(function () {
 
@@ -200,6 +284,27 @@
                     }
                 });
                 
+            }else if ($(this).attr("data-action") == "kredi-azalt"){
+                
+               $.ajax({
+                    url: '<?=base_url()?>admin/yorumcular/' + $(this).parent().attr("data-id") + "/kredi-azalt",
+                    contentType: false,
+                    processData: false,
+                    beforeSend: function(){
+                        $("#kredi-azalt-modal-content").html(loading_set_np);
+                        $("#kredi-azalt-modal").modal();
+                    },
+                    success: function( data){
+                        $("#kredi-azalt-modal-content").html(data);
+                    },
+                    error: function( e ){
+                        console.log( e );
+                    }
+                });
+                
+            }else if ($(this).attr("data-action") == "kredi-ekle"){
+                $("#kredi-ekle-modal").modal();
+                $("input[name='kredi-id']").attr("value", $(this).parent().attr("data-id"));
             }else if ($(this).attr("data-action") == "delete"){
                 $("#delete-modal").modal();
                 $("input[name='delete-id']").attr("value", $(this).parent().attr("data-id"));
@@ -279,6 +384,94 @@
             $("#add-form").submit();
         });
 
+        $("#kredi-add-btn").click(function(){
+            $("#kredi-ekle-form").submit();
+        });
+
+
+        $("#kredi-ekle-form").submit(function(e){
+            e.preventDefault();
+
+            var form_data = new FormData($(this)[0]);
+
+            $.ajax({
+                url: '<?=base_url()?>admin/yorumcular/' + $("input[name='kredi-id']").val() + "/kredi-ekle",
+                type: 'post',
+                data: form_data,
+                contentType: false,
+                processData: false,
+                beforeSend: function(){
+                    $("#kredi-ekle-btn").text("Gönderiliyor...");
+                    $("#kredi-ekle-btn").attr("disabled", "");
+                },
+                success: function( data){
+                    $("#kredi-ekle-btn").removeAttr("disabled");
+                    $("#kredi-ekle-btn").text("Gönder");
+
+                    if (data == "success")
+                    {
+                        $.notify("Kredi eklendi!", "success");
+                        $("#kredi-ekle-modal").modal("hide");
+                        $("#kredi-ekle-form input[type=text]").val("");
+                    }else {
+                    
+                        $.notify("Bilinmeyen Hata", "error");
+                    }
+                },
+                error: function( e ){
+                    $("#kredi-ekle-btn").text("Gönder");
+                    $("#kredi-ekle-btn").removeAttr("disabled");
+                    console.log( e );
+                }
+            });
+        });
+
+        $("#kredi-azalt-save").click(function(){
+            $("#kredi-azalt-form").submit();
+        });
+
+        $("#kredi-azalt-modal").on("submit", "#kredi-azalt-form",function(e){
+            e.preventDefault();
+
+            var form_data = new FormData($(this)[0]);
+
+            $.ajax({
+                url: $(this).attr("action"),
+                type: 'post',
+                data: form_data,
+                contentType: false,
+                processData: false,
+                beforeSend: function(){
+                    $("#kredi-azalt-save").text("Gönderiliyor...");
+                    $("#kredi-azalt-save").attr("disabled", "");
+                },
+                success: function( data){
+                    $("#kredi-azalt-save").removeAttr("disabled");
+                    $("#kredi-azalt-save").text("Gönder");
+                    console.log(data);
+
+                    if (data == "success")
+                    {
+                        $("#kredi-azalt-modal").modal("hide");
+                        $.notify("Kredi azaltıldı!", "success");
+                    }
+                    else if (data == "max"){
+                    
+                        $.notify("Kullanıcının hesabında okadar kredi yok!", "error");
+                    }else{
+                        $.notify("Bilinmeyen Hata", "error");
+                    
+                    }
+                },
+                error: function( e ){
+                    $("#kredi-azalt-save").text("Gönder");
+                    $("#kredi-azalt-save").removeAttr("disabled");
+                    $.notify("Bilinmeyen Hata", "error");
+                    console.log( e );
+                }
+            });
+        });
+
         $("#add-modal").on("submit", "#add-form",function(e){
             e.preventDefault();
 
@@ -302,7 +495,7 @@
                     if (data == "success")
                     {
                         $.notify("Kaydedildi!", "success");
-                        location.reload();
+                        $("nav a[data-title='Yorumcular']").click();
                         $("#add-modal").hide();
                     }else if (data == "false")
                     {

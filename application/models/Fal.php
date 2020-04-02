@@ -794,14 +794,13 @@ class Fal extends CI_Model
 
                 $this->db->insert("odeme_log", $data);
 
-                if ($success == true)
-                {
-                    $this->db->where("id", $id)->update("users", array("kredi" => $query->row()->kredi + $miktar));
-                    if ($this->db->affected_rows() > 0)
-                        return true;
-                    else
-                        return "error_2";
-                }
+
+                $this->db->where("id", $id)->update("users", array("kredi" => $query->row()->kredi + $miktar));
+                if ($this->db->affected_rows() > 0)
+                    return true;
+                else
+                    return "error_2";
+                
             }
             else if ($islem == "admin-withdraw")
             {
@@ -818,14 +817,13 @@ class Fal extends CI_Model
 
                 $this->db->insert("odeme_log", $data);
 
-                if ($success == true)
-                {
-                    $this->db->where("id", $id)->update("users", array("kredi" => $query->row()->kredi - $miktar));
-                    if ($this->db->affected_rows() > 0)
-                        return true;
-                    else
-                        return "error_3";
-                }
+
+                $this->db->where("id", $id)->update("users", array("kredi" => $query->row()->kredi - $miktar));
+                if ($this->db->affected_rows() > 0)
+                    return true;
+                else
+                    return "error_3";
+                
             }else
                 return false;
         }
@@ -867,14 +865,13 @@ class Fal extends CI_Model
 
                 $this->db->insert("odeme_log", $data);
 
-                if ($success == true)
-                {
-                    $this->db->where("id", $id)->update("yorumcu", array("kredi" => $query->row()->kredi + $miktar));
-                    if ($this->db->affected_rows() > 0)
-                        return true;
-                    else
-                        return "error_5";
-                }
+
+                $this->db->where("id", $id)->update("yorumcu", array("kredi" => $query->row()->kredi + $miktar));
+                if ($this->db->affected_rows() > 0)
+                    return true;
+                else
+                    return "error_5";
+                
             }
             else if ($islem == "admin-withdraw")
             {
@@ -891,14 +888,12 @@ class Fal extends CI_Model
 
                 $this->db->insert("odeme_log", $data);
 
-                if ($success == true)
-                {
-                    $this->db->where("id", $id)->update("yorumcu", array("kredi" => $query->row()->kredi - $miktar));
-                    if ($this->db->affected_rows() > 0)
-                        return true;
-                    else
-                        return "error_2";
-                }
+                $this->db->where("id", $id)->update("yorumcu", array("kredi" => $query->row()->kredi - $miktar));
+                if ($this->db->affected_rows() > 0)
+                    return true;
+                else
+                    return "error_2";
+                
             }else
                 return false;
         }else

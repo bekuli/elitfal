@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-<form action="<?=base_url()."admin/users/".$user_data->id."/kredi-azalt-update"?>"method="POST" id="kredi-azalt-form">
+<form action="<?=base_url()."admin/yorumcular/".$user_data->id."/kredi-azalt-update"?>"method="POST" id="kredi-azalt-form">
     <table style="width:100%">
         <tbody>
             <tr>

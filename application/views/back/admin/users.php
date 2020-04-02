@@ -103,7 +103,8 @@
                         <tr>
                             <td><b>Kredi Miktarı</b></td>
                             <td> : </td>
-                            <td><input type="number" name="username" class="form-control" value="0"></td>
+                            <td><input type="number" name="kredi" class="form-control" value="0"></td>
+                            <input type="hidden" name="kredi-id"/>
                         </tr>
                     </tbody>
                 </table>
@@ -111,13 +112,30 @@
             </form>
         </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id="kredi-yes">Gönder</button>
+        <button type="button" class="btn btn-primary" id="kredi-add-btn">Gönder</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
       </div>
     </div>
   </div>
 </div>
 
+<div class="modal" tabindex="-1" role="dialog" id="kredi-azalt-modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Kredi Azalt</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="kredi-azalt-modal-content"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="kredi-azalt-save">Gönder</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script type="text/javascript">
     
@@ -178,16 +196,16 @@
                 
             }else if ($(this).attr("data-action") == "kredi-azalt"){
                 
-                $.ajax({
+               $.ajax({
                     url: '<?=base_url()?>admin/users/' + $(this).parent().attr("data-id") + "/kredi-azalt",
                     contentType: false,
                     processData: false,
                     beforeSend: function(){
-                        $("#kredi-ekle-modal-content").html(loading_set_np);
-                        $("#kredi-ekle-modal").modal();
+                        $("#kredi-azalt-modal-content").html(loading_set_np);
+                        $("#kredi-azalt-modal").modal();
                     },
                     success: function( data){
-                        $("#kredi-ekle-modal-content").html(data);
+                        $("#kredi-azalt-modal-content").html(data);
                     },
                     error: function( e ){
                         console.log( e );
@@ -243,27 +261,39 @@
             }
         });
 
-        $("#kredi-ekle-form").submit(function(){
+        $("#kredi-ekle-form").submit(function(e){
+            e.preventDefault();
+
+            var form_data = new FormData($(this)[0]);
+
             $.ajax({
-                url: '<?=base_url()?>admin/users/' + $("input[name='kredi-id']").attr("value") + "/kredi-ekle",
+                url: '<?=base_url()?>admin/users/' + $("input[name='kredi-id']").val() + "/kredi-ekle",
+                type: 'post',
+                data: form_data,
                 contentType: false,
                 processData: false,
+                beforeSend: function(){
+                    $("#kredi-ekle-btn").text("Gönderiliyor...");
+                    $("#kredi-ekle-btn").attr("disabled", "");
+                },
                 success: function( data){
-                    
-                    $('#delete-modal').modal('hide');
+                    $("#kredi-ekle-btn").removeAttr("disabled");
+                    $("#kredi-ekle-btn").text("Gönder");
+
                     if (data == "success")
                     {
-                        $.notify("Başarıyla silindi", "success");
-                        $("#nav a[data-title='Users']").click();
-                    }else
-                        $.notify("Silerken bir hata oluştu", "error");
+                        $.notify("Kredi eklendi!", "success");
+                        $("#kredi-ekle-modal").modal("hide");
+                        $("#kredi-ekle-form input[type=text]").val("");
+                    }else {
                     
-                    $("input[name='delete-id']").attr("value","");
+                        $.notify("Bilinmeyen Hata", "error");
+                    }
                 },
                 error: function( e ){
+                    $("#kredi-ekle-btn").text("Gönder");
+                    $("#kredi-ekle-btn").removeAttr("disabled");
                     console.log( e );
-                    $.notify("Silerken bir hata oluştu", "error");
-                    $("input[name='delete-id']").attr("value","");
                 }
             });
         });
@@ -292,9 +322,61 @@
                 }
             });
         });
+
+        
         
         $("#edit-save").click(function(){
             $("#user-edit-form").submit();
+        });
+
+        $("#kredi-add-btn").click(function(){
+            $("#kredi-ekle-form").submit();
+        });
+
+        $("#kredi-azalt-save").click(function(){
+            $("#kredi-azalt-form").submit();
+        });
+
+        $("#kredi-azalt-modal").on("submit", "#kredi-azalt-form",function(e){
+            e.preventDefault();
+
+            var form_data = new FormData($(this)[0]);
+
+            $.ajax({
+                url: $(this).attr("action"),
+                type: 'post',
+                data: form_data,
+                contentType: false,
+                processData: false,
+                beforeSend: function(){
+                    $("#kredi-azalt-save").text("Gönderiliyor...");
+                    $("#kredi-azalt-save").attr("disabled", "");
+                },
+                success: function( data){
+                    $("#kredi-azalt-save").removeAttr("disabled");
+                    $("#kredi-azalt-save").text("Gönder");
+                    console.log(data);
+
+                    if (data == "success")
+                    {
+                        $("#kredi-azalt-modal").modal("hide");
+                        $.notify("Kredi azaltıldı!", "success");
+                    }
+                    else if (data == "max"){
+                    
+                        $.notify("Kullanıcının hesabında okadar kredi yok!", "error");
+                    }else{
+                        $.notify("Bilinmeyen Hata", "error");
+                    
+                    }
+                },
+                error: function( e ){
+                    $("#kredi-azalt-save").text("Gönder");
+                    $("#kredi-azalt-save").removeAttr("disabled");
+                    $.notify("Bilinmeyen Hata", "error");
+                    console.log( e );
+                }
+            });
         });
         
         $("#edit-modal").on("submit", "#user-edit-form",function(e){
@@ -333,6 +415,7 @@
                 error: function( e ){
                     $("#edit-save").text("Kaydet");
                     $("#edit-save").removeAttr("disabled");
+                    $.notify("Bilinmeyen Hata", "error");
                     console.log( e );
                 }
             });

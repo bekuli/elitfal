@@ -171,15 +171,41 @@ class Admin extends CI_Controller {
                 {
                     $kredi = $this->input->post("kredi");
                     if (!is_numeric($kredi)){
+                        echo "error";
                         return;
                     }
 
-                    $id = $this->input->post("kredi-id");
-                    $query = $this->db->get_where("users", array("id" => $id));
-                    if ($query !== false && $query->rows() > 0)
-                    {
-
+                    $kredi_gonder = $this->fal->kredi("admin-deposit", "user", $user_id, $kredi);
+                    if ($kredi_gonder == true)
+                        echo "success";
+                    else
+                        echo "error";
+                }
+                else if ($action == "kredi-azalt-update")
+                {
+                    $kredi = $this->input->post("kredi");
+                    if (!is_numeric($kredi)){
+                        echo "error";
+                        return;
                     }
+
+                    if ($query->row()->kredi < $kredi){
+                        echo "max";
+                        return;
+                    }
+
+                    $kredi_gonder = $this->fal->kredi("admin-withdraw", "user", $user_id, $kredi);
+                    if ($kredi_gonder == true)
+                        echo "success";
+                    else
+                        echo "error";
+                }
+                else if ($action == "kredi-azalt")
+                {
+                    $page_data["user_data"] = $query->row();
+                    $page_data["kredi"] = $query->row()->kredi;
+                    $page_data["page_name"] = "user_kredi_azalt";
+                    $this->load->view("back/admin/".$page_data["page_name"], $page_data);
                 }
                 elseif ($action == "update")
                 {
@@ -618,6 +644,45 @@ class Admin extends CI_Controller {
                         echo "success";
                     else
                         echo "error";
+                }else if ($action == "kredi-ekle")
+                {
+                    $kredi = $this->input->post("kredi");
+                    if (!is_numeric($kredi)){
+                        echo "error";
+                        return;
+                    }
+
+                    $kredi_gonder = $this->fal->kredi("admin-deposit", "yorumcu", $id, $kredi);
+                    if ($kredi_gonder == true)
+                        echo "success";
+                    else
+                        echo "error";
+                }
+                else if ($action == "kredi-azalt-update")
+                {
+                    $kredi = $this->input->post("kredi");
+                    if (!is_numeric($kredi)){
+                        echo "error";
+                        return;
+                    }
+
+                    if ($query->row()->kredi < $kredi){
+                        echo "max";
+                        return;
+                    }
+
+                    $kredi_gonder = $this->fal->kredi("admin-withdraw", "yorumcu", $id, $kredi);
+                    if ($kredi_gonder == true)
+                        echo "success";
+                    else
+                        echo "error";
+                }
+                else if ($action == "kredi-azalt")
+                {
+                    $page_data["user_data"] = $query->row();
+                    $page_data["kredi"] = $query->row()->kredi;
+                    $page_data["page_name"] = "yorumcu_kredi_azalt";
+                    $this->load->view("back/admin/".$page_data["page_name"], $page_data);
                 }
             }
             else
@@ -647,6 +712,8 @@ class Admin extends CI_Controller {
 
     public function ayarlar()
     {
+
+        $page_data["fal_fiyat"] = json_decode($this->fal->get_setting("fiyat_listesi"), true);
         $page_data["page_name"] = "ayarlar";
         $page_data["page_title"] = "Ayarlar";
 

@@ -76,6 +76,8 @@
 
                                 <a data-toggle="tooltip" data-placement="bottom" data-action="view_yorumcu" title="Hesabı Görüntüle" href="#"><i class="fas fa-eye"></i></a>
                                 <a data-toggle="tooltip" data-placement="bottom" data-action="edit" title="Hesabı Düzenle" href="#"><i class="fas fa-edit"></i></a>
+                                <a data-toggle="tooltip" data-placement="bottom" data-action="kredi-ekle" title="Kredi Ekle" href="#"><i class="fas fa-plus"></i></a>
+                                <a data-toggle="tooltip" data-placement="bottom" data-action="kredi-azalt" title="Kredi Azalt" href="#"><i class="fas fa-minus"></i></a>
                                 <a data-toggle="tooltip" data-placement="bottom" data-status="<?=$row["status"]?>" data-action="status" title="Hesabı 
                                 <?php 
                                     if ($row["status"] == 1)

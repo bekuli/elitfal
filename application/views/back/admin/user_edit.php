@@ -20,5 +20,5 @@
         </tbody>
     </table>
 
-    <input type="hidden" name="user_id" value="<?=$user_data->id?>"
+    <input type="hidden" name="user_id" value="<?=$user_data->id?>">
 </form>
