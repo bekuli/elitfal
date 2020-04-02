@@ -11,6 +11,7 @@ class Admin extends CI_Controller {
         $this->load->helper('url');
         $this->load->library('session');
         $this->load->model('fal');
+        $this->load->model('charts');
 
         if ($this->fal->check_admin_login() == false)
         {
@@ -21,6 +22,14 @@ class Admin extends CI_Controller {
 
 	public function index()
 	{
+        $data["chart"]["fallar"]["today"] = $this->charts->fallar("today");
+        $data["chart"]["fallar"]["all"] = $this->charts->fallar(null);
+        $data["chart"]["kredi"]["today"] = $this->charts->kredi("today");
+        $data["chart"]["kredi"]["all"] = $this->charts->kredi(null);
+        $data["chart"]["uye"]["today"] = $this->charts->uyeler("today");
+        $data["chart"]["uye"]["all"] = $this->charts->uyeler(null);
+        $data["chart"]["hits"]["today"] = $this->charts->hits(null);
+        $data["chart"]["hits"]["all"] = $this->charts->hits(null);
 
 		$data["page_name"] = "home";
         $data["page_title"] = "Anasayfa";
@@ -157,6 +166,20 @@ class Admin extends CI_Controller {
                     $page_data["page_name"] = "user_edit";
                     $page_data["user_data"] = $query->row();
                     $this->load->view("back/admin/".$page_data["page_name"], $page_data);
+                }
+                else if ($action == "kredi-ekle")
+                {
+                    $kredi = $this->input->post("kredi");
+                    if (!is_numeric($kredi)){
+                        return;
+                    }
+
+                    $id = $this->input->post("kredi-id");
+                    $query = $this->db->get_where("users", array("id" => $id));
+                    if ($query !== false && $query->rows() > 0)
+                    {
+
+                    }
                 }
                 elseif ($action == "update")
                 {
@@ -603,6 +626,36 @@ class Admin extends CI_Controller {
                 return;
             }
         }
+    }
+
+    public function get_chart_data()
+    {
+        $chartdata1 = $this->charts->fallar("monthly");
+        $chartdata2 = $this->charts->kredi("monthly");
+        $chartdata3 = $this->charts->uyeler("monthly");
+        $chartdata4 = $this->charts->hits("monthly");
+
+        $data = array(
+            "fallar" => $chartdata1,
+            "kredi" => $chartdata2,
+            "uyeler" => $chartdata3,
+            "hits" => $chartdata4
+        );
+
+        echo json_encode($data);
+    }
+
+    public function ayarlar()
+    {
+        $page_data["page_name"] = "ayarlar";
+        $page_data["page_title"] = "Ayarlar";
+
+        if (isset($_GET["pure"])){
+            $this->load->view("back/admin/".$page_data["page_name"], $page_data);
+            $this->fal->set_title_pure($page_data["page_title"], true);
+        }
+        else
+            $this->load->view("back/admin/index", $page_data);
     }
 
     public function logout()

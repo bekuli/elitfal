@@ -11,6 +11,8 @@ class Home extends CI_Controller {
         $this->load->helper('url');
         $this->load->library('session');
         $this->load->model('fal');
+
+        $this->fal->hit();
     }
 
 	public function index()

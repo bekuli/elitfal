@@ -50,6 +50,46 @@ class Fal extends CI_Model
         }
     }
 
+    function ipadres() 
+    {
+        $ipaddress = '';
+        if (getenv('HTTP_CLIENT_IP'))
+            $ipaddress = getenv('HTTP_CLIENT_IP');
+        else if(getenv('HTTP_X_FORWARDED_FOR'))
+            $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
+        else if(getenv('HTTP_X_FORWARDED'))
+            $ipaddress = getenv('HTTP_X_FORWARDED');
+        else if(getenv('HTTP_FORWARDED_FOR'))
+            $ipaddress = getenv('HTTP_FORWARDED_FOR');
+        else if(getenv('HTTP_FORWARDED'))
+           $ipaddress = getenv('HTTP_FORWARDED');
+        else if(getenv('REMOTE_ADDR'))
+            $ipaddress = getenv('REMOTE_ADDR');
+        else
+            $ipaddress = 'BILINMEYEN';
+        return $ipaddress;
+    }
+
+    function hit()
+    {
+        if ($this->ipadres() != "BILINMEYEN")
+        {
+            $this->db->select("ipadres");
+            $this->db->from("hits");
+            $this->db->where("ipadres", $this->ipadres());
+            $query = $this->db->get();
+        
+            if ($query->num_rows() == 0)
+            {
+                $veriler = array(
+                    "ipadres" => $this->ipadres(),
+                    "tarih" => date("Y-m-d")
+                 );
+                $this->db->insert("hits", $veriler);
+            }
+        }
+    }
+
     function set_title_pure($title, $admin = false)
     {
         if (isset($_GET["title"]))

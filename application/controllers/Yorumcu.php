@@ -1040,7 +1040,7 @@ class Yorumcu extends CI_Controller {
         
     }
 
-    function get_chart_data()
+    public function get_chart_data()
     {
         $chartdata1 = $this->charts->fallar("monthly", $this->profil->id);
         $chartdata2 = $this->charts->kredi("monthly", $this->profil->id);

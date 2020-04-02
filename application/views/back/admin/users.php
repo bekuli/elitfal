@@ -86,6 +86,38 @@
   </div>
 </div>
 
+<div class="modal" tabindex="-1" role="dialog" id="kredi-ekle-modal" style="top:15%">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Kredi Ekle</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <div class="modal-body" id="kredi-ekle-modal-content">
+            <form id="kredi-ekle-form">
+                <input type="hidden" name="kredi-id"/>
+                <table style="width:100%">
+                    <tbody>
+                        <tr>
+                            <td><b>Kredi Miktarı</b></td>
+                            <td> : </td>
+                            <td><input type="number" name="username" class="form-control" value="0"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </form>
+        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="kredi-yes">Gönder</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <script type="text/javascript">
     
@@ -144,6 +176,27 @@
                     }
                 });
                 
+            }else if ($(this).attr("data-action") == "kredi-azalt"){
+                
+                $.ajax({
+                    url: '<?=base_url()?>admin/users/' + $(this).parent().attr("data-id") + "/kredi-azalt",
+                    contentType: false,
+                    processData: false,
+                    beforeSend: function(){
+                        $("#kredi-ekle-modal-content").html(loading_set_np);
+                        $("#kredi-ekle-modal").modal();
+                    },
+                    success: function( data){
+                        $("#kredi-ekle-modal-content").html(data);
+                    },
+                    error: function( e ){
+                        console.log( e );
+                    }
+                });
+                
+            }else if ($(this).attr("data-action") == "kredi-ekle"){
+                $("#kredi-ekle-modal").modal();
+                $("input[name='kredi-id']").attr("value", $(this).parent().attr("data-id"));
             }else if ($(this).attr("data-action") == "delete"){
                 $("#delete-modal").modal();
                 $("input[name='delete-id']").attr("value", $(this).parent().attr("data-id"));
@@ -188,6 +241,31 @@
                     }
                 });
             }
+        });
+
+        $("#kredi-ekle-form").submit(function(){
+            $.ajax({
+                url: '<?=base_url()?>admin/users/' + $("input[name='kredi-id']").attr("value") + "/kredi-ekle",
+                contentType: false,
+                processData: false,
+                success: function( data){
+                    
+                    $('#delete-modal').modal('hide');
+                    if (data == "success")
+                    {
+                        $.notify("Başarıyla silindi", "success");
+                        $("#nav a[data-title='Users']").click();
+                    }else
+                        $.notify("Silerken bir hata oluştu", "error");
+                    
+                    $("input[name='delete-id']").attr("value","");
+                },
+                error: function( e ){
+                    console.log( e );
+                    $.notify("Silerken bir hata oluştu", "error");
+                    $("input[name='delete-id']").attr("value","");
+                }
+            });
         });
         
         $("#delete-yes").click(function(){

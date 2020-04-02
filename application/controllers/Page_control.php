@@ -12,6 +12,8 @@ class Page_control extends CI_Controller {
         $this->load->helper('email');
         $this->load->library('session');
         $this->load->model('fal');
+
+        $this->fal->hit();
     }
 	
     public function index()

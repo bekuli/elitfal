@@ -12,6 +12,11 @@
             <td><?=$user_data->email?></td>
         </tr>
         <tr>
+            <td><b>Kredi</b></td>
+            <td> : </td>
+            <td><?=$user_data->kredi?></td>
+        </tr>
+        <tr>
             <td><b>Kayıt Tarihi</b></td>
             <td> : </td>
             <td><?=date("m/d/Y", strtotime($user_data->tarih));?></td>
