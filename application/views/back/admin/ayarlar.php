@@ -15,7 +15,7 @@
                        <div class="card-body">
                             <div class="form-group">
                                 <label for="email">Email Adresi</label>
-                                <input type="email" name="email" class="form-control" id="email">
+                                <input type="email" name="email" class="form-control" value="<?=$this->fal->get_setting("admin_eposta")?>" id="email">
                             </div>
                        </div>
                        <div class="card-footer">
@@ -66,13 +66,54 @@
             <div class="col-md-12">
                 <form id="fiyat-listesi-form">
                     <div class="card border-light ">
-                       <div class="card-header">Fiyat Listesi</div>
+                       <div class="card-header">Fiyat Listesi (Kredi)</div>
                        <div class="card-body">
-                            <div class="row">
 
-
-
+                       	<div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="kahve-fali-fi">Kahve Falı</label>
+                                        <input value="<?=$fal_fiyat["kahve_fali"]?>" type="number" name="kahve_fali" class="form-control" id="kahve-fali-fi">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="tarot-fali-fi">Tarot Falı</label>
+                                        <input value="<?=$fal_fiyat["tarot_fali"]?>" type="number" name="tarot_fali" class="form-control" id="tarot-fali-fi">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="yildizname-fi">Yıldızname</label>
+                                        <input value="<?=$fal_fiyat["yildizname"]?>" type="number" name="yildizname" class="form-control" id="yildizname-fi">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="ruya-yorumu-fi">Rüya Yorumu</label>
+                                        <input value="<?=$fal_fiyat["ruya_yorumu"]?>" type="number" name="ruya_yorumu" class="form-control" id="ruya-yorumu-fi">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="katina-fali-fi">Katina Aşk Falı</label>
+                                        <input value="<?=$fal_fiyat["katina_fali"]?>" type="number" name="katina_fali" class="form-control" id="katina-fali-fi">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="su-fali-fi">Su Falı</label>
+                                        <input value="<?=$fal_fiyat["su_fali"]?>" type="number" name="su_fali" class="form-control" id="su-fali-fi">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="dert-ortagi-fi">Dert Ortağı</label>
+                                        <input value="<?=$fal_fiyat["dert_ortagi"]?>" type="number" name="dert_ortagi" class="form-control" id="dert-ortagi-fi">
+                                    </div>
+                                </div>
                             </div>
+
                        </div>
                        <div class="card-footer">
                             <input name="fiyat-listesi" type="submit" class="btn btn-primary btn-sm" value="Kaydet">
@@ -82,18 +123,16 @@
             </div>
 
             <div class="col-md-12">
-                <form id="fiyat-listesi-form">
+                <form id="komisyon-form">
                     <div class="card border-light ">
                        <div class="card-header">Komisyon</div>
                        <div class="card-body">
-                            <div class="row">
                               
-                            	<div class="form-group">
-								  <label for="exampleFormControlTextarea2">.</label>
-								  <textarea style="width: 450px;" class="form-control rounded-0" id="exampleFormControlTextarea2" rows="3"></textarea>
-								</div>
-                              
+                            <div class="form-group">
+                                <label for="komisyon">Komisyon (%)</label>
+                                <input type="number" name="komisyon" class="form-control" id="komisyon">
                             </div>
+                              
                        </div>
                        <div class="card-footer">
                             <input name="fiyat-listesi" type="submit" class="btn btn-primary btn-sm" value="Kaydet">
@@ -120,86 +159,86 @@
 </style>
 
 <script type="text/javascript">
-    var submitting_email = false;
+	var submitting_email = false;
     var submitting_sifre = false;
-    var submitting_baktigim_fallar = false;
     var submitting_fiyat_listesi = false;
+    var submitting_komisyon = false;
 
     $(document).ready(function(){
 
-        $("#email-form").submit(function(e){
-            e.preventDefault();
-            if (submitting_email == true)
-                return;
-            submitting_email = true;
+    	$("#email-form").submit(function(e){
+    		e.preventDefault();
+    		if (submitting_email == true)
+    			return;
+    		submitting_email = true;
 
-            var email = $("#email").val();
-            if (email.trim() == ""){
-                $.notify("Geçersiz email adresi", "error");
-                submitting_email = false;
-                return;
-            }
+    		var email = $("#email").val();
+    		if (email.trim() == ""){
+    			$.notify("Geçersiz email adresi", "error");
+    			submitting_email = false;
+    			return;
+    		}
 
-            var form_data = new FormData($(this)[0]);
+    		var form_data = new FormData($(this)[0]);
 
-            $.ajax({
-                url : base_url + "yorumcu/ayarlar/email",
-                type : "post",
-                data : form_data,
-                contentType : false,
-                processData : false,
-                beforeSend: function(){
-                    $("#email-form input[type=submit]").val("Kaydediliyor...");
-                    $("#email-form input[type=submit]").attr("disabled", "");
-                },
-                success : function(result) {
-                    if (result == "error")
-                        $.notify("Bilinmeyen bir hata oluştu!", "error");
-                    else if (result == "success")
-                    {
-                        $.notify("Kaydedildi!", "success");
-                    }else if (result == "false")
-                    {
-                        $.notify("Geçersiz email adresi", "error");
-                    }
+    		$.ajax({
+    			url : base_url + "admin/ayarlar/email",
+    			type : "post",
+    			data : form_data,
+    			contentType : false,
+    			processData : false,
+    			beforeSend: function(){
+    				$("#email-form input[type=submit]").val("Kaydediliyor...");
+    				$("#email-form input[type=submit]").attr("disabled", "");
+    			},
+    			success : function(result) {
+    				if (result == "error")
+    					$.notify("Bilinmiyen bir hata oluştu!", "error");
+    				else if (result == "success")
+    				{
+    					$.notify("Kaydedildi!", "success");
+    				}else if (result == "false")
+    				{
+    					$.notify("Geçersiz email adresi", "error");
+    				}
 
-                    $("#email-form input[type=submit]").val("Kaydet");
-                    $("#email-form input[type=submit]").removeAttr("disabled", "");
-                    submitting_email = false;
-                },
-                error : function(r){
-                    console.log(r);
-                    submitting_email = false;
-                    $("#email-form input[type=submit]").val("Kaydet");
+    				$("#email-form input[type=submit]").val("Kaydet");
+    				("#email-form input[type=submit]").removeAttr("disabled");
+    				submitting_email = false;
+    			},
+    			error : function(r){
+    				console.log(r);
+    				submitting_email = false;
+    				$("#email-form input[type=submit]").val("Kaydet");
                     $("#email-form input[type=submit]").removeAttr("disabled", "");
                     $.notify("Bilinmeyen bir hata oluştu!", "error");
-                }
-            });
+    			}
+    		});
 
-        });
+    	});
 
-        $("#sifre-form").submit(function(e){
-            e.preventDefault();
-            if (submitting_sifre == true)
-                return;
-            submitting_sifre = true;
+    	$("#sifre-form").submit(function(e){
+    		e.preventDefault();
+    		if (submitting_sifre == true)
+    			return;
+    		submitting_sifre = true;
 
-            var form_data = new FormData($(this)[0]);
+    		var form_data = new FormData($(this)[0]);
 
-            $.ajax({
-                url : base_url + "yorumcu/ayarlar/sifre",
-                type : "post",
-                data : form_data,
-                contentType : false,
-                processData : false,
-                beforeSend: function(){
-                    $("#sifre-form input[type=submit]").val("Kaydediliyor...");
+    		$.ajax({
+    			url : base_url + "admin/ayarlar/sifre",
+    			type : "post",
+    			data : form_data,
+    			contentType : false,
+    			processData : false,
+    			beforeSend: function(){
+    				$("#sifre-form input[type=submit]").val("Kaydediliyor...");
                     $("#sifre-form input[type=submit]").attr("disabled", "");
-                },
-                success : function(result) {
-                    if (result == "error")
-                        $.notify("Bilinmeyen bir hata oluştu!", "error");
-                    else if (result == "success")
+    			},
+    			success : function(result) {
+    				if (result == "error")
+    					$.notify("Bilinmeyen bir hata oluştu!", "error");
+    				else if (result == "success")
                     {
                         $.notify("Kaydedildi!", "success");
                     }else if (result == "no_match")
@@ -214,59 +253,17 @@
                     $("#sifre-form input[type=submit]").val("Kaydet");
                     $("#sifre-form input[type=submit]").removeAttr("disabled", "");
                     submitting_sifre = false;
-                },
-                error : function(r){
-                    submitting_sifre = false;
-                    $("#sifre-form input[type=submit]").val("Kaydet");
+    			},
+    			error : function(r){
+    				submitting_sifre = false;
+    				$("#sifre-form input[type=submit]").val("Kaydet");
                     $("#sifre-form input[type=submit]").removeAttr("disabled", "");
                     $.notify("Bilinmeyen bir hata oluştu!", "error");
-                }
-            });
+    			}
+    		});
+    	});
 
-        });
-
-        $("#baktigim-fallar-form").submit(function(e){
-            e.preventDefault();
-            if (submitting_baktigim_fallar == true)
-                return;
-            submitting_baktigim_fallar = true;
-
-            var form_data = new FormData($(this)[0]);
-
-            $.ajax({
-                url : base_url + "yorumcu/ayarlar/baktigim-fallar",
-                type : "post",
-                data : form_data,
-                contentType : false,
-                processData : false,
-                beforeSend: function(){
-                    $("#baktigim-fallar-form input[type=submit]").val("Kaydediliyor...");
-                    $("#baktigim-fallar-form input[type=submit]").attr("disabled", "");
-                },
-                success : function(result) {
-                    if (result == "error")
-                        $.notify("Bilinmeyen bir hata oluştu!", "error");
-                    else if (result == "success")
-                    {
-                        $.notify("Kaydedildi!", "success");
-                    }
-
-                    $("#baktigim-fallar-form input[type=submit]").val("Kaydet");
-                    $("#baktigim-fallar-form input[type=submit]").removeAttr("disabled", "");
-                    submitting_baktigim_fallar = false;
-                },
-                error : function(r){
-                    console.log(r);
-                    submitting_baktigim_fallar = false;
-                    $("#baktigim-fallar-form input[type=submit]").val("Kaydet");
-                    $("#baktigim-fallar-form input[type=submit]").removeAttr("disabled", "");
-                    $.notify("Bilinmeyen bir hata oluştu!", "error");
-                }
-            });
-
-        });
-
-        $("#fiyat-listesi-form").submit(function(e){
+    	$("#fiyat-listesi-form").submit(function(e){
             e.preventDefault();
             if (submitting_fiyat_listesi == true)
                 return;
@@ -275,7 +272,7 @@
             var form_data = new FormData($(this)[0]);
 
             $.ajax({
-                url : base_url + "yorumcu/ayarlar/fiyat-listesi",
+                url : base_url + "admin/ayarlar/fiyat-listesi",
                 type : "post",
                 data : form_data,
                 contentType : false,
@@ -311,6 +308,49 @@
 
         });
 
-    });
+    	$("#komisyon-form").submit(function(e){
+    		e.preventDefault();
+    		if (submitting_komisyon == true)
+    			return;
+    		submitting_komisyon = true;
 
+    		var form_data = new FormData($(this)[0]);
+
+    		$.ajax({
+    			url : base_url + "admin/ayarlar/komisyon",
+    			type : "post",
+    			data : form_data,
+    			contentType : false,
+    			processData : false,
+    			beforeSend: function(){
+    				$("#komisyon-form input[type=submit]").val("Kaydediliyor...");
+    				$("#komisyon-form input[type=submit]").attr("disabled", "");
+    			},
+    			success : function(result) {
+    				if (result == "error")
+    					$.notify("Bilinmeyen bir hata oluştu!", "error");
+    				else if (result == "success")
+    				{
+    					$.notify("Kaydedildi!", "success");
+    				}else if (result == "false_n"){
+    					$.notify("Sadece rakam kullanınız!", "error");
+    				}else if (result == "false"){
+    					$.notify("Gerekli alanlar doldurulmalıdır!", "error");
+    				}
+
+    				$("#komisyon-form input[type=submit]").val("Kaydet");
+    				$("#komisyon-form input[type=submit]").removeAttr("disabled", "");
+    				submitting_komisyon = false;
+    			},
+    			error : function(r){
+    				console.log(r);
+    				submitting_komisyon = false;
+    				$("#komisyon-form input[type=submit]").val("Kaydet");
+    				$("#komisyon-form input[type=submit").removeAttr("disabled", "");
+    				$.notify("Bilinmeyen bir hata oluştu!", "error");
+    			}
+    		});
+    	});
+
+    });
 </script>

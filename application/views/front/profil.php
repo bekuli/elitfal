@@ -126,11 +126,11 @@
 
 					  				<thead>
 									    <tr>
-									      <th style="width: 30%">Açıklama</th>
-									      <th style="width: 15%">Miktar</th>
-									      <th style="width: 15%">Ödeme Türü</th>
+									      <th style="width: 20%">İşlem</th>
+									      <th style="width: 20%">Miktar</th>
+									      <th style="width: 20%">Ödeme Türü</th>
 									      <th style="width: 25%">Ödeme Sonucu</th>
-									      <th style="width: 10%">Tarih</th>
+									      <th style="width: 15%">Tarih</th>
 									    </tr>
 									</thead>
 
