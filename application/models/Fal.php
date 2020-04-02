@@ -55,7 +55,7 @@ class Fal extends CI_Model
         if (isset($_GET["title"]))
         {
             if ($admin == false)
-                echo '<script>document.title = "User Panel - ' . $title . '"</script>';
+                echo '<script>document.title = "Yorumcu Panel - ' . $title . '"</script>';
             else
                 echo '<script>document.title = "Admin Panel - ' . $title . '"</script>';
         }
@@ -654,6 +654,215 @@ class Fal extends CI_Model
                 return $name;
                 break;
         }
+    }
+
+    function komisyon_hesapla($kredi)
+    {
+        return ($kredi / 10) - (($kredi / 10) / $this->get_setting("komisyon"));
+    }
+
+    function kredi($islem, $user_type, $id, $miktar, $success = false, $odeme_turu = null, $yorumcu_id = null)
+    {
+        $this->db->where("id", $id);
+
+        if ($user_type == "yorumcu")
+            $query = $this->db->get("yorumcu");
+        else if ($user_type == "user")
+            $query = $this->db->get("users");
+        else
+            return false;
+
+        if ($query == false || $query->num_rows() == 0)
+            return false;
+
+        if ($user_type == "user")
+        {
+            if ($islem == "deposit")
+            {
+                $data = array(
+                    "islem" => "user-deposit",
+                    "user_type" => "user",
+                    "user_id" => $id,
+                    "yorumcu_id" => "-",
+                    "tarih" => date("Y-m-d H:i:s"),
+                    "miktar" => $miktar,
+                    "odeme_turu" => $odeme_turu,
+                    "odeme_sonucu" => "0"
+                );
+
+                if ($success == true)
+                    $data["odeme_sonucu"] = "1";
+
+                $this->db->insert("odeme_log", $data);
+
+                if ($success == true)
+                {
+                    $this->db->where("id", $id)->update("users", array("kredi" => $query->row()->kredi + $miktar));
+                    if ($this->db->affected_rows() > 0)
+                        return true;
+                    else
+                        return "error_0";
+                }
+                else
+                    return true;
+            }
+            else if ($islem == "buy")
+            {
+                $data = array(
+                    "islem" => "user-buy",
+                    "user_type" => "user",
+                    "user_id" => $id,
+                    "yorumcu_id" => $yorumcu_id,
+                    "tarih" => date("Y-m-d H:i:s"),
+                    "miktar" => $miktar,
+                    "odeme_turu" => $odeme_turu,
+                    "odeme_sonucu" => "0"
+                );
+
+                if ($success == true)
+                    $data["odeme_sonucu"] = "1";
+
+                $this->db->insert("odeme_log", $data);
+
+                if ($success == true)
+                {
+                    if ($odeme_turu == "kredi")
+                        $this->db->where("id", $id)->update("users", array("kredi" => $query->row()->kredi - $miktar));
+
+                    $yorumcu_query = $this->db->get_where("yorumcu", array("id" => $yorumcu_id));
+                    $this->db->where("id", $yorumcu_id)->update("yorumcu", array("kredi" => $yorumcu_query->row()->kredi + $miktar));
+                    if ($this->db->affected_rows() > 0)
+                        return true;
+                    else
+                        return "error_1";
+                }
+                else
+                    return true;
+            }
+            else if ($islem == "admin-deposit")
+            {
+                $data = array(
+                    "islem" => "admin-deposit",
+                    "user_type" => "user",
+                    "user_id" => $id,
+                    "yorumcu_id" => "-",
+                    "tarih" => date("Y-m-d H:i:s"),
+                    "miktar" => $miktar,
+                    "odeme_turu" => "-",
+                    "odeme_sonucu" => "1"
+                );
+
+                $this->db->insert("odeme_log", $data);
+
+                if ($success == true)
+                {
+                    $this->db->where("id", $id)->update("users", array("kredi" => $query->row()->kredi + $miktar));
+                    if ($this->db->affected_rows() > 0)
+                        return true;
+                    else
+                        return "error_2";
+                }
+            }
+            else if ($islem == "admin-withdraw")
+            {
+                $data = array(
+                    "islem" => "admin-withdraw",
+                    "user_type" => "user",
+                    "user_id" => $id,
+                    "yorumcu_id" => "-",
+                    "tarih" => date("Y-m-d H:i:s"),
+                    "miktar" => $miktar,
+                    "odeme_turu" => "-",
+                    "odeme_sonucu" => "1"
+                );
+
+                $this->db->insert("odeme_log", $data);
+
+                if ($success == true)
+                {
+                    $this->db->where("id", $id)->update("users", array("kredi" => $query->row()->kredi - $miktar));
+                    if ($this->db->affected_rows() > 0)
+                        return true;
+                    else
+                        return "error_3";
+                }
+            }else
+                return false;
+        }
+        else if ($user_type == "yorumcu")
+        {
+            if ($islem == "withdraw")
+            {
+                $data = array(
+                    "islem" => "yorumcu-withdraw",
+                    "user_type" => "yorumcu",
+                    "user_id" => "-",
+                    "yorumcu_id" => $id,
+                    "tarih" => date("Y-m-d H:i:s"),
+                    "miktar" => $miktar,
+                    "odeme_turu" => "-",
+                    "odeme_sonucu" => "1"
+                );
+
+                $this->db->insert("odeme_log", $data);
+
+                $this->db->where("id", $id)->update("yorumcu", array("kredi" => $query->row()->kredi - $miktar));
+                if ($this->db->affected_rows() > 0)
+                    return true;
+                else
+                    return "error_4";
+            }
+            else if ($islem == "admin-deposit")
+            {
+                $data = array(
+                    "islem" => "admin-deposit",
+                    "user_type" => "yorumcu",
+                    "user_id" => "-",
+                    "yorumcu_id" => $id,
+                    "tarih" => date("Y-m-d H:i:s"),
+                    "miktar" => $miktar,
+                    "odeme_turu" => "-",
+                    "odeme_sonucu" => "1"
+                );
+
+                $this->db->insert("odeme_log", $data);
+
+                if ($success == true)
+                {
+                    $this->db->where("id", $id)->update("yorumcu", array("kredi" => $query->row()->kredi + $miktar));
+                    if ($this->db->affected_rows() > 0)
+                        return true;
+                    else
+                        return "error_5";
+                }
+            }
+            else if ($islem == "admin-withdraw")
+            {
+                $data = array(
+                    "islem" => "admin-withdraw",
+                    "user_type" => "yorumcu",
+                    "user_id" => "-",
+                    "yorumcu_id" => $id,
+                    "tarih" => date("Y-m-d H:i:s"),
+                    "miktar" => $miktar,
+                    "odeme_turu" => "-",
+                    "odeme_sonucu" => "1"
+                );
+
+                $this->db->insert("odeme_log", $data);
+
+                if ($success == true)
+                {
+                    $this->db->where("id", $id)->update("yorumcu", array("kredi" => $query->row()->kredi - $miktar));
+                    if ($this->db->affected_rows() > 0)
+                        return true;
+                    else
+                        return "error_2";
+                }
+            }else
+                return false;
+        }else
+                return false;
     }
 
 }

@@ -8,7 +8,7 @@
             <div class="urltable-th ut-clicks">
                 Ad Soyad
             </div>
-            <div class="urltable-th ut-clicks">
+            <div class="urltable-th ut-credits">
                 Kredi
             </div>
             <div class="urltable-th ut-password">
@@ -54,7 +54,7 @@
                                 ?>
 
                             </div>
-                            <div class="urlbox-td urlbox-clicks">
+                            <div class="urlbox-td urlbox-credits">
                                 <?=$row["odeme"]?>
                             </div>
                             <div class="urlbox-td urlbox-expires-at">

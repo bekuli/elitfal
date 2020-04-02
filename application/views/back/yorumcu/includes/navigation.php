@@ -28,7 +28,7 @@
     	  </a>
     	</li>
     	<li class="nav-item">
-    	  <a class="nav-link <?php if ($page_name == "odemeler"){?>active<?php } ?>" data-title="" href="<?= base_url()?>yorumcu/odemeler">
+    	  <a class="nav-link <?php if ($page_name == "odemeler"){?>active<?php } ?>" data-title="odemeler" href="<?= base_url()?>yorumcu/odemeler">
     		<i class="fas fa-lira-sign"></i>
     		Ödemeler
     	  </a>

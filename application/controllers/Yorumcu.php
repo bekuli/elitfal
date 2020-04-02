@@ -14,6 +14,7 @@ class Yorumcu extends CI_Controller {
         $this->load->helper('email');
         $this->load->library('session');
         $this->load->model('fal');
+        $this->load->model('charts');
 
         if ($this->fal->check_yorumcu_login() == false)
         {
@@ -35,12 +36,16 @@ class Yorumcu extends CI_Controller {
 	public function index()
 	{
         $data["profil"] = $this->profil;
+        $data["chart"]["fallar"]["today"] = $this->charts->fallar("today", $this->profil->id);
+        $data["chart"]["fallar"]["all"] = $this->charts->fallar(null, $this->profil->id);
+        $data["chart"]["kredi"]["today"] = $this->charts->kredi("today", $this->profil->id);
+        $data["chart"]["kredi"]["all"] = $this->charts->kredi(null, $this->profil->id);
 
 		$data["page_name"] = "home";
         $data["page_title"] = "Anasayfa";
 		if (isset($_GET["pure"])){
             $this->load->view("back/yorumcu/".$data["page_name"], $data);
-            $this->fal->set_title_pure($data["page_title"], true);
+            $this->fal->set_title_pure($data["page_title"]);
         }
         else
             $this->load->view("back/yorumcu/index", $data);
@@ -52,6 +57,11 @@ class Yorumcu extends CI_Controller {
             $q = filter_var($q, FILTER_SANITIZE_STRING);
             $this->db->where("CONCAT(fal_turu, ' ', id) like '%".$q."%'");
         }
+
+        if (isset($_GET["1"]))
+            $this->db->where("status", 1);
+        else
+            $this->db->where("status", 0);
 
         $totalrows = $this->db->where("yorumcu", $this->session->userdata('id'))->count_all_results("fal_istekleri");
 
@@ -70,6 +80,11 @@ class Yorumcu extends CI_Controller {
 
             if ($q !== "")
                 $this->db->where("CONCAT(fal_turu, ' ', id) like '%".$q."%'");
+
+            if (isset($_GET["1"]))
+                $this->db->where("status", 1);
+            else
+                $this->db->where("status", 0);
 
             $query = $this->db->order_by("id", "DESC")->where("yorumcu", $this->session->userdata('id'))->get("fal_istekleri", $rowsperpage, $offset);
 
@@ -138,10 +153,15 @@ class Yorumcu extends CI_Controller {
     public function falistekleri($fal_id = null, $action = null)
     {
         $page_data["profil"] = $this->profil;
-        if ($fal_id == null)
+        if ($fal_id == null || $fal_id == "cevaplanmis" || $fal_id == "cevaplanmamis")
         {
             $page_data["page_name"] = "falistekleri";
             $page_data["page_title"] = "Fal İstekleri";
+            if ($fal_id !== null){
+                $page_data["status"] = $fal_id;
+            }else{
+                $page_data["status"] = "cevaplanmamis";
+            }
 
             if (isset($_GET["pure"])){
                 $this->load->view("back/yorumcu/".$page_data["page_name"], $page_data);
@@ -178,6 +198,12 @@ class Yorumcu extends CI_Controller {
                 }
                 elseif ($action == "cevapla")
                 {
+                    if ($query->row()->status !== "0")
+                    {
+                        show_404();
+                        return;
+                    }
+
                     $page_data["fal_data"] = $query->row();
 
                     $page_data["fal_icerik"] = json_decode($query->row()->fal_icerik, true);
@@ -255,7 +281,7 @@ class Yorumcu extends CI_Controller {
         $data["page_title"] = "Mesajlar";
         if (isset($_GET["pure"])){
             $this->load->view("back/yorumcu/".$data["page_name"], $data);
-            $this->fal->set_title_pure($data["page_title"], true);
+            $this->fal->set_title_pure($data["page_title"]);
         }
         else
             $this->load->view("back/yorumcu/index", $data);
@@ -791,6 +817,240 @@ class Yorumcu extends CI_Controller {
     {
         $this->session->sess_destroy();
         redirect(base_url(), 'refresh');
+    }
+
+    public function odeme_gecmisi_list($page = 1, $q = '')
+    {
+        $totalrows = $this->db->where("(islem='user-buy' OR islem='yorumcu-withdraw' OR islem='admin-deposit' OR islem='admin-withdraw') AND yorumcu_id='".$this->session->userdata("id")."' AND odeme_sonucu='1'")->count_all_results("odeme_log");
+
+        if ($totalrows > 0)
+        {
+            $rowsperpage = 10;
+            $totalpages = ceil($totalrows / $rowsperpage);
+
+            if ($page > $totalpages)
+               $page = $totalpages;
+
+            if ($page < 1) 
+               $page = 1;
+
+            $offset = ($page - 1) * $rowsperpage;
+
+            $query = $this->db->order_by("tarih", "DESC")->where("(islem='user-buy' OR islem='yorumcu-withdraw' OR islem='admin-deposit' OR islem='admin-withdraw') AND yorumcu_id='".$this->session->userdata("id")."' AND odeme_sonucu='1'")->get("odeme_log", $rowsperpage, $offset);
+
+            $page_data["odeme_list"] = $query->result_array();
+
+            $pgrange = 3;
+            $pg = "";
+            if ($page > 1) {
+               $pg .= '<li class="page-item"><a'; 
+               if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+               $pg .=' page="1" class="page-link" href="#"><i class="fas fa-angle-double-left"></i></a></li> ';
+               $prevpage = $page - 1;
+               $pg .= '<li class="page-item"><a';
+               if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+               $pg .=' page="'.$prevpage.'" class="page-link" href="#"><i class="fas fa-angle-left"></i></a></li> ';
+            }
+            else{
+                $pg .= '<li class="page-item disabled"><a';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg.=' page="active" class="page-link" href="#"><i class="fas fa-angle-double-left"></i></a></li> ';
+                $pg .= '<li class="page-item disabled"><a ';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg .=' page="active" class="page-link" href="#"><i class="fas fa-angle-left"></i></a></li> ';
+            }
+
+            for ($x = ($page - $pgrange); $x < (($page + $pgrange) + 1); $x++) {
+               if (($x > 0) && ($x <= $totalpages)) {
+                  if ($x == $page){
+                     $pg .= ' <li class="page-item active"><a ';
+                     if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                     $pg.=' page="active" class="page-link" href="#">'.$x.'</a></li> ';
+                  }else{
+                     $pg .= ' <li class="page-item"><a';
+                     if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                     $pg .=' page="'.$x.'" class="page-link" href="#">'.$x.'</a></li> ';
+                }
+               }
+            }
+
+            if ($page != $totalpages) {
+               $nextpage = $page + 1;
+               $pg .= '<li class="page-item"><a';
+               if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+               $pg.=' page="'.$nextpage.'" class="page-link" href="#"><i class="fas fa-angle-right"></i></a></li> ';
+               $pg .= '<li class="page-item"><a';
+               if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+               $pg .=' page="'.$totalpages.'" class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a></li> ';
+            } 
+            else{
+                $pg .= '<li class="page-item disabled"><a';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg .=' page="active" class="page-link" href="#"><i class="fas fa-angle-right"></i></a></li> ';
+               $pg .= '<li class="page-item disabled"><a';
+               if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+               $pg.= ' page="active" class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a></li> ';
+            }
+
+            $page_data["pagination"] = $pg;
+        }
+        else
+            $page_data["odeme_list"] = array();
+
+        $this->load->view("back/yorumcu/odeme_gecmisi_list", $page_data);
+    }
+
+    public function withdraw_requests_list($page = 1, $q = '')
+    {
+        $totalrows = $this->db->where("yorumcu_id='".$this->session->userdata("id")."'")->count_all_results("withdraw_requests");
+
+        if ($totalrows > 0)
+        {
+            $rowsperpage = 10;
+            $totalpages = ceil($totalrows / $rowsperpage);
+
+            if ($page > $totalpages)
+               $page = $totalpages;
+
+            if ($page < 1) 
+               $page = 1;
+
+            $offset = ($page - 1) * $rowsperpage;
+
+            $query = $this->db->order_by("tarih", "DESC")->where("yorumcu_id='".$this->session->userdata("id")."'")->get("withdraw_requests", $rowsperpage, $offset);
+
+            $page_data["withdraw_list"] = $query->result_array();
+
+            $pgrange = 3;
+            $pg = "";
+            if ($page > 1) {
+               $pg .= '<li class="page-item"><a'; 
+               if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+               $pg .=' page="1" class="page-link" href="#"><i class="fas fa-angle-double-left"></i></a></li> ';
+               $prevpage = $page - 1;
+               $pg .= '<li class="page-item"><a';
+               if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+               $pg .=' page="'.$prevpage.'" class="page-link" href="#"><i class="fas fa-angle-left"></i></a></li> ';
+            }
+            else{
+                $pg .= '<li class="page-item disabled"><a';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg.=' page="active" class="page-link" href="#"><i class="fas fa-angle-double-left"></i></a></li> ';
+                $pg .= '<li class="page-item disabled"><a ';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg .=' page="active" class="page-link" href="#"><i class="fas fa-angle-left"></i></a></li> ';
+            }
+
+            for ($x = ($page - $pgrange); $x < (($page + $pgrange) + 1); $x++) {
+               if (($x > 0) && ($x <= $totalpages)) {
+                  if ($x == $page){
+                     $pg .= ' <li class="page-item active"><a ';
+                     if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                     $pg.=' page="active" class="page-link" href="#">'.$x.'</a></li> ';
+                  }else{
+                     $pg .= ' <li class="page-item"><a';
+                     if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                     $pg .=' page="'.$x.'" class="page-link" href="#">'.$x.'</a></li> ';
+                }
+               }
+            }
+
+            if ($page != $totalpages) {
+               $nextpage = $page + 1;
+               $pg .= '<li class="page-item"><a';
+               if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+               $pg.=' page="'.$nextpage.'" class="page-link" href="#"><i class="fas fa-angle-right"></i></a></li> ';
+               $pg .= '<li class="page-item"><a';
+               if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+               $pg .=' page="'.$totalpages.'" class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a></li> ';
+            } 
+            else{
+                $pg .= '<li class="page-item disabled"><a';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg .=' page="active" class="page-link" href="#"><i class="fas fa-angle-right"></i></a></li> ';
+               $pg .= '<li class="page-item disabled"><a';
+               if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+               $pg.= ' page="active" class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a></li> ';
+            }
+
+            $page_data["pagination"] = $pg;
+        }
+        else
+            $page_data["withdraw_list"] = array();
+
+        $this->load->view("back/yorumcu/withdraw_requests_list", $page_data);
+    }
+
+    public function odemeler()
+    {
+        $page_data["profil"] = $this->profil;
+        $page_data["page_name"] = "odemeler";
+        $page_data["page_title"] = "Ödemeler";
+
+        if (isset($_GET["pure"])){
+            $this->load->view("back/yorumcu/".$page_data["page_name"], $page_data);
+            $this->fal->set_title_pure($page_data["page_title"]);
+        }
+        else
+            $this->load->view("back/yorumcu/index", $page_data);
+    }
+
+    public function withdraw_request()
+    {
+        $kredi_tutari = $this->input->post("kredi");
+        if (empty($kredi_tutari))
+        {
+            echo "false";
+            return;
+        }
+
+        if (!is_numeric($kredi_tutari))
+        {
+            echo "false";
+            return;
+        }
+
+        if ($kredi_tutari < 1000)
+        {
+            echo "low";
+            return;
+        }
+
+        if ($kredi_tutari > $this->profil->kredi)
+        {
+            echo "high";
+            return;
+        }
+
+        $kredi_cek = $this->fal->kredi("withdraw", "yorumcu", $this->session->userdata("id"), $kredi_tutari);
+        if ($kredi_cek == true)
+        {
+            $this->db->insert("withdraw_requests", array("yorumcu_id" => $this->session->userdata("id"), "miktar" => $kredi_tutari, "tarih" => date("Y-m-d H:i:s"), "miktar_tl" => $this->fal->komisyon_hesapla($kredi_tutari)));
+            if ($this->db->affected_rows() > 0)
+            {
+                echo "success";
+            }else
+                echo "error";
+        }elseif ($kredi_cek == false){
+            echo "error";
+        }else{
+            echo $kredi_cek;
+        }
+
+        
+    }
+
+    function get_chart_data()
+    {
+        $chartdata1 = $this->charts->fallar("monthly", $this->profil->id);
+        $chartdata2 = $this->charts->kredi("monthly", $this->profil->id);
+
+        $data = array(
+            "fallar" => $chartdata1,
+            "kredi" => $chartdata2
+        );
+
+        echo json_encode($data);
     }
 
 }

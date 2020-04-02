@@ -3,7 +3,8 @@
     <div class="row">
         <div class="col-lg-9 marauto ust">
             <h1 class="h2" style="float:left">Fal : <?=$this->fal->fal_turu_name_to_org($fal_data->fal_turu)?></h1> 
-            <a href="<?=base_url()?>yorumcu/falistekleri/<?=$fal_data->id?>/cevapla" class="btn btn-primary cevapla" style="float:right">Cevapla</a>  
+            <?php if ($fal_data->status == 0) {?>
+            <a href="<?=base_url()?>yorumcu/falistekleri/<?=$fal_data->id?>/cevapla" class="btn btn-primary cevapla" style="float:right">Cevapla</a>  <?php } ?>
         </div>
         <div class="col-lg-3">
             <h3>
@@ -47,11 +48,6 @@
                             <td>Soyad</td>
                             <td>:</td>
                             <td><?=$fal_icerik["bilgiler"]["soyad"]?></td>
-                        </tr>
-                        <tr>
-                            <td>Sektör</td>
-                            <td>:</td>
-                            <td><?=$fal_icerik["bilgiler"]["sektor"]?></td>
                         </tr>
                         <tr>
                             <td>Cinsiyet</td>

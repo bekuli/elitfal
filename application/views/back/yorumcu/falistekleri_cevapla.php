@@ -57,11 +57,6 @@
                             <td><?=$fal_icerik["bilgiler"]["soyad"]?></td>
                         </tr>
                         <tr>
-                            <td>Sektör</td>
-                            <td>:</td>
-                            <td><?=$fal_icerik["bilgiler"]["sektor"]?></td>
-                        </tr>
-                        <tr>
                             <td>Cinsiyet</td>
                             <td>:</td>
                             <td><?=$fal_icerik["bilgiler"]["cinsiyet"]?></td>
