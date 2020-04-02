@@ -4,12 +4,17 @@
         <tr>
             <td><b>İsim</b></td>
             <td> : </td>
-            <td><?=$user_data->name?></td>
+            <td><?=$user_data->name?> <?=$user_data->surname?></td>
         </tr>
         <tr>
             <td><b>Eposta</b></td>
             <td> : </td>
             <td><?=$user_data->email?></td>
+        </tr>
+        <tr>
+            <td><b>Telefon</b></td>
+            <td> : </td>
+            <td><?=$user_data->telefon?></td>
         </tr>
         <tr>
             <td><b>Kredi</b></td>
@@ -30,6 +35,21 @@
                 else
                     echo "Deaktif";
                 ?></td>
+        </tr>
+        <tr>
+            <td><b>Cinsiyet</b></td>
+            <td> : </td>
+            <td><?=$user_data->cinsiyet?></td>
+        </tr>
+        <tr>
+            <td><b>İlişki Durumu</b></td>
+            <td> : </td>
+            <td><?=$user_data->iliski_durumu?></td>
+        </tr>
+        <tr>
+            <td><b>Doğum Tarihi</b></td>
+            <td> : </td>
+            <td><?=date("m/d/Y", strtotime($user_data->dogum_tarihi));?></td>
         </tr>
     </tbody>
 </table>

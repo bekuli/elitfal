@@ -17,6 +17,11 @@
             <td><?=$yorumcu_data->email?></td>
         </tr>
         <tr>
+            <td><b>Kredi</b></td>
+            <td> : </td>
+            <td><?=$yorumcu_data->kredi?></td>
+        </tr>
+        <tr>
             <td><b>Kayıt Tarihi</b></td>
             <td> : </td>
             <td><?=date("m/d/Y", strtotime($yorumcu_data->tarih));?></td>

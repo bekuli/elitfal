@@ -21,19 +21,19 @@
 			  Yorumcular
 		  </a>
 	  </li>
-	<li class="nav-item">
-	  <a class="nav-link <?php if ($page_name == "settings"){?>active<?php } ?>" data-title="Settings" href="<?= base_url()?>admin/kredi">
-		<i class="fas fa-lira-sign"></i>
-		Kredi
-	  </a>
-	</li>
+    	<li class="nav-item">
+    	  <a class="nav-link <?php if ($page_name == "settings"){?>active<?php } ?>" data-title="Settings" href="<?= base_url()?>admin/kredi">
+    		<i class="fas fa-lira-sign"></i>
+    		Kredi
+    	  </a>
+    	</li>
 
-	<li class="nav-item">
-	  <a class="nav-link <?php if ($page_name == "settings"){?>active<?php } ?>" data-title="Settings" href="<?= base_url()?>admin/ayarlar">
-		<i class="fas fa-cog"></i>
-		Ayarlar
-	  </a>
-	</li>
+    	<li class="nav-item">
+    	  <a class="nav-link <?php if ($page_name == "settings"){?>active<?php } ?>" data-title="Settings" href="<?= base_url()?>admin/ayarlar">
+    		<i class="fas fa-cog"></i>
+    		Ayarlar
+    	  </a>
+    	</li>
 
         
       </ul>

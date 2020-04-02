@@ -5,10 +5,10 @@
             <tr>
                 <td><b>Profil Fotoğrafı</b></td>
                 <td> : </td>
-                <td><img width="75" onerror="this.src='<?=base_url()?>src/img/pp.png';" class="img-circle" id="img-uploaded" src=""/>
-                    <label for="upload_image" class="btn btn-secondary btn-sm foto-btn">Resim Seç</label>
-                    <input style="display: none" type="file" name="img" accept=".gif,.jpg,.png,.jpeg,.bmp" id="upload_image" class="images_file_select">
-                    <input type="hidden" name="image" id="image_base64">
+                <td><img width="75" onerror="this.src='<?=base_url()?>src/img/pp.png';" class="img-circle" id="img-uploaded-ekle" src=""/>
+                    <label for="upload_image_ekle" class="btn btn-secondary btn-sm foto-btn">Resim Seç</label>
+                    <input style="display: none" type="file" name="img" accept=".gif,.jpg,.png,.jpeg,.bmp" id="upload_image_ekle" class="images_file_select">
+                    <input type="hidden" name="image" id="image_base64_ekle">
                 </td>
             </tr>
             <tr>
@@ -132,10 +132,10 @@
 
 
 <script type="text/javascript">
-    var cropping = false;
+    var cropping_ekle = false;
 
     $(document).ready(function(){
-        $image_crop = $('#image_demo').croppie({
+        image_crop = $('#image_demo_ekle').croppie({
             enableExif: true,
                 viewport: {
                 width:300,
@@ -148,7 +148,7 @@
             }
         });
 
-        $('#upload_image').on('change', function(e){
+        $('#upload_image_ekle').on('change', function(e){
             var fileTypes = ['jpg', 'jpeg', 'png', 'bmp', 'JPG', 'PNG', 'JPEG', 'BMP']; 
             var f = e.target.files[0];
             var extension = f.name.split('.').pop().toLowerCase();
@@ -162,36 +162,36 @@
 
             var reader = new FileReader();
             reader.onload = function (event) {
-                $image_crop.croppie('bind', {
+                image_crop.croppie('bind', {
                     url: event.target.result
                 }).then(function(){
                 });
             }
             reader.readAsDataURL(this.files[0]);
-            $('#uploadimageModal').modal();
+            $('#uploadimageModalEkle').modal();
         });
 
-        $('.crop_image').click(function(event){
+        $('.crop_image_ekle').click(function(event){
 
-            if (cropping == true){
+            if (cropping_ekle == true){
                 return;
             }
 
-            cropping = true;
+            cropping_ekle = true;
 
-            $image_crop.croppie('result', {
+            image_crop.croppie('result', {
                 type: 'canvas',
                 size: 'viewport'
             }).then(function(response){
-                $("#image_base64").val(response);
-                $("#img-uploaded").attr("src", response);
-                $("#upload_image").val("");
-                $('#uploadimageModal').modal('hide');
-                $(".crop_image").val("Kaydet");
-                $(".crop_image").removeAttr("disabled", "");
+                $("#image_base64_ekle").val(response);
+                $("#img-uploaded-ekle").attr("src", response);
+                $("#upload_image_ekle").val("");
+                $('#uploadimageModalEkle').modal('hide');
+                $(".crop_image_ekle").val("Kaydet");
+                $(".crop_image_ekle").removeAttr("disabled", "");
                 setTimeout(function(){$('body').addClass('modal-open'); }, 500);
                 
-                cropping = false;
+                cropping_ekle = false;
             })
         });
     });

@@ -140,7 +140,7 @@
     var cropping = false;
 
     $(document).ready(function(){
-        $image_crop = $('#image_demo').croppie({
+        image_crop = $('#image_demo').croppie({
             enableExif: true,
                 viewport: {
                 width:300,
@@ -167,7 +167,7 @@
 
             var reader = new FileReader();
             reader.onload = function (event) {
-                $image_crop.croppie('bind', {
+                image_crop.croppie('bind', {
                     url: event.target.result
                 }).then(function(){
                 });
@@ -184,7 +184,7 @@
 
             cropping = true;
 
-            $image_crop.croppie('result', {
+            image_crop.croppie('result', {
                 type: 'canvas',
                 size: 'viewport'
             }).then(function(response){
