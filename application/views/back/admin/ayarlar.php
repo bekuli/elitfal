@@ -19,7 +19,7 @@
                             </div>
                        </div>
                        <div class="card-footer">
-                            <input name="hesap-ayarlari" type="submit" class="btn btn-primary btn-sm" value="Kaydet">
+                            <input name="" type="submit" class="btn btn-primary btn-sm" value="Kaydet">
                         </div>
                     </div>
                 </form>
@@ -52,7 +52,7 @@
                             </div>
                        </div>
                        <div class="card-footer">
-                            <input name="sifre-degistir" type="submit" class="btn btn-primary btn-sm" value="Kaydet">
+                            <input name="" type="submit" class="btn btn-primary btn-sm" value="Kaydet">
                         </div>
                     </div>
                 </form>
@@ -116,7 +116,7 @@
 
                        </div>
                        <div class="card-footer">
-                            <input name="fiyat-listesi" type="submit" class="btn btn-primary btn-sm" value="Kaydet">
+                            <input name="" type="submit" class="btn btn-primary btn-sm" value="Kaydet">
                         </div>
                     </div>
                 </form>
@@ -130,12 +130,12 @@
                               
                             <div class="form-group">
                                 <label for="komisyon">Komisyon (%)</label>
-                                <input type="number" name="komisyon" class="form-control" id="komisyon">
+                                <input type="number" name="komisyon" value="<?=$this->fal->get_setting("komisyon")?>" class="form-control" id="komisyon">
                             </div>
                               
                        </div>
                        <div class="card-footer">
-                            <input name="fiyat-listesi" type="submit" class="btn btn-primary btn-sm" value="Kaydet">
+                            <input name="" type="submit" class="btn btn-primary btn-sm" value="Kaydet">
                         </div>
                     </div>
                 </form>
@@ -200,10 +200,12 @@
     				}else if (result == "false")
     				{
     					$.notify("Geçersiz email adresi", "error");
-    				}
+    				}else{
+                        $.notify("Bilinmeyen bir hata oluştu!", "error");
+                    }
 
     				$("#email-form input[type=submit]").val("Kaydet");
-    				("#email-form input[type=submit]").removeAttr("disabled");
+    				$("#email-form input[type=submit]").removeAttr("disabled");
     				submitting_email = false;
     			},
     			error : function(r){
@@ -247,8 +249,12 @@
                     }else if (result == "no_match_org")
                     {
                         $.notify("Mevcut şifreniz yanlış!", "error");
+                    }else if (result == "empty")
+                    {
+                        $.notify("Gerekli alanlar doldurulmalıdır", "error");
+                    }else{
+                        $.notify("Bilinmeyen bir hata oluştu!", "error");
                     }
-
 
                     $("#sifre-form input[type=submit]").val("Kaydet");
                     $("#sifre-form input[type=submit]").removeAttr("disabled", "");
@@ -291,7 +297,11 @@
                         $.notify("Sadece rakam kullanınız!", "error");
                     }else if (result == "false"){
                         $.notify("Gerekli alanlar doldurulmalıdır!", "error");
+                    }else{
+                        $.notify("Bilinmeyen bir hata oluştu!", "error");
                     }
+
+                    console.log(result);
 
                     $("#fiyat-listesi-form input[type=submit]").val("Kaydet");
                     $("#fiyat-listesi-form input[type=submit]").removeAttr("disabled", "");
@@ -336,7 +346,9 @@
     					$.notify("Sadece rakam kullanınız!", "error");
     				}else if (result == "false"){
     					$.notify("Gerekli alanlar doldurulmalıdır!", "error");
-    				}
+    				}else{
+                        $.notify("Bilinmeyen bir hata oluştu!", "error");
+                    }
 
     				$("#komisyon-form input[type=submit]").val("Kaydet");
     				$("#komisyon-form input[type=submit]").removeAttr("disabled", "");

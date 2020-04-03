@@ -34,7 +34,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Hesabi Düzenle</h5>
+        <h5 class="modal-title">Hesabı Düzenle</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -496,7 +496,7 @@
                     {
                         $.notify("Kaydedildi!", "success");
                         $("nav a[data-title='Yorumcular']").click();
-                        $("#add-modal").hide();
+                        $("#add-modal").modal("hide");
                     }else if (data == "false")
                     {
                         $.notify("Tüm alanları doldurmak zorunludur!", "error");
@@ -508,6 +508,7 @@
                 error: function( e ){
                     $("#add-save").text("Kaydet");
                     $("#add-save").removeAttr("disabled");
+                    $.notify("Bilinmeyen Hata", "error");
                     console.log( e );
                 }
             });
@@ -547,6 +548,7 @@
                 error: function( e ){
                     $("#edit-save").text("Kaydet");
                     $("#edit-save").removeAttr("disabled");
+                    $.notify("Bilinmeyen Hata", "error");
                     console.log( e );
                 }
             });

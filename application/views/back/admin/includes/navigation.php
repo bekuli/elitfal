@@ -22,11 +22,32 @@
 		  </a>
 	  </li>
     	<li class="nav-item">
-    	  <a class="nav-link <?php if ($page_name == "settings"){?>active<?php } ?>" data-title="Settings" href="<?= base_url()?>admin/kredi">
+    	  <a class="nav-link <?php if ($page_name == "settings"){?>active<?php } ?>" data-title="odemeler" href="<?= base_url()?>admin/odemeler">
     		<i class="fas fa-lira-sign"></i>
-    		Kredi
+    		Ödemeler
     	  </a>
     	</li>
+
+        <li class="nav-item">
+          <a class="nav-link <?php if ($page_name == "settings"){?>active<?php } ?>" data-title="kredi" href="<?= base_url()?>admin/kredi">
+            <i class="fas fa-coins"></i>
+            Kredi
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link <?php if ($page_name == "settings"){?>active<?php } ?>" data-title="yorumcu_basvurulari" href="<?= base_url()?>admin/yorumcu_basvurulari">
+            <i class="fas fa-bookmark"></i>
+            Yorumcu Başvuruları
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link <?php if ($page_name == "settings"){?>active<?php } ?>" data-title="iletisim" href="<?= base_url()?>admin/iletisim">
+            <i class="fas fa-address-book"></i>
+            İletişim
+          </a>
+        </li>
 
     	<li class="nav-item">
     	  <a class="nav-link <?php if ($page_name == "settings"){?>active<?php } ?>" data-title="Settings" href="<?= base_url()?>admin/ayarlar">

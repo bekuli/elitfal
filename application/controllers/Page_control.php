@@ -50,10 +50,10 @@ class Page_control extends CI_Controller {
                 $this->yorumcular();
                 return;
             case "yorumcu-ol":
-                $this->yorumcu_ol();
+                $this->yorumcu_ol($this->uri->segment(2));
                 return;
             case "iletisim":
-                $this->iletisim();
+                $this->iletisim($this->uri->segment(2));
                 return;
             case "fal-gonder":
                 $yorumcu = $this->uri->segment(2);
@@ -165,6 +165,10 @@ class Page_control extends CI_Controller {
                     return;
                 }else if ($this->uri->segment(2) == "get-data"){
                     $this->get_user_data();
+                    return;
+                }else if ($this->uri->segment(2) == "kredi-islemleri"){
+                    $page = $this->uri->segment(3);
+                    $this->kredi_islemleri($page);
                     return;
                 }else if ($this->uri->segment(2) == "cevap"){
                     $id = $this->uri->segment(3);
@@ -558,40 +562,29 @@ class Page_control extends CI_Controller {
                     $query1 = $this->db->get_where("users", array("id" => $this->session->userdata("id"), "status" => 1));
                     if ($query1 !== false && $query1->num_rows() > 0)
                     {
-                        $odeme_sonucu = 0;
+                        $kredi = $query->row()->odeme;
+
                         if ($query1->row()->kredi >= $query->row()->odeme)
                         {
-                            $updatedata = array(
-                                "kredi" => $query1->row()->kredi - $query->row()->odeme,
-                            );
+                            $this->fal->kredi(
+                                "buy", "user", $this->session->userdata("id"), 
+                                $kredi, true, "kredi",  $query->row()->yorumcu);
 
-                            $updatedata2 = array(
-                                "status" => 0
-                            );
-
-                            //$this->db->where("id", $this->session->userdata("id"))->update("users", $updatedata);
-                            //$this->db->where("perma", $id)->update("fal_istekleri", $updatedata2);
+                            $this->db->where("perma", $id)->update("fal_istekleri", array("status" => 0));
 
                             $data["page"] = "odeme_basarili";
                             $data["neden"] = "Hesabınızdan kredi başarıyla çekildi!";
                             $this->load->view("front/index", $data);
-                            $odeme_sonucu = 1;
                         }
                         else
                         {
+                            $this->fal->kredi(
+                                "buy", "user", $this->session->userdata("id"), 
+                                $kredi, false, "kredi",  $query->row()->yorumcu);
                             $data["page"] = "odeme_basarisiz";
                             $data["neden"] = "Kredi bakiyeniz yetersiz!";
                             $this->load->view("front/index", $data);
                         }
-
-                        $this->db->insert("odeme_log", array(
-                            "yorumcu" => $query->row()->yorumcu,
-                            "fal_id" => $query->row()->id,
-                            "miktar" => $query->row()->odeme,
-                            "odeme_turu" => 1,
-                            "odeme_sonucu" => 1,
-                            "tarih" => date("Y-m-d"),
-                        ));
 
                         return;
                     }
@@ -1005,17 +998,89 @@ class Page_control extends CI_Controller {
             echo "error";
     }
 
-    public function yorumcu_ol()
+    public function yorumcu_ol($islem = null)
     {
-        $data["page"] = "yorumcu_ol";
-        $this->load->view("front/index", $data);
+        if ($islem == null)
+        {
+            $data["page"] = "yorumcu_ol";
+            $this->load->view("front/index", $data);
+        }else if ($islem == "submit")
+        {
+            if (isset($_POST["yorumcu_ol"]))
+            {
+                $name = $this->input->post("name");
+                $email = $this->input->post("email");
+                $tel = $this->input->post("tel");
+                $message = $this->input->post("message");
+
+                if (empty($name) ||empty($email) || empty($tel) ||empty($message))
+                {
+                    echo "false";
+                    return;
+                }
+
+                $data = array(
+                    "name" => $name,
+                    "email" => $email,
+                    "tel" => $tel,
+                    "message" => $message,
+                    "tarih" => date("Y-m-d H:i:s")
+                );
+
+                $this->db->insert("yorumcu_basvurulari", $data);
+                if ($this->db->affected_rows() > 0)
+                {
+                    echo "success";
+                }else
+                echo "error";
+            }else{
+                show_404();
+            }
+        }
     }
 
-    public function iletisim()
+    public function iletisim($islem = null)
     {
-        $data["page"] = "iletisim";
-        $this->load->view("front/index", $data);
+        if ($islem == null)
+        {
+            $data["page"] = "iletisim";
+            $this->load->view("front/index", $data);
+        }else if ($islem == "submit")
+        {
+            if (isset($_POST["iletisim"]))
+            {
+                $name = $this->input->post("name");
+                $email = $this->input->post("email");
+                $tel = $this->input->post("tel");
+                $message = $this->input->post("message");
+
+                if (empty($name) ||empty($email) || empty($tel) ||empty($message))
+                {
+                    echo "false";
+                    return;
+                }
+
+                $data = array(
+                    "name" => $name,
+                    "email" => $email,
+                    "tel" => $tel,
+                    "message" => $message,
+                    "tarih" => date("Y-m-d H:i:s")
+                );
+
+                $this->db->insert("iletisim", $data);
+                if ($this->db->affected_rows() > 0)
+                {
+                    echo "success";
+                }else
+                echo "error";
+            }else{
+                show_404();
+            }
+        }
     }
+
+
 
     public function cevaplanmis_fal($id)
     {
@@ -1262,5 +1327,86 @@ class Page_control extends CI_Controller {
         $data["yorumcular"] = $yorumcular;
         $data["page"] = "yorumcular";
         $this->load->view('front/index', $data);
+    }
+
+    public function kredi_islemleri($page = null, $q = null)
+    {
+        $totalrows = $this->db->where("(islem='user-buy' OR islem='user_deposit' OR islem='admin-deposit' OR islem='admin-withdraw') AND user_id='".$this->session->userdata("id")."'")->count_all_results("odeme_log");
+
+        if ($totalrows > 0)
+        {
+            $rowsperpage = 10;
+            $totalpages = ceil($totalrows / $rowsperpage);
+
+            if ($page > $totalpages)
+               $page = $totalpages;
+
+            if ($page < 1) 
+               $page = 1;
+
+            $offset = ($page - 1) * $rowsperpage;
+
+            $query = $this->db->order_by("tarih", "DESC")->where("(islem='user-buy' OR islem='user_deposit' OR islem='admin-deposit' OR islem='admin-withdraw') AND user_id='".$this->session->userdata("id")."'")->get("odeme_log", $rowsperpage, $offset);
+
+            $page_data["odeme_list"] = $query->result_array();
+
+            $pgrange = 3;
+            $pg = "";
+            if ($page > 1) {
+               $pg .= '<li class="page-item"><a'; 
+               if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+               $pg .=' page="1" class="page-link" href="#"><i class="fa fa-angle-double-left"></i></a></li> ';
+               $prevpage = $page - 1;
+               $pg .= '<li class="page-item"><a';
+               if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+               $pg .=' page="'.$prevpage.'" class="page-link" href="#"><i class="fa fa-angle-left"></i></a></li> ';
+            }
+            else{
+                $pg .= '<li class="page-item disabled"><a';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg.=' page="active" class="page-link" href="#"><i class="fa fa-angle-double-left"></i></a></li> ';
+                $pg .= '<li class="page-item disabled"><a ';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg .=' page="active" class="page-link" href="#"><i class="fa fa-angle-left"></i></a></li> ';
+            }
+
+            for ($x = ($page - $pgrange); $x < (($page + $pgrange) + 1); $x++) {
+               if (($x > 0) && ($x <= $totalpages)) {
+                  if ($x == $page){
+                     $pg .= ' <li class="page-item active"><a ';
+                     if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                     $pg.=' page="active" class="page-link" href="#">'.$x.'</a></li> ';
+                  }else{
+                     $pg .= ' <li class="page-item"><a';
+                     if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                     $pg .=' page="'.$x.'" class="page-link" href="#">'.$x.'</a></li> ';
+                }
+               }
+            }
+
+            if ($page != $totalpages) {
+               $nextpage = $page + 1;
+               $pg .= '<li class="page-item"><a';
+               if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+               $pg.=' page="'.$nextpage.'" class="page-link" href="#"><i class="fa fa-angle-right"></i></a></li> ';
+               $pg .= '<li class="page-item"><a';
+               if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+               $pg .=' page="'.$totalpages.'" class="page-link" href="#"><i class="fa fa-angle-double-right"></i></a></li> ';
+            } 
+            else{
+                $pg .= '<li class="page-item disabled"><a';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg .=' page="active" class="page-link" href="#"><i class="fa fa-angle-right"></i></a></li> ';
+               $pg .= '<li class="page-item disabled"><a';
+               if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+               $pg.= ' page="active" class="page-link" href="#"><i class="fa fa-angle-double-right"></i></a></li> ';
+            }
+
+            $page_data["pagination"] = $pg;
+        }
+        else
+            $page_data["odeme_list"] = array();
+
+        $this->load->view("front/odeme_gecmisi_list", $page_data);
     }
 }

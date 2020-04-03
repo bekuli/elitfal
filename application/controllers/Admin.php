@@ -9,6 +9,7 @@ class Admin extends CI_Controller {
         $this->load->database();
         $this->load->helper('string');
         $this->load->helper('url');
+        $this->load->helper('email');
         $this->load->library('session');
         $this->load->model('fal');
         $this->load->model('charts');
@@ -383,6 +384,7 @@ class Admin extends CI_Controller {
                 if ($id == "ekle-view")
                 {
                     $page_data["page_name"] = "yorumcular_ekle";
+                    $page_data["fal_fiyat"] = json_decode($this->fal->get_setting("fiyat_listesi"), true);
                     $this->load->view("back/admin/".$page_data["page_name"], $page_data);
                     return;
                 }elseif ($id == "ekle")
@@ -710,19 +712,794 @@ class Admin extends CI_Controller {
         echo json_encode($data);
     }
 
-    public function ayarlar()
+    public function ayarlar($islem = null)
     {
+        if ($islem == null)
+        {
+            $page_data["fal_fiyat"] = json_decode($this->fal->get_setting("fiyat_listesi"), true);
+            $page_data["page_name"] = "ayarlar";
+            $page_data["page_title"] = "Ayarlar";
 
-        $page_data["fal_fiyat"] = json_decode($this->fal->get_setting("fiyat_listesi"), true);
-        $page_data["page_name"] = "ayarlar";
-        $page_data["page_title"] = "Ayarlar";
+            if (isset($_GET["pure"])){
+                $this->load->view("back/admin/".$page_data["page_name"], $page_data);
+                $this->fal->set_title_pure($page_data["page_title"], true);
+            }
+            else
+                $this->load->view("back/admin/index", $page_data);
+        }elseif ($islem == "email")
+        {
+            $email = trim($this->input->post("email"));
+            if (!valid_email($email))
+            {
+                echo "false";
+            }else
+            {
+                if ($this->fal->get_setting("admin_eposta") == $email)
+                {
+                    echo "success";
+                    return;
+                }
+                $query = $this->fal->set_setting("admin_eposta", $email);
+                if ($query == true){
+                    echo "success";
+                    return;
+                }
+                echo "error";
+            }
+        }else if ($islem == "sifre")
+        {
+            $msifre = $this->input->post("msifre");
+            $ysifre = $this->input->post("ysifre");
+            $ysifre_tekrar = $this->input->post("ysifre_tekrar");
+            if (empty($msifre) || empty($ysifre) || empty($ysifre_tekrar))
+            {
+                echo "empty";
+                return;
+            }
 
-        if (isset($_GET["pure"])){
-            $this->load->view("back/admin/".$page_data["page_name"], $page_data);
-            $this->fal->set_title_pure($page_data["page_title"], true);
+            if ($ysifre !== $ysifre_tekrar)
+            {
+                echo "no_match";
+                return;
+            }
+
+            if ($this->fal->get_setting("admin_sifre")!== sha1($msifre)){
+                echo "no_match_org";
+                return;
+            }
+
+            if (sha1($msifre) == sha1($ysifre))
+            {
+                echo "success";
+                return;
+            }
+
+            $query = $this->fal->set_setting("admin_sifre", sha1($ysifre));
+            if ($query == true){
+                echo "success";
+                return;
+            }
+            echo "error";
+        }else if ($islem == "fiyat-listesi")
+        {
+            $data["kahve_fali"] = $this->input->post("kahve_fali");
+            $data["tarot_fali"] = $this->input->post("tarot_fali");
+            $data["yildizname"] = $this->input->post("yildizname");
+            $data["ruya_yorumu"] = $this->input->post("ruya_yorumu");
+            $data["katina_fali"] = $this->input->post("katina_fali");
+            $data["su_fali"] = $this->input->post("su_fali");
+            $data["dert_ortagi"] = $this->input->post("dert_ortagi");
+
+            foreach ($data as $row)
+            {
+                if ($this->fal->empty_fal($row))
+                {
+                    echo "false";
+                    return;
+                }
+
+                if (!is_numeric($row))
+                {
+                    echo "false_n";
+                    return;
+                }
+            }
+
+            $data = json_encode($data);
+            if ($data !== $this->fal->get_setting("fiyat_listesi"))
+            {
+                $query = $this->fal->set_setting("fiyat_listesi", $data);
+                if ($query == true){
+                    echo "success";
+                    return;
+                }
+                echo "error";
+            }else{
+                echo "success";
+            }
+
+        }elseif ($islem == "komisyon")
+        {
+            $komisyon = trim($this->input->post("komisyon"));
+            if (!is_numeric($komisyon))
+            {
+                echo "false";
+            }else
+            {
+                if ($this->fal->get_setting("komisyon") == $komisyon)
+                {
+                    echo "success";
+                    return;
+                }
+                $query = $this->fal->set_setting("komisyon", $komisyon);
+                if ($query == true){
+                    echo "success";
+                    return;
+                }
+                echo "error";
+            }
+        }
+    }
+
+    public function yorumcu_basvurulari_list($page = 1, $q = "")
+    {
+        if ($q !== ""){
+            $q = filter_var($q, FILTER_SANITIZE_STRING);
+            $this->db->where("CONCAT(name, ' ', email) like '%".$q."%'");
+        }
+
+        $totalrows = $this->db->count_all_results("yorumcu_basvurulari");
+
+        if ($totalrows > 0)
+        {
+            $rowsperpage = 10;
+            $totalpages = ceil($totalrows / $rowsperpage);
+
+            if ($page > $totalpages)
+                $page = $totalpages;
+
+            if ($page < 1)
+                $page = 1;
+
+            $offset = ($page - 1) * $rowsperpage;
+
+            if ($q !== "")
+                $this->db->where("CONCAT(name, ' ', email) like '%".$q."%'");
+
+            $query = $this->db->order_by("tarih", "DESC")->get("yorumcu_basvurulari", $rowsperpage, $offset);
+
+            $page_data["basvuru_list"] = $query->result_array();
+
+            $pgrange = 3;
+            $pg = "";
+            if ($page > 1) {
+                $pg .= '<li class="page-item"><a';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg .=' page="1" class="page-link" href="#"><i class="fas fa-angle-double-left"></i></a></li> ';
+                $prevpage = $page - 1;
+                $pg .= '<li class="page-item"><a';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg .=' page="'.$prevpage.'" class="page-link" href="#"><i class="fas fa-angle-left"></i></a></li> ';
+            }
+            else{
+                $pg .= '<li class="page-item disabled"><a';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg.=' page="active" class="page-link" href="#"><i class="fas fa-angle-double-left"></i></a></li> ';
+                $pg .= '<li class="page-item disabled"><a ';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg .=' page="active" class="page-link" href="#"><i class="fas fa-angle-left"></i></a></li> ';
+            }
+
+            for ($x = ($page - $pgrange); $x < (($page + $pgrange) + 1); $x++) {
+                if (($x > 0) && ($x <= $totalpages)) {
+                    if ($x == $page){
+                        $pg .= ' <li class="page-item active"><a ';
+                        if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                        $pg.=' page="active" class="page-link" href="#">'.$x.'</a></li> ';
+                    }else{
+                        $pg .= ' <li class="page-item"><a';
+                        if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                        $pg .=' page="'.$x.'" class="page-link" href="#">'.$x.'</a></li> ';
+                    }
+                }
+            }
+
+            if ($page != $totalpages) {
+                $nextpage = $page + 1;
+                $pg .= '<li class="page-item"><a';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg.=' page="'.$nextpage.'" class="page-link" href="#"><i class="fas fa-angle-right"></i></a></li> ';
+                $pg .= '<li class="page-item"><a';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg .=' page="'.$totalpages.'" class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a></li> ';
+            }
+            else{
+                $pg .= '<li class="page-item disabled"><a';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg .=' page="active" class="page-link" href="#"><i class="fas fa-angle-right"></i></a></li> ';
+                $pg .= '<li class="page-item disabled"><a';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg.= ' page="active" class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a></li> ';
+            }
+
+            $page_data["pagination"] = $pg;
         }
         else
-            $this->load->view("back/admin/index", $page_data);
+            $page_data["basvuru_list"] = array();
+
+
+        $this->load->view("back/admin/yorumcu_basvurulari_list", $page_data);
+    }
+
+    public function yorumcu_basvurulari($id = null, $action = null)
+    {
+        if ($id == null)
+        {
+            $page_data["page_name"] = "yorumcu_basvurulari";
+            $page_data["page_title"] = "Yorumcu Başvuruları";
+
+            if (isset($_GET["pure"])){
+                $this->load->view("back/admin/".$page_data["page_name"], $page_data);
+                $this->fal->set_title_pure($page_data["page_title"], true);
+            }
+            else
+                $this->load->view("back/admin/index", $page_data);
+        }
+        else
+        {
+            if (!is_numeric($id)){
+                show_404();
+                return;
+            }
+
+            $query = $this->db->get_where("yorumcu_basvurulari", array("id" => $id));
+            if ($query !== false && $query->num_rows() > 0)
+            {
+                if ($action == "delete")
+                {
+                    $this->db->where("id", $query->row()->id);
+                    $query = $this->db->delete("yorumcu_basvurulari");
+                    if ($query !== false)
+                        echo "success";
+                    else
+                        echo "error";
+                }elseif ($action == "view")
+                {
+                    $page_data["data"] = $query->row();
+                    $page_data["page_name"] = "yorumcu_basvurulari_view";
+                    $this->load->view("back/admin/".$page_data["page_name"], $page_data);
+                }
+                else{
+                    show_404();
+                }
+            }
+        }
+    }
+
+    public function iletisim_list($page = 1, $q = "")
+    {
+        if ($q !== ""){
+            $q = filter_var($q, FILTER_SANITIZE_STRING);
+            $this->db->where("CONCAT(name, ' ', email) like '%".$q."%'");
+        }
+
+        $totalrows = $this->db->count_all_results("iletisim");
+
+        if ($totalrows > 0)
+        {
+            $rowsperpage = 10;
+            $totalpages = ceil($totalrows / $rowsperpage);
+
+            if ($page > $totalpages)
+                $page = $totalpages;
+
+            if ($page < 1)
+                $page = 1;
+
+            $offset = ($page - 1) * $rowsperpage;
+
+            if ($q !== "")
+                $this->db->where("CONCAT(name, ' ', email) like '%".$q."%'");
+
+            $query = $this->db->order_by("tarih", "DESC")->get("iletisim", $rowsperpage, $offset);
+
+            $page_data["iletisim_list"] = $query->result_array();
+
+            $pgrange = 3;
+            $pg = "";
+            if ($page > 1) {
+                $pg .= '<li class="page-item"><a';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg .=' page="1" class="page-link" href="#"><i class="fas fa-angle-double-left"></i></a></li> ';
+                $prevpage = $page - 1;
+                $pg .= '<li class="page-item"><a';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg .=' page="'.$prevpage.'" class="page-link" href="#"><i class="fas fa-angle-left"></i></a></li> ';
+            }
+            else{
+                $pg .= '<li class="page-item disabled"><a';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg.=' page="active" class="page-link" href="#"><i class="fas fa-angle-double-left"></i></a></li> ';
+                $pg .= '<li class="page-item disabled"><a ';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg .=' page="active" class="page-link" href="#"><i class="fas fa-angle-left"></i></a></li> ';
+            }
+
+            for ($x = ($page - $pgrange); $x < (($page + $pgrange) + 1); $x++) {
+                if (($x > 0) && ($x <= $totalpages)) {
+                    if ($x == $page){
+                        $pg .= ' <li class="page-item active"><a ';
+                        if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                        $pg.=' page="active" class="page-link" href="#">'.$x.'</a></li> ';
+                    }else{
+                        $pg .= ' <li class="page-item"><a';
+                        if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                        $pg .=' page="'.$x.'" class="page-link" href="#">'.$x.'</a></li> ';
+                    }
+                }
+            }
+
+            if ($page != $totalpages) {
+                $nextpage = $page + 1;
+                $pg .= '<li class="page-item"><a';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg.=' page="'.$nextpage.'" class="page-link" href="#"><i class="fas fa-angle-right"></i></a></li> ';
+                $pg .= '<li class="page-item"><a';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg .=' page="'.$totalpages.'" class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a></li> ';
+            }
+            else{
+                $pg .= '<li class="page-item disabled"><a';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg .=' page="active" class="page-link" href="#"><i class="fas fa-angle-right"></i></a></li> ';
+                $pg .= '<li class="page-item disabled"><a';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg.= ' page="active" class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a></li> ';
+            }
+
+            $page_data["pagination"] = $pg;
+        }
+        else
+            $page_data["iletisim_list"] = array();
+
+
+        $this->load->view("back/admin/iletisim_list", $page_data);
+    }
+
+
+    public function iletisim($id = null, $action = null)
+    {
+        if ($id == null)
+        {
+            $page_data["page_name"] = "iletisim";
+            $page_data["page_title"] = "İletişim";
+
+            if (isset($_GET["pure"])){
+                $this->load->view("back/admin/".$page_data["page_name"], $page_data);
+                $this->fal->set_title_pure($page_data["page_title"], true);
+            }
+            else
+                $this->load->view("back/admin/index", $page_data);
+        }
+        else
+        {
+            if (!is_numeric($id)){
+                show_404();
+                return;
+            }
+
+            $query = $this->db->get_where("iletisim", array("id" => $id));
+            if ($query !== false && $query->num_rows() > 0)
+            {
+                if ($action == "delete")
+                {
+                    $this->db->where("id", $query->row()->id);
+                    $query = $this->db->delete("iletisim");
+                    if ($query !== false)
+                        echo "success";
+                    else
+                        echo "error";
+                }elseif ($action == "view")
+                {
+                    $page_data["data"] = $query->row();
+                    $page_data["page_name"] = "iletisim_view";
+                    $this->load->view("back/admin/".$page_data["page_name"], $page_data);
+                }
+                else{
+                    show_404();
+                }
+            }
+        }
+    }
+
+    public function odeme_gecmisi_list($page = 1, $q = '')
+    {
+        $totalrows = $this->db->count_all_results("odeme_log");
+
+        if ($totalrows > 0)
+        {
+            $rowsperpage = 10;
+            $totalpages = ceil($totalrows / $rowsperpage);
+
+            if ($page > $totalpages)
+               $page = $totalpages;
+
+            if ($page < 1) 
+               $page = 1;
+
+            $offset = ($page - 1) * $rowsperpage;
+
+            $query = $this->db->order_by("tarih", "DESC")->get("odeme_log", $rowsperpage, $offset);
+
+            $page_data["odeme_list"] = $query->result_array();
+
+            $pgrange = 3;
+            $pg = "";
+            if ($page > 1) {
+               $pg .= '<li class="page-item"><a'; 
+               if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+               $pg .=' page="1" class="page-link" href="#"><i class="fas fa-angle-double-left"></i></a></li> ';
+               $prevpage = $page - 1;
+               $pg .= '<li class="page-item"><a';
+               if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+               $pg .=' page="'.$prevpage.'" class="page-link" href="#"><i class="fas fa-angle-left"></i></a></li> ';
+            }
+            else{
+                $pg .= '<li class="page-item disabled"><a';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg.=' page="active" class="page-link" href="#"><i class="fas fa-angle-double-left"></i></a></li> ';
+                $pg .= '<li class="page-item disabled"><a ';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg .=' page="active" class="page-link" href="#"><i class="fas fa-angle-left"></i></a></li> ';
+            }
+
+            for ($x = ($page - $pgrange); $x < (($page + $pgrange) + 1); $x++) {
+               if (($x > 0) && ($x <= $totalpages)) {
+                  if ($x == $page){
+                     $pg .= ' <li class="page-item active"><a ';
+                     if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                     $pg.=' page="active" class="page-link" href="#">'.$x.'</a></li> ';
+                  }else{
+                     $pg .= ' <li class="page-item"><a';
+                     if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                     $pg .=' page="'.$x.'" class="page-link" href="#">'.$x.'</a></li> ';
+                }
+               }
+            }
+
+            if ($page != $totalpages) {
+               $nextpage = $page + 1;
+               $pg .= '<li class="page-item"><a';
+               if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+               $pg.=' page="'.$nextpage.'" class="page-link" href="#"><i class="fas fa-angle-right"></i></a></li> ';
+               $pg .= '<li class="page-item"><a';
+               if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+               $pg .=' page="'.$totalpages.'" class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a></li> ';
+            } 
+            else{
+                $pg .= '<li class="page-item disabled"><a';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg .=' page="active" class="page-link" href="#"><i class="fas fa-angle-right"></i></a></li> ';
+               $pg .= '<li class="page-item disabled"><a';
+               if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+               $pg.= ' page="active" class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a></li> ';
+            }
+
+            $page_data["pagination"] = $pg;
+        }
+        else
+            $page_data["odeme_list"] = array();
+
+        $this->load->view("back/admin/odeme_gecmisi_list", $page_data);
+    }
+
+    public function withdraw_requests_list($page = 1, $q = '')
+    {
+        $totalrows = $this->db->count_all_results("withdraw_requests");
+
+        if ($totalrows > 0)
+        {
+            $rowsperpage = 10;
+            $totalpages = ceil($totalrows / $rowsperpage);
+
+            if ($page > $totalpages)
+               $page = $totalpages;
+
+            if ($page < 1) 
+               $page = 1;
+
+            $offset = ($page - 1) * $rowsperpage;
+
+            $query = $this->db->order_by("tarih", "DESC")->get("withdraw_requests", $rowsperpage, $offset);
+
+            $page_data["withdraw_list"] = $query->result_array();
+
+            $pgrange = 3;
+            $pg = "";
+            if ($page > 1) {
+               $pg .= '<li class="page-item"><a'; 
+               if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+               $pg .=' page="1" class="page-link" href="#"><i class="fas fa-angle-double-left"></i></a></li> ';
+               $prevpage = $page - 1;
+               $pg .= '<li class="page-item"><a';
+               if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+               $pg .=' page="'.$prevpage.'" class="page-link" href="#"><i class="fas fa-angle-left"></i></a></li> ';
+            }
+            else{
+                $pg .= '<li class="page-item disabled"><a';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg.=' page="active" class="page-link" href="#"><i class="fas fa-angle-double-left"></i></a></li> ';
+                $pg .= '<li class="page-item disabled"><a ';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg .=' page="active" class="page-link" href="#"><i class="fas fa-angle-left"></i></a></li> ';
+            }
+
+            for ($x = ($page - $pgrange); $x < (($page + $pgrange) + 1); $x++) {
+               if (($x > 0) && ($x <= $totalpages)) {
+                  if ($x == $page){
+                     $pg .= ' <li class="page-item active"><a ';
+                     if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                     $pg.=' page="active" class="page-link" href="#">'.$x.'</a></li> ';
+                  }else{
+                     $pg .= ' <li class="page-item"><a';
+                     if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                     $pg .=' page="'.$x.'" class="page-link" href="#">'.$x.'</a></li> ';
+                }
+               }
+            }
+
+            if ($page != $totalpages) {
+               $nextpage = $page + 1;
+               $pg .= '<li class="page-item"><a';
+               if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+               $pg.=' page="'.$nextpage.'" class="page-link" href="#"><i class="fas fa-angle-right"></i></a></li> ';
+               $pg .= '<li class="page-item"><a';
+               if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+               $pg .=' page="'.$totalpages.'" class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a></li> ';
+            } 
+            else{
+                $pg .= '<li class="page-item disabled"><a';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg .=' page="active" class="page-link" href="#"><i class="fas fa-angle-right"></i></a></li> ';
+               $pg .= '<li class="page-item disabled"><a';
+               if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+               $pg.= ' page="active" class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a></li> ';
+            }
+
+            $page_data["pagination"] = $pg;
+        }
+        else
+            $page_data["withdraw_list"] = array();
+
+        $this->load->view("back/admin/withdraw_requests_list", $page_data);
+    }
+
+    public function odemeler($id = null, $islem = null)
+    {
+        if ($id == null)
+        {
+            $page_data["page_name"] = "odemeler";
+            $page_data["page_title"] = "Ödemeler";
+
+            if (isset($_GET["pure"])){
+                $this->load->view("back/admin/".$page_data["page_name"], $page_data);
+                $this->fal->set_title_pure($page_data["page_title"]);
+            }
+            else
+                $this->load->view("back/admin/index", $page_data);
+        }else
+        {
+            if ($islem == "withdraw_answer")
+            {
+                $msg = $this->input->post("sonuc");
+                if (empty($msg))
+                {
+                    echo "false";
+                    return;
+                }
+
+                $query = $this->db->get_where("withdraw_requests", array("id" => $id));
+                if ($query == false || $query->num_rows() < 0)
+                {
+                    echo "error";
+                    return;
+                }
+
+                $this->db->where("id", $id)->update("withdraw_requests", array("sonuc" => $msg));
+                if ($this->db->affected_rows() > 0){
+                    echo "success";
+                    return;
+                } 
+
+                echo "error";
+            }
+        }
+    }
+
+    public function kredi_list($page = 1, $q = "")
+    {
+        $totalrows = $this->db->count_all_results("kredi_listesi");
+
+        if ($totalrows > 0)
+        {
+            $rowsperpage = 10;
+            $totalpages = ceil($totalrows / $rowsperpage);
+
+            if ($page > $totalpages)
+                $page = $totalpages;
+
+            if ($page < 1)
+                $page = 1;
+
+            $offset = ($page - 1) * $rowsperpage;
+
+
+            $query = $this->db->get("kredi_listesi", $rowsperpage, $offset);
+
+            $page_data["kredi_list"] = $query->result_array();
+
+            $pgrange = 3;
+            $pg = "";
+            if ($page > 1) {
+                $pg .= '<li class="page-item"><a';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg .=' page="1" class="page-link" href="#"><i class="fas fa-angle-double-left"></i></a></li> ';
+                $prevpage = $page - 1;
+                $pg .= '<li class="page-item"><a';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg .=' page="'.$prevpage.'" class="page-link" href="#"><i class="fas fa-angle-left"></i></a></li> ';
+            }
+            else{
+                $pg .= '<li class="page-item disabled"><a';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg.=' page="active" class="page-link" href="#"><i class="fas fa-angle-double-left"></i></a></li> ';
+                $pg .= '<li class="page-item disabled"><a ';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg .=' page="active" class="page-link" href="#"><i class="fas fa-angle-left"></i></a></li> ';
+            }
+
+            for ($x = ($page - $pgrange); $x < (($page + $pgrange) + 1); $x++) {
+                if (($x > 0) && ($x <= $totalpages)) {
+                    if ($x == $page){
+                        $pg .= ' <li class="page-item active"><a ';
+                        if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                        $pg.=' page="active" class="page-link" href="#">'.$x.'</a></li> ';
+                    }else{
+                        $pg .= ' <li class="page-item"><a';
+                        if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                        $pg .=' page="'.$x.'" class="page-link" href="#">'.$x.'</a></li> ';
+                    }
+                }
+            }
+
+            if ($page != $totalpages) {
+                $nextpage = $page + 1;
+                $pg .= '<li class="page-item"><a';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg.=' page="'.$nextpage.'" class="page-link" href="#"><i class="fas fa-angle-right"></i></a></li> ';
+                $pg .= '<li class="page-item"><a';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg .=' page="'.$totalpages.'" class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a></li> ';
+            }
+            else{
+                $pg .= '<li class="page-item disabled"><a';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg .=' page="active" class="page-link" href="#"><i class="fas fa-angle-right"></i></a></li> ';
+                $pg .= '<li class="page-item disabled"><a';
+                if ($q !== ""){ $pg .= ' search="'.$q.'"' ;}
+                $pg.= ' page="active" class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a></li> ';
+            }
+
+            $page_data["pagination"] = $pg;
+        }
+        else
+            $page_data["kredi_list"] = array();
+
+
+        $this->load->view("back/admin/kredi_list", $page_data);
+    }
+
+    public function kredi($id = null, $islem = null)
+    {
+        if ($id == null)
+        {
+            $page_data["page_name"] = "kredi";
+            $page_data["page_title"] = "Kredi";
+
+            if (isset($_GET["pure"])){
+                $this->load->view("back/admin/".$page_data["page_name"], $page_data);
+                $this->fal->set_title_pure($page_data["page_title"], true);
+            }
+            else
+                $this->load->view("back/admin/index", $page_data);
+        }
+        else
+        {
+            if (!is_numeric($id)){
+                if ($id == "ekle-view")
+                {
+                    $page_data["page_name"] = "kredi_ekle";
+                    $this->load->view("back/admin/".$page_data["page_name"], $page_data);
+                    return;
+                }elseif ($id == "ekle")
+                {
+                    $fiyat = trim($this->input->post("fiyat"));
+                    $aciklama = trim($this->input->post("aciklama"));
+                    $kredi = trim($this->input->post("kredi"));
+
+                    if ($this->fal->empty_fal($fiyat) || $this->fal->empty_fal($kredi)){
+                        echo "false";
+                        return;
+                    }
+
+                    if (!is_numeric($fiyat) || !is_numeric($kredi)){
+                        echo "number";
+                        return;
+                    }
+
+                    $data = array(
+                        "fiyat" => $fiyat,
+                        "aciklama" => $aciklama,
+                        "kredi" => $kredi
+                    );
+
+                    $this->db->insert("kredi_listesi", $data);
+                    if ($this->db->affected_rows() > 0){
+                        echo "success";
+                    }else
+                    echo "error";
+                }
+            }
+
+            $query = $this->db->get_where("kredi_listesi", array("id" => $id));
+            if ($query !== false && $query->num_rows() > 0)
+            {
+                if ($islem == "delete")
+                {
+                    $this->db->where("id", $query->row()->id);
+                    $query = $this->db->delete("kredi_listesi");
+                    if ($query !== false)
+                        echo "success";
+                    else
+                        echo "error";
+                }elseif ($islem == "edit")
+                {
+                    $page_data["data"] = $query->row();
+                    $page_data["page_name"] = "kredi_edit";
+                    $this->load->view("back/admin/".$page_data["page_name"], $page_data);
+                }elseif ($islem == "update")
+                {
+                    $fiyat = trim($this->input->post("fiyat"));
+                    $aciklama = trim($this->input->post("aciklama"));
+                    $kredi = trim($this->input->post("kredi"));
+
+                    if ($this->fal->empty_fal($fiyat) || $this->fal->empty_fal($kredi)){
+                        echo "false";
+                        return;
+                    }
+
+                    if (!is_numeric($fiyat) || !is_numeric($kredi)){
+                        echo "number";
+                        return;
+                    }
+
+                    $data = array(
+                        "fiyat" => $fiyat,
+                        "aciklama" => $aciklama,
+                        "kredi" => $kredi
+                    );
+
+                    $this->db->where("id", $id)->update("kredi_listesi", $data);
+                    if ($this->db->affected_rows() > 0){
+                        echo "success";
+                    }else
+                    echo "error";
+                }
+                else{
+                    show_404();
+                }
+            }
+        }
     }
 
     public function logout()

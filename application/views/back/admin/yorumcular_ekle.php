@@ -33,7 +33,7 @@
                     <div class="row">
                         <div class="col-md-6 col-sm-6 col-xs-6">
                             <div class="custom-control custom-checkbox custom-control-inline">
-                              <input checked="" name="kahve_fali" type="checkbox" class="custom-control-input" id="kahve-fali-c" name="">
+                              <input checked="" name="kahve_fali" type="checkbox" class="custom-control-input" id="kahve-fali-c">
                               <label class="custom-control-label" for="kahve-fali-c">Kahve Falı</label>
                             </div>
                             <div class="custom-control custom-checkbox custom-control-inline">
@@ -77,37 +77,37 @@
                             <tr>
                                 <td><b>Kahve Falı</b></td>
                                 <td> : </td>
-                                <td><input class="form-control" type="number" name="fiyat_kf" value=""></td>
+                                <td><input class="form-control" type="number" name="fiyat_kf" value="<?=$fal_fiyat["kahve_fali"]?>"></td>
                             </tr>
                             <tr>
                                 <td><b>Tarot Falı</b></td>
                                 <td> : </td>
-                                <td><input class="form-control" type="number" name="fiyat_tf" value=""></td>
+                                <td><input class="form-control" type="number" name="fiyat_tf" value="<?=$fal_fiyat["tarot_fali"]?>"></td>
                             </tr>
                             <tr>
                                 <td><b>Yıldızname</b></td>
                                 <td> : </td>
-                                <td><input class="form-control" type="number" name="fiyat_yn" value=""></td>
+                                <td><input class="form-control" type="number" name="fiyat_yn" value="<?=$fal_fiyat["yildizname"]?>"></td>
                             </tr>
                             <tr>
                                 <td><b>Rüya Yorumu</b></td>
                                 <td> : </td>
-                                <td><input class="form-control" type="number" name="fiyat_ry" value=""></td>
+                                <td><input class="form-control" type="number" name="fiyat_ry" value="<?=$fal_fiyat["ruya_yorumu"]?>"></td>
                             </tr>
                             <tr>
                                 <td><b>Katina Falı</b></td>
                                 <td> : </td>
-                                <td><input class="form-control" type="number" name="fiyat_ktf" value=""></td>
+                                <td><input class="form-control" type="number" name="fiyat_ktf" value="<?=$fal_fiyat["katina_fali"]?>"></td>
                             </tr>
                             <tr>
                                 <td><b>Su Falı</b></td>
                                 <td> : </td>
-                                <td><input class="form-control" type="number" name="fiyat_sf" value=""></td>
+                                <td><input class="form-control" type="number" name="fiyat_sf" value="<?=$fal_fiyat["su_fali"]?>"></td>
                             </tr>
                             <tr>
                                 <td><b>Dert Ortağı</b></td>
                                 <td> : </td>
-                                <td><input class="form-control" type="number" name="fiyat_do" value=""></td>
+                                <td><input class="form-control" type="number" name="fiyat_do" value="<?=$fal_fiyat["dert_ortagi"]?>"></td>
                             </tr>
                         </tbody>
                     </table>

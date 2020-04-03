@@ -196,7 +196,7 @@
                           color: "rgba(0, 0, 0, 0)",
                       },
                       ticks: {
-                          stepSize: 1
+                          stepSize: 10
                       } 
                   }]
               }
@@ -261,7 +261,7 @@
                           color: "rgba(0, 0, 0, 0)",
                       },
                       ticks: {
-                          stepSize: 500
+                          stepSize: 1000
                       } 
                   }]
               }

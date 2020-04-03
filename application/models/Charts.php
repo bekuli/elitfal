@@ -289,7 +289,7 @@ class Charts extends CI_Model
         if ($id !== null)
             $this->db->where("yorumcu_id", $id);
 
-        $this->db->where("((islem = 'user-buy' OR islem = 'admin-deposit') AND odeme_sonucu = 1)");
+        $this->db->where("((islem = 'user-deposit' OR islem = 'admin-deposit') AND odeme_sonucu = 1)");
 
         switch ($time) {
             case 'today':

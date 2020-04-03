@@ -1,0 +1,198 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="urltable-head">
+
+            <div class="urltable-th ut-summary">
+                İşlem
+            </div>
+            <div class="urltable-th ut-clicks">
+                Ad Soyad
+            </div>
+            <div class="urltable-th ut-clicks">
+                Kullanıcı Tipi
+            </div>
+            <div class="urltable-th ut-clicks">
+                Miktar
+            </div>
+            <div class="urltable-th ut-miktar">
+                Sonuç
+            </div>
+            <div class="urltable-th ut-clicks">
+               Tarih
+            </div>
+            <div class="urltable-th ut-actions">
+                
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12" id="url-table">
+
+        <?php
+
+        if (!empty($odeme_list))
+        {
+            foreach ($odeme_list as $row)
+            {
+               ?>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="urlbox-row">
+                            <div class="urlbox-td urlbox-head">
+                                <span class="hidden-text">İşlem: </span>
+                                <?php
+                                    if ($row["islem"] == "user-buy")
+                                        echo "Satın alım";
+                                    if ($row["islem"] == "user-deposit")
+                                        echo "Satın alım";
+                                    elseif ($row["islem"] == "yorumcu-withdraw")
+                                        echo "Para çekme";
+                                    elseif ($row["islem"] == "admin-deposit")
+                                        echo "Admin para yatırması";
+                                    elseif ($row["islem"] == "admin-withdraw")
+                                        echo "Admin para çekmesi";
+                                ?>
+
+                            </div>
+                            <div class="urlbox-td urlbox-clicks">
+                                <span class="hidden-text">Ad Soyad: </span>
+                                <?php 
+
+                                    if ($row["islem"] == "user-buy" || $row["islem"] == "user-deposit"){
+                                        $query = $this->db->get_where("users", array("id" => $row["user_id"]));
+                                        if ($query !== false && $query->num_rows() > 0)
+                                        {
+                                            echo $query->row()->name." ".$query->row()->surname;
+                                        }
+                                    }elseif ($row["islem"] == "admin-deposit" || $row["islem"] == "admin-withdraw")
+                                    {
+                                        if ($row["user_type"] == "yorumcu")
+                                        {
+                                            $query = $this->db->get_where("yorumcu", array("id" => $row["yorumcu_id"]));
+                                            if ($query !== false && $query->num_rows() > 0)
+                                            {
+                                                echo $query->row()->name;
+                                            }
+                                        }else{
+                                            $query = $this->db->get_where("users", array("id" => $row["user_id"]));
+                                            if ($query !== false && $query->num_rows() > 0)
+                                            {
+                                                echo $query->row()->name." ".$query->row()->surname;
+                                            }
+                                        }
+                                    }elseif ($row["islem"] == "yorumcu-withdraw")
+                                    {
+                                        $query = $this->db->get_where("yorumcu", array("id" => $row["yorumcu_id"]));
+                                        if ($query !== false && $query->num_rows() > 0)
+                                        {
+                                            echo $query->row()->name;
+                                        }
+                                    }
+                                    else
+                                        echo "-";
+
+                                ?>
+
+                            </div>
+                            <div class="urlbox-td urlbox-clicks">
+                                <span class="hidden-text">Kullanıcı Tipi: </span>
+                                <?php
+                                    if ($row["user_type"] == "yorumcu")
+                                        echo "Yorumcu";
+                                    elseif ($row["user_type"] == "user")
+                                        echo "Kullanıcı";
+                                    else
+                                        echo "-";
+                                ?>
+                            </div>
+                            <div class="urlbox-td urlbox-clicks">
+                                <span class="hidden-text">Miktar: </span>
+                                <?php
+                                    if ($row["islem"] == "user-buy")
+                                        echo "<div class='withdraw'>-";
+                                    if ($row["islem"] == "user-deposit")
+                                        echo "<div class='deposit'>+";
+                                    elseif ($row["islem"] == "yorumcu-withdraw")
+                                        echo "<div class='withdraw'>-";
+                                    elseif ($row["islem"] == "admin-deposit")
+                                        echo "<div class='deposit'>+";
+                                    elseif ($row["islem"] == "admin-withdraw")
+                                        echo "<div class='withdraw'>-";
+
+                                    echo $row["miktar"]."</div>";
+                                ?>
+                            </div>
+                            <div class="urlbox-td urlbox-clicks">
+
+                                <?php
+                                    if ($row["odeme_sonucu"] == 1)
+                                        echo "Başarılı";
+                                    else
+                                        echo "Başarısız";
+                                ?>
+                            </div>
+                            <div class="urlbox-td urlbox-clicks">
+
+                                <?php
+                                    if (!empty($row["tarih"]))
+                                        echo date("d/m/Y H:i:s", strtotime($row["tarih"]));
+                                    else
+                                        echo "-";
+                                ?>
+                            </div>
+
+                            <div class="urlbox-td urlbox-actions" data-user-type='<?php if($row["user_type"]=="yorumcu"){echo "yorumcu"; }else{echo "user";}?>' data-id='<?php if($row["user_type"]=="yorumcu"){echo $row["yorumcu_id"]; }else{echo $row["user_id"];}?>'>
+
+                                <a data-toggle="tooltip" data-placement="bottom" data-action="view" title="Profili Görüntüle" href="#"><i class="fas fa-eye"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+        <?php 
+
+            }
+
+            ?>
+
+            
+
+            <?php
+        }else{
+            echo '<center style="margin-top:20px">Gösterilcek bişey bulunmamaktadır...</center>';
+        }
+
+        ?>
+
+    </div>
+
+    
+
+</div>
+
+<?php
+
+    if (!empty($odeme_list))
+    {
+        ?>
+    <div class="urltable-pagination">
+        <nav>
+            <ul class="pagination">
+
+                <?php 
+                if (isset($pagination)) 
+                    echo $pagination;
+                ?>
+            </ul>
+        </nav>
+        
+    </div>
+
+<?php } ?>
+
+<script>
+    $('.urlbox-row [data-toggle="tooltip"]').tooltip();
+</script>

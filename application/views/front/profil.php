@@ -120,40 +120,9 @@
 	    				</div>
 	    				<div class="tab-pane" id="liste3">
 
-    						<div class="kullanici-fal-liste">
+    						<div class="kullanici-fal-liste odeme-gecmisi">
 				
-								<table class="table table-striped table-responsive-md btn-table">
-
-					  				<thead>
-									    <tr>
-									      <th style="width: 20%">İşlem</th>
-									      <th style="width: 20%">Miktar</th>
-									      <th style="width: 20%">Ödeme Türü</th>
-									      <th style="width: 25%">Ödeme Sonucu</th>
-									      <th style="width: 15%">Tarih</th>
-									    </tr>
-									</thead>
-
-									 <tbody>
-									 	<?php
-									 		foreach ($bakilan_fallar as $row) {
-									 			?>
-									 			<tr>
-									 				<td><?=$this->fal->fal_turu_name_to_org($row["fal_turu"])?></td>
-									 				<td>
-									 					<?=$row["odeme"]?>
-									 				</td>
-									 				<td></td>
-									 				<td>Cevaplandı</td>
-									 				<td><?=$row["tarih"]?></td>
-
-									 			</tr>
-									 			<?php
-									 		}
-									 	 ?>
-									</tbody>
-
-								</table>	
+								
 
 							</div>
 
@@ -327,6 +296,21 @@
 				},
 			});
 		});
+
+		var loading_set_np = '<div style="text-align:center;width:100%;height:100%; position:relative;"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>';
+
+		$(".odeme-gecmisi").html(loading_set_np);
+	    $(".odeme-gecmisi").load("<?=base_url()?>profil/kredi-islemleri");
+
+	    $(".odeme-gecmisi").on("click", ".urltable-pagination a",function(e){
+	        e.preventDefault();
+	        
+	        if ($(this).attr("page") != "active")
+	        {
+	            $(".odeme-gecmisi").load("<?=base_url()?>profil/kredi-islemleri/" + $(this).attr("page"));
+	        }
+	    });
+
 	});
 	$( function() {
     	$( ".datepicker" ).datepicker();
@@ -336,4 +320,178 @@
 <style>
 	body{background: #f1f1f1}
 	.kullanici-fal-liste td{vertical-align: middle !important}
+
+
+.urltable {
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  padding: 10px;
+}
+
+.urltable-head{
+  display: flex;
+  padding:10px 0px;
+}
+
+.urltable-head .urltable-th{
+  max-width: 200px;
+  display: flex;
+  flex:1;
+  color:#969696;
+  font-size: 14px;
+}
+
+.urltable-head .ut-summary{
+  max-width: none !important;
+}
+
+.urltable-head .ut-actions{
+  max-width: 200px !important;
+}
+
+.urlbox-row{
+  display: flex;
+  border-top: 1px solid #dee2e6;
+  padding: 10px 0px;
+}
+
+#url-table .row:last-child .urlbox-row{
+  border-bottom: 1px solid #dee2e6;
+}
+
+.urlbox-row .urlbox-head{
+  max-width: none !important;
+  flex-direction: column;
+  align-items:flex-start !important;
+}
+
+.urlbox-row .urlbox-head .urlbox-url {
+  color:#212529;
+}
+
+.urlbox-row .urlbox-head .urlbox-url span{
+  font-weight: 500
+}
+
+.urlbox-row .urlbox-head .urlbox-url img{
+  margin-right: 2px;
+  width: 16px;
+  height: 16px;
+}
+
+.urlbox-row .urlbox-head .urlbox-surl {
+  color:#969696;
+  font-size:13px;
+}
+
+.urlbox-row .urlbox-actions a {
+  color:#757575;
+}
+
+.urlbox-row .urlbox-actions a:hover {
+  color:#343a40;
+}
+
+.urlbox-row .urlbox-actions{
+  max-width: 200px !important;
+}
+
+.urlbox-row .urlbox-actions i {
+  padding: 0px 5px;
+}
+
+.urlbox-row .urlbox-td {
+  max-width: 200px;
+  display: flex;
+  flex:1;
+  align-items: center;
+  overflow: hidden;
+}
+
+.urltable-pagination{
+margin-top:30px;
+}
+
+.urlbox-row .hidden-text{
+    display: none;
+  }
+
+ .pagination > .active > a{
+ 	background-color:#b50000 !important;
+ 	border-color:#880000;
+ }
+
+ .deposit{
+		color:green;
+		font-weight: bold;
+	}
+
+	.withdraw{
+		color:red;
+		font-weight: bold;
+	}
+
+@media only screen and (max-width: 1024px)  {
+  .urltable-head{
+    display: none;
+  }
+
+  .urltable{
+    background-color:unset;
+    border: none;
+    padding: 0px;
+  }
+
+  #url-table .row:last-child .urlbox-row{
+    border-bottom: 0px;
+  }
+
+  .urlbox-row{
+    display: block;
+    background-color:#fff;
+    border: 0px;
+    box-shadow: 0 3px 2px 0px #dee2e6;
+    border-radius: 5px;
+    padding: 20px;
+  }
+
+  .urlbox-row .urlbox-td{
+    overflow:unset;
+  }
+
+  .urlbox-row .urlbox-password{
+    display: none;
+  }
+
+  .urlbox-row .urlbox-expires-at{
+    display: none;
+  }
+
+  .urlbox-row .hidden-text{
+    display: block;
+    color:#969696;
+    padding-right: 5px;
+  }
+
+  .urlbox-row .urlbox-actions{
+    display: block;;
+    max-width: unset !important;
+    position: absolute;
+    right: 25px;
+    bottom:15px;
+  }
+
+  .urlbox-row .urlbox-actions a{
+    font-size: 18px;
+  }
+
+  .urlbox-row .urlbox-actions a{
+    font-size: 18px;
+  }
+
+  #url-table>.row{
+    margin-bottom: 20px;
+  }
+
+}
 </style>
