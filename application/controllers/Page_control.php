@@ -871,6 +871,7 @@ class Page_control extends CI_Controller {
                     "kartlar" => $selected_cards
                 );
 
+                $arrayfields = null;
                 if ($_POST["acilim"] == 1)
                 {
                     $arrayfields["partner_bilgileri"] = array(
@@ -923,7 +924,7 @@ class Page_control extends CI_Controller {
             foreach ($arrayfields as $key => $value) {
                 $arry = array();
                 foreach ($value as $key1 => $value1) {
-                    $var = trim($this->input->post($value1));
+                    $var = strip_tags(trim($this->input->post($value1)));
                     if ($this->fal->empty_fal($var) || isset($_POST[$value1]) == false)
                     {
                         echo $value1."_bos";
@@ -938,7 +939,7 @@ class Page_control extends CI_Controller {
         }
 
         foreach ($fields as $key => $value) {
-            $var = trim($this->input->post($value));
+            $var = strip_tags(trim($this->input->post($value)));
             if ($this->fal->empty_fal($var) || isset($_POST[$value]) == false)
             {
                 echo $value."_bos";
