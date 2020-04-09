@@ -990,30 +990,6 @@ header .landing-icerik .landing-bot .landing-yorumcular .landing-box .landing-bo
 	background: #880000
 }
 
-
-@media (max-width:768px){
-	.home-fal-turler .fal-tur-box{
-		float:none;
-		width:100%;
-	}
-
-	.yorumcular .yorumcu{
-		text-align: center
-	}
-
-	.yorumcular .yorumcu img{
-		max-width: 150px;
-		margin-top:0px;
-		margin-bottom: 10px
-	}
-
-	.yorumcu-sayfa .profil .fal-listesi{
-		display: none
-	}
-
-}
-
-
 .profil-kullanici{
 	margin-top: 30px;
 }
@@ -1511,6 +1487,29 @@ footer{
 .btn-def:hover, .btn-def:focus{
 	background: #880000;
 	color:#fff;
+}
+
+
+@media (max-width:768px){
+	.home-fal-turler .fal-tur-box{
+		float:none;
+		width:50%;
+	}
+
+	.yorumcular .yorumcu{
+		text-align: center
+	}
+
+	.yorumcular .yorumcu img{
+		max-width: 150px;
+		margin-top:0px;
+		margin-bottom: 10px
+	}
+
+	.yorumcu-sayfa .profil .fal-listesi{
+		display: none
+	}
+
 }
 
 @media (max-width:992px){
