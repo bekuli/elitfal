@@ -45,7 +45,7 @@
                     		<li>
                     			<div class="row fal-li-wrapper">
                     				
-                    				<div class="col-md-7">
+                    				<div class="col-xs-7">
 		                    			<a href="<?=base_url()?>yorumcular/<?=$yorumcu->id?>/katina-fali">
 			                    			<div class="fal-li">
 			                    				<div class="fal-li-resim">
@@ -56,7 +56,7 @@
 			                    			</div>
 		                    			</a>
 	                    			</div>
-	                    			<div class="col-md-5 fal-li-r">
+	                    			<div class="col-xs-5 fal-li-r">
 	                    				<a href="<?=base_url()?>yorumcular/<?=$yorumcu->id?>/katina-fali">
 		                    				<div class="fal-gonder-btn">Falını Gönder<br><span class="badge"><?=$yorumcu->fiyat_listesi["katina_fali"]?> Kredi</span></div>
 		                    			</a>
@@ -69,7 +69,7 @@
                 			<li>
                     			<div class="row fal-li-wrapper">
                     				
-                    				<div class="col-md-7">
+                    				<div class="col-xs-7">
 		                    			<a href="<?=base_url()?>yorumcular/<?=$yorumcu->id?>/kahve-fali">
 			                    			<div class="fal-li">
 			                    				<div class="fal-li-resim">
@@ -80,7 +80,7 @@
 			                    			</div>
 		                    			</a>
 	                    			</div>
-	                    			<div class="col-md-5 fal-li-r">
+	                    			<div class="col-xs-5 fal-li-r">
 	                    				<a href="<?=base_url()?>yorumcular/<?=$yorumcu->id?>/kahve-fali">
 		                    				<div class="fal-gonder-btn">Falını Gönder<br><span class="badge"><?=$yorumcu->fiyat_listesi["kahve_fali"]?> Kredi</span></div>
 		                    			</a>
@@ -93,7 +93,7 @@
                 			<li>
                     			<div class="row fal-li-wrapper">
                     				
-                    				<div class="col-md-7">
+                    				<div class="col-xs-7">
 		                    			<a href="<?=base_url()?>yorumcular/<?=$yorumcu->id?>/tarot-fali">
 			                    			<div class="fal-li">
 			                    				<div class="fal-li-resim">
@@ -104,7 +104,7 @@
 			                    			</div>
 		                    			</a>
 	                    			</div>
-	                    			<div class="col-md-5 fal-li-r">
+	                    			<div class="col-xs-5 fal-li-r">
 	                    				<a href="<?=base_url()?>yorumcular/<?=$yorumcu->id?>/tarot-fali">
 		                    				<div class="fal-gonder-btn">Falını Gönder<br><span class="badge"><?=$yorumcu->fiyat_listesi["tarot_fali"]?> Kredi</span></div>
 		                    			</a>
@@ -117,7 +117,7 @@
                 			<li>
                     			<div class="row fal-li-wrapper">
                     				
-                    				<div class="col-md-7">
+                    				<div class="col-xs-7">
 		                    			<a href="<?=base_url()?>yorumcular/<?=$yorumcu->id?>/su-fali">
 			                    			<div class="fal-li">
 			                    				<div class="fal-li-resim">
@@ -128,7 +128,7 @@
 			                    			</div>
 		                    			</a>
 	                    			</div>
-	                    			<div class="col-md-5 fal-li-r">
+	                    			<div class="col-xs-5 fal-li-r">
 	                    				<a href="<?=base_url()?>yorumcular/<?=$yorumcu->id?>/su-fali">
 		                    				<div class="fal-gonder-btn">Falını Gönder<br><span class="badge"><?=$yorumcu->fiyat_listesi["su_fali"]?> Kredi</span></div>
 		                    			</a>
@@ -141,7 +141,7 @@
                 			<li>
                     			<div class="row fal-li-wrapper">
                     				
-                    				<div class="col-md-7">
+                    				<div class="col-xs-7">
 		                    			<a href="<?=base_url()?>yorumcular/<?=$yorumcu->id?>/yildizname">
 			                    			<div class="fal-li">
 			                    				<div class="fal-li-resim">
@@ -152,7 +152,7 @@
 			                    			</div>
 		                    			</a>
 	                    			</div>
-	                    			<div class="col-md-5 fal-li-r">
+	                    			<div class="col-xs-5 fal-li-r">
 	                    				<a href="<?=base_url()?>yorumcular/<?=$yorumcu->id?>/yildizname">
 		                    				<div class="fal-gonder-btn">Falını Gönder<br><span class="badge"><?=$yorumcu->fiyat_listesi["yildizname"]?> Kredi</span></div>
 		                    			</a>
@@ -165,7 +165,7 @@
                 			<li>
                     			<div class="row fal-li-wrapper">
                     				
-                    				<div class="col-md-7">
+                    				<div class="col-xs-7">
 		                    			<a href="<?=base_url()?>yorumcular/<?=$yorumcu->id?>/ruya-yorumu">
 			                    			<div class="fal-li">
 			                    				<div class="fal-li-resim">
@@ -176,7 +176,7 @@
 			                    			</div>
 		                    			</a>
 	                    			</div>
-	                    			<div class="col-md-5 fal-li-r">
+	                    			<div class="col-xs-5 fal-li-r">
 	                    				<a href="<?=base_url()?>yorumcular/<?=$yorumcu->id?>/ruya-yorumu">
 		                    				<div class="fal-gonder-btn">Falını Gönder<br><span class="badge"><?=$yorumcu->fiyat_listesi["ruya_yorumu"]?> Kredi</span></div>
 		                    			</a>
@@ -189,7 +189,7 @@
                 			<li>
                     			<div class="row fal-li-wrapper">
                     				
-                    				<div class="col-md-7">
+                    				<div class="col-xs-7">
 		                    			<a href="<?=base_url()?>yorumcular/<?=$yorumcu->id?>/dert-ortagi">
 			                    			<div class="fal-li">
 			                    				<div class="fal-li-resim">
@@ -200,7 +200,7 @@
 			                    			</div>
 		                    			</a>
 	                    			</div>
-	                    			<div class="col-md-5 fal-li-r">
+	                    			<div class="col-xs-5 fal-li-r">
 	                    				<a href="<?=base_url()?>yorumcular/<?=$yorumcu->id?>/dert-ortagi">
 		                    				<div class="fal-gonder-btn">Falını Gönder<br><span class="badge"><?=$yorumcu->fiyat_listesi["dert_ortagi"]?> Kredi</span></div>
 		                    			</a>

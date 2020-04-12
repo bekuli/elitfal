@@ -625,3 +625,17 @@ margin-top:30px;
 }
 
 .img-circle{border-radius: 50%;}
+
+#mobil-menu {
+    display: none;
+}
+
+.row > .aktif {
+  display: block !important;
+}
+
+@media (max-width:767px) {
+  #mobil-menu {
+    display: block;
+  }
+}

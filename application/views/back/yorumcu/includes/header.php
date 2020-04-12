@@ -4,29 +4,44 @@
     <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Yorumcu Panel</a>
     <ul class="navbar-nav" >
       
-
-      <li class="dropdown nav-item text-nowrap bildirim">
-        <a class="bildirim nav-link dropdown-toggle" id="bildirim" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bell"></i> <span id="notfycount"></span></a>
-        <div class="dropdown-menu bildirim-list" aria-labelledby="bildirim">
-        </div>
-      </li>
-
-      <li class="nav-item text-nowrap">
-        <a class="nav-link" style="color:#dc3545;" href="<?=base_url()?>yorumcu/profil"><?=$profil->name?></a>
-      </li>
-
-      <li class="nav-item text-nowrap">
-        <a class="nav-link" href="<?=base_url()."yorumcu/logout"?>">Çıkış Yap</a>
+    	<li class="nav-item text-nowrap">
+        	<a class="nav-link" href="#" id="mobil-menu"><i class="fa fa-bars"></i></a>
         
-      </li>
+      	</li>
+
+      	<li class="dropdown nav-item text-nowrap bildirim">
+        	<a class="bildirim nav-link dropdown-toggle" id="bildirim" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bell"></i> <span id="notfycount"></span></a>
+        	<div class="dropdown-menu bildirim-list" aria-labelledby="bildirim">
+        	</div>
+      	</li>
+
+      	<li class="nav-item text-nowrap">
+        	<a class="nav-link" style="color:#dc3545;" href="<?=base_url()?>yorumcu/profil"><?=$profil->name?></a>
+      	</li>
+
+      	<li class="nav-item text-nowrap">
+        	<a class="nav-link" href="<?=base_url()."yorumcu/logout"?>">Çıkış Yap</a>
+        
+      	</li>
       
     </ul>
 </nav>
 
+<script type="text/javascript">
+	
+	$(document).ready(function(){
+		$("#mobil-menu").click(function(e){
+			e.preventDefault();
+			$("#nav").toggleClass("aktif");
+		});
+	});
+
+</script>
+
 <style>
 	.top-nav .navbar-nav{
 		display: block;
-		margin-right:15px;
+		margin: 0px 15px;
 	}
 
 	.top-nav .navbar-nav li.nav-item{

@@ -3,8 +3,10 @@
 	<div class="flex welcome">
 		<div class="container">
 			<div class="row">
-				<h2>Canlı Fal Sitesine Hoş Geldiniz</h2>
-				<p>Paketini Seç Yorumcunla Görüşmeyi Başlat! İster Telefon ile İster Yazılı Falını Baktır!</p>
+				<div class="landing-page">
+					<h2>Canlı Fal Sitesine Hoş Geldiniz</h2>
+					<p>Paketini Seç Yorumcunla Görüşmeyi Başlat! İster Telefon ile İster Yazılı Falını Baktır!</p>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -149,12 +151,14 @@
 	    		foreach ($yorumcular as $row) {
 	    			?>
 
-					<div class="col-xs-12 col-sm-4 col-md-4 yorumcu">
+					<div class="col-xs-12 col-sm-6 col-md-4 yorumcu">
 			        	<a href="<?=base_url()?>yorumcular/<?=$row["id"]?>">
 				            <div class="yorumcu-box">
 				                <div class="row">
 				                    <div class="col-sm-6 col-md-4 pp">
-				                        <img src="<?=base_url()?>uploads/<?=$row["pp"]?>" onerror="this.src='<?=base_url()?>src/img/pp.png';" alt="" class="img-circle">
+				                    	<div class="yorumcu-box-wrapper">
+				                        	<img src="<?=base_url()?>uploads/<?=$row["pp"]?>" onerror="this.src='<?=base_url()?>src/img/pp.png';" alt="" class="img-circle">
+				                        </div>
 				                    </div>
 				                    <div class="col-sm-6 col-md-8">
 				                        <div class="isim"><h4><?=$row["name"]?></h4></div>
@@ -173,7 +177,8 @@
 				                            <?=$row["aciklama"]?>
 				                        </div>
 				                	</div>
-
+				                </div>
+				                <div class="row">
 				                	<div class="col-md-12">
 				                		<div class="falbtn">FAL BAKTIR 
 				                			<?php

@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-<nav class="col-md-2 d-none d-md-block sidebar" id="nav">
+<nav class="col-md-3 col-lg-2 d-none d-md-block sidebar" id="nav">
     <div class="sidebar-sticky">
       <ul class="nav flex-column">
         <li class="nav-item">

@@ -435,9 +435,13 @@ header .landing-icerik .landing-bot .landing-yorumcular .landing-box .landing-bo
 	text-align: center
 }
 
-.yorumcular .yorumcu img{
-	max-width: 90px;
+.yorumcular .yorumcu .yorumcu-box-wrapper {
+	width: 100%;
+}
+
+.yorumcular .yorumcu .yorumcu-box-wrapper img{
 	margin-top:5px;
+	width: 100%
 }
 
 .yorumcular .yorumcu>a{
@@ -487,7 +491,7 @@ header .landing-icerik .landing-bot .landing-yorumcular .landing-box .landing-bo
 }
 
 .profil-karti-g .pp, .fal-sayfasi .pp{
-	padding:15px 80px;
+	padding:15px 25%;
 }
 
 .profil-karti-g .pp img, .fal-sayfasi .pp img{
@@ -1410,9 +1414,7 @@ footer{
 	height: 150px
 }
 
-.icerik-footer {
-	text-align: right;
-}
+
 
 .icerik-footer .facebook {
 	font-size: 30px;
@@ -1490,10 +1492,58 @@ footer{
 }
 
 
+@media (max-width:576px){
+	.home-fal-turler .fal-tur-box{
+		width:50% !important;
+	}
+
+	.profil-karti-g .pp, .fal-sayfasi .pp{
+	padding:15px 25% !important;
+	}
+
+	.profil-karti-g .fal-listesi ul li .fal-li{
+	padding:0px 0px 0px 5px;
+	}
+
+	.profil-karti-g .fal-listesi ul li .fal-li .fal-li-resim{
+	width: 35px;
+	height: 35px;
+	}
+
+	.profil-karti-g .fal-listesi ul li .fal-li .fal-li-isim{
+	padding-left:5px;
+	}
+
+	.profil-karti-g .fal-listesi ul li .fal-gonder-btn{
+	padding: 5px 5px;
+	}
+
+	.profil-kullanici .nav li a{
+		padding: 10px 2px;
+		font-size: 9px;
+	}
+
+	.profil-kullanici td {
+		padding: 1px !important;
+		font-size: 9px;
+	}
+
+	.profil-kullanici th {
+		font-size: 9px;
+	}
+
+	.profil-kullanici .kullanici-fal-liste .kullanici-btn {
+		font-size: 8px;
+	}
+
+	.header-normal .header-top ul li a{
+		font-size: 7px !important;
+	}	
+}
+
 @media (max-width:768px){
 	.home-fal-turler .fal-tur-box{
-		float:none;
-		width:50%;
+		width:33%;
 	}
 
 	.yorumcular .yorumcu{
@@ -1501,7 +1551,6 @@ footer{
 	}
 
 	.yorumcular .yorumcu img{
-		max-width: 150px;
 		margin-top:0px;
 		margin-bottom: 10px
 	}
@@ -1510,10 +1559,80 @@ footer{
 		display: none
 	}
 
+	.profil-karti-g .pp, .fal-sayfasi .pp{
+		padding:15px 40%;
+	}
+
+	.landing-page {
+		padding: 20px;
+		margin-top: 90px;
+	}
+
+	.navbar-header {
+		width: 100%;
+	}
+
+	.header nav > .container{
+		display: block;
+	}
+
+	.header nav .navbar-nav{
+		float: left;
+		margin: 0px !important;
+	}
+
+	.header #navbar{
+		background-color: #fff;
+		border: 0px;	
+	}
+
+	.header nav .navbar-nav > li > a{
+		color: #333;
+	}
+
+	.header nav .navbar-nav > .open > a{
+ 		color:#333 !important;
+		border:0px !important;
+ 	}
+
+ 	.header nav .navbar-nav > li > a:focus{
+		color:#333;
+		border:0px !important;
+	}
+
+	.header-normal .header-top ul li a{
+		font-size: 9px;
+	}			
+
 }
 
 @media (max-width:992px){
 	.fal-sayfasi .icerik .multi-input .marbotr{
 		margin-bottom: 20px;
+	}
+
+	.icerik-footer {
+	text-align: center;
+	}
+
+	.footer-copyrigt-yazi {
+		text-align: center;
+		font-size: 13px;
+		margin-bottom: 5px;
+	}
+
+	.header nav .navbar-nav > li > a{
+		padding: 10px 5px;
+		font-size:14px;
+	}
+
+	.welcome h2{
+    font-size: 35px;
+	}
+}
+
+@media (min-width:992px){
+	.icerik-footer {
+	text-align: right;
 	}
 }
